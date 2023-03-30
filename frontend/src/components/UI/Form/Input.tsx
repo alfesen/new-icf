@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { InputProps } from '../../types/UITypes'
+import { InputProps } from '../../../types/UITypes'
 
 
 const Input = ({

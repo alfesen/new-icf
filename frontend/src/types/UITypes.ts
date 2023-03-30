@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export type FormReducer = (state: FormState, action: FormAction) => FormState
 
 export type FormInput = {
@@ -37,4 +39,21 @@ export type InputProps = {
   id: string
   label?: string
   onInput: (id: string, value: string) => void
+}
+
+export type BackdropProps = {
+  onDetach: () => void
+}
+
+export type ModalProps = {
+  children: ReactNode
+  heading: string
+  actions: ReactNode
+  show: boolean
+  onDetach: () => void
+}
+
+export type CardProps = {
+  className: string
+  children: React.ReactNode
 }
