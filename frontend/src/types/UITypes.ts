@@ -52,3 +52,8 @@ export type ModalProps = {
   show: boolean
   onDetach: () => void
 }
+
+export type CardProps = {
+  className: string
+  children: React.ReactNode
+}
