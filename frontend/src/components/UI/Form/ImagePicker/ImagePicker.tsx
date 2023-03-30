@@ -1,6 +1,15 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
+import s from './ImagePicker.module.scss'
 
-const ImagePicker = ({ image, id }: { image?: string; id: string }) => {
+const ImagePicker = ({
+  image,
+  id,
+  label,
+}: {
+  image?: string
+  id: string
+  label: string
+}) => {
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const [file, setFile] = useState<File | null>(null)
 
@@ -34,7 +43,7 @@ const ImagePicker = ({ image, id }: { image?: string; id: string }) => {
   }
 
   return (
-    <div>
+    <div className={s.picker}>
       <input
         id={id}
         ref={pickerRef}
@@ -45,6 +54,7 @@ const ImagePicker = ({ image, id }: { image?: string; id: string }) => {
       />
       <div className='image-upload__preview'>
         {previewUrl && <img src={previewUrl} alt='Image Preview' />}
+        {!previewUrl && <p>{label}</p>}
       </div>
       <button type='button' onClick={pickImageHandler}>
         Pick the image

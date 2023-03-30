@@ -1,6 +1,8 @@
 import { useForm } from '../../../../hooks/useForm'
-import ImagePicker from '../ImagePicker'
+import ImagePicker from '../ImagePicker/ImagePicker'
 import Input from '../Input/Input'
+
+import s from './HeaderForm.module.scss'
 
 const HeaderForm = () => {
   const { inputHandler, formState } = useForm({
@@ -11,7 +13,7 @@ const HeaderForm = () => {
   })
 
   return (
-    <form>
+    <form className={s.form}>
       <Input
         element='input'
         label='Page Title'
@@ -28,22 +30,26 @@ const HeaderForm = () => {
         id='pageSubtitle'
         name='pageSubtitle'
       />
-      <ImagePicker
-        image={
-          formState.inputs.landscapeImage.value
-            ? formState.inputs.landscapeImage.value
-            : undefined
-        }
-        id='landscapeImage'
-      />
-      <ImagePicker
-        image={
-          formState.inputs.portraitImage.value
-            ? formState.inputs.portraitImage.value
-            : undefined
-        }
-        id='portraitImage'
-      />
+      <div className={s.form__images}>
+        <ImagePicker
+          label='Pick desktop hero image'
+          image={
+            formState.inputs.landscapeImage.value
+              ? formState.inputs.landscapeImage.value
+              : undefined
+          }
+          id='landscapeImage'
+        />
+        <ImagePicker
+          label='Pick mobile hero image'
+          image={
+            formState.inputs.portraitImage.value
+              ? formState.inputs.portraitImage.value
+              : undefined
+          }
+          id='portraitImage'
+        />
+      </div>
     </form>
   )
 }
