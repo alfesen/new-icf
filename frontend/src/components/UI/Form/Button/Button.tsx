@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { ButtonProps } from '../../../../types/UITypes'
 import s from './Button.module.scss'
 
-const Button = ({ link, to, onClick, reverse, children }: ButtonProps) => {
+const Button = ({ type, link, to, onClick, reverse, children }: ButtonProps) => {
   const buttonClass = !reverse ? s.button : `${s.button} ${s.button__reverse}`
 
   const button = link ? (
@@ -10,7 +10,7 @@ const Button = ({ link, to, onClick, reverse, children }: ButtonProps) => {
       {children}
     </Link>
   ) : (
-    <button onClick={onClick} className={buttonClass}>
+    <button type={type} onClick={onClick} className={buttonClass}>
       {children}
     </button>
   )

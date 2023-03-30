@@ -45,14 +45,16 @@ export type ImagePickerProps = {
   image?: string
   id: string
   label: string
+  onInput: (id: string, value: string) => void
 }
 
 export type ButtonProps = {
   link?: boolean
   to?: string
-  onClick: () => void
+  onClick?: () => void
   reverse?: boolean
   children: ReactNode
+  type: 'submit' | 'button' | 'reset'
 }
 
 export type BackdropProps = {

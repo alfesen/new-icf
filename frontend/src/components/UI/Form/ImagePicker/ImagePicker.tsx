@@ -2,11 +2,7 @@ import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { ImagePickerProps } from '../../../../types/UITypes'
 import s from './ImagePicker.module.scss'
 
-const ImagePicker = ({
-  image,
-  id,
-  label,
-}: ImagePickerProps) => {
+const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const [file, setFile] = useState<File | null>(null)
 
@@ -32,6 +28,7 @@ const ImagePicker = ({
     if (files || files!.length === 1) {
       pickedFile = files![0]
       setFile(pickedFile)
+      onInput(id, pickedFile.name)
     }
   }
 
