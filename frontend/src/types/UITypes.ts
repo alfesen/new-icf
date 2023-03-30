@@ -41,6 +41,20 @@ export type InputProps = {
   onInput: (id: string, value: string) => void
 }
 
+export type ImagePickerProps = {
+  image?: string
+  id: string
+  label: string
+}
+
+export type ButtonProps = {
+  link?: boolean
+  to?: string
+  onClick: () => void
+  reverse?: boolean
+  children: ReactNode
+}
+
 export type BackdropProps = {
   onDetach: () => void
 }
