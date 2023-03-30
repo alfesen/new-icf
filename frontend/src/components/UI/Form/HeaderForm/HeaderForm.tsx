@@ -1,4 +1,6 @@
+import { FormEvent } from 'react'
 import { useForm } from '../../../../hooks/useForm'
+import Button from '../Button/Button'
 import ImagePicker from '../ImagePicker/ImagePicker'
 import Input from '../Input/Input'
 
@@ -12,8 +14,13 @@ const HeaderForm = () => {
     portraitImage: { value: '' },
   })
 
+  const headerFormSubmitHandler = (e: FormEvent) => {
+    e.preventDefault()
+    console.log(formState.inputs)
+  }
+
   return (
-    <form className={s.form}>
+    <form className={s.form} onSubmit={headerFormSubmitHandler}>
       <Input
         element='input'
         label='Page Title'
@@ -38,6 +45,7 @@ const HeaderForm = () => {
               ? formState.inputs.landscapeImage.value
               : undefined
           }
+          onInput={inputHandler}
           id='landscapeImage'
         />
         <ImagePicker
@@ -47,9 +55,11 @@ const HeaderForm = () => {
               ? formState.inputs.portraitImage.value
               : undefined
           }
+          onInput={inputHandler}
           id='portraitImage'
         />
       </div>
+      <Button type='submit'>Submit</Button>
     </form>
   )
 }
