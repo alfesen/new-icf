@@ -1,3 +1,5 @@
+export type FormReducer = (state: FormState, action: FormAction) => FormState
+
 export type FormInput = {
   [key: string]: {
     value: string
@@ -27,4 +29,12 @@ export type FormAction =
       }
     }
 
-export type FormReducer = (state: FormState, action: FormAction) => FormState
+export type InputProps = {
+  element: 'input' | 'textarea'
+  name: string
+  placeholder: string
+  rows?: number
+  id: string
+  label?: string
+  onInput: (id: string, value: string) => void
+}

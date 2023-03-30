@@ -1,14 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
+import { InputProps } from '../../types/UITypes'
 
-type InputProps = {
-  element: 'input' | 'textarea'
-  name: string
-  placeholder: string
-  rows?: number
-  id: string
-  label?: string
-  onInput: (id: string, value: string) => void
-}
 
 const Input = ({
   id,
