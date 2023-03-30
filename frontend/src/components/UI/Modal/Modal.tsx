@@ -1,17 +1,10 @@
-import { ReactNode, Fragment } from 'react'
+import { Fragment } from 'react'
 import { createPortal } from 'react-dom'
+import { BackdropProps, ModalProps } from '../../../types/UITypes'
 
-const Backdrop = ({ onDetach }: { onDetach: () => void }) => {
+const Backdrop = ({ onDetach }: BackdropProps) => {
   const content = <div className='backdrop' onClick={onDetach}></div>
   return createPortal(content, document.getElementById('backdrop')!)
-}
-
-type ModalProps = {
-  children: ReactNode
-  heading: string
-  actions: ReactNode
-  show: boolean
-  onDetach: () => void
 }
 
 const Modal = ({ show, children, heading, actions, onDetach }: ModalProps) => {
