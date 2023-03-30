@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { InputProps } from '../../../types/UITypes'
-
+import { InputProps } from '../../../../types/UITypes'
+import s from './Input.module.scss'
 
 const Input = ({
   id,
@@ -42,8 +42,8 @@ const Input = ({
     )
 
   return (
-    <div>
-      <label htmlFor={id}>{label}</label>
+    <div className={s.input}>
+      <label className={s.input__label} htmlFor={id}>{label}</label>
       {el}
     </div>
   )
