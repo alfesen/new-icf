@@ -1,15 +1,12 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
+import { ImagePickerProps } from '../../../../types/UITypes'
 import s from './ImagePicker.module.scss'
 
 const ImagePicker = ({
   image,
   id,
   label,
-}: {
-  image?: string
-  id: string
-  label: string
-}) => {
+}: ImagePickerProps) => {
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const [file, setFile] = useState<File | null>(null)
 

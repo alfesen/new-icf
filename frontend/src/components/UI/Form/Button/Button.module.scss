@@ -1,0 +1,27 @@
+@import '../../../../sass/vars.scss';
+
+.button {
+  appearance: none;
+  background-image: linear-gradient(
+    30deg,
+    $color-violet-light,
+    $color-violet-dark
+  );
+  padding: 1em 2em;
+  color: #fff;
+  border: $color-violet-dark;
+  cursor: pointer;
+  text-decoration: none;
+  transition: translate 0.3s, box-shadow 0.2s;
+  margin: 1em 1em 1em 0;
+  &__reverse {
+    background-image: none;
+    position: relative;
+    color: $color-violet-dark;
+    border: 2px solid $color-violet-dark;
+  }
+  &:hover {
+    translate: 0 -6px;
+    box-shadow: 0 6px 6px #00000066;
+  }
+}
