@@ -4,14 +4,14 @@ export type FormReducer = (state: FormState, action: FormAction) => FormState
 
 export type FormInput = {
   [key: string]: {
-    value: string
+    value: string | File
   }
 }
 
 export type FormState = {
   inputs: {
     [key: string]: {
-      value: string
+      value: string | File
     }
   }
 }
@@ -20,13 +20,13 @@ export type FormAction =
   | {
       type: 'INPUT_CHANGE'
       inputId: string
-      value: string
+      value: string | File
     }
   | {
       type: 'SET_INPUTS'
       inputs: {
         [key: string]: {
-          value: string
+          value: string | File
         }
       }
     }
@@ -38,14 +38,14 @@ export type InputProps = {
   rows?: number
   id: string
   label?: string
-  onInput: (id: string, value: string) => void
+  onInput: (id: string, value: string | File) => void
 }
 
 export type ImagePickerProps = {
-  image?: string
+  image?: string | File
   id: string
   label: string
-  onInput: (id: string, value: string) => void
+  onInput: (id: string, value: string | File) => void
 }
 
 export type ButtonProps = {

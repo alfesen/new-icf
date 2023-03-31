@@ -28,7 +28,7 @@ export const useForm = (initialInputs: FormInput) => {
     inputs: initialInputs,
   })
 
-  const inputHandler = useCallback((id: string, value: string) => {
+  const inputHandler = useCallback((id: string, value: string | File) => {
     dispatch({ type: 'INPUT_CHANGE', value, inputId: id })
   }, [])
 

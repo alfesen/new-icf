@@ -29,7 +29,7 @@ const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
     if (files || files!.length === 1) {
       pickedFile = files![0]
       setFile(pickedFile)
-      onInput(id, pickedFile.name)
+      onInput(id, pickedFile)
     }
   }
 
