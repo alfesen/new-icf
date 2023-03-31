@@ -2,6 +2,8 @@ import bodyParser from 'body-parser'
 import express, { Request, Response, NextFunction } from 'express'
 import { connect } from 'mongoose'
 import { HttpError } from './models/shared/HttpError.model.mjs'
+import headerRoutes from './routes/header.routes.mjs'
+import path from 'path'
 
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@merncluster.c47z4pr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
@@ -18,6 +20,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 app.use(bodyParser.json())
+app.use('/api/', headerRoutes)
+app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
   res.status(error.statusCode || 500)

@@ -13,6 +13,10 @@ const headerSchema = new Schema({
     type: String,
     required: true,
   },
+  mobileImage: {
+    type: String,
+    required: true,
+  },
 })
 
 export default model('Header', headerSchema)
