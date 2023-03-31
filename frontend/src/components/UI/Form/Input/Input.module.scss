@@ -1,3 +1,5 @@
+@import '../../../../sass/vars.scss';
+
 .input {
   display: flex;
   flex-direction: column;
@@ -5,8 +7,10 @@
 
   input,
   textarea {
-    margin: 0.5em 0;
-    padding: 0.5em;
-    border-radius: .25rem;
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 0.25rem;
+    border-color: rgba($color-violet-dark, .4);
+    
   }
 }

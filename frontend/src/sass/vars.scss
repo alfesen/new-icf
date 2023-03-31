@@ -16,16 +16,14 @@ $font-lg: 2.4rem;
 $font-sm: 1.6rem;
 $font-xs: 1.4rem;
 
-$color-basic: #fefefe;
-$color-dark-grey: #232323;
-$color-light-grey: #636363;
-$color-black: #000;
-$color-dark-green: #176b34;
-$color-violet-light: #645ca3;
-$color-violet-dark: #4837c8;
+$color-basic: rgb(255, 255, 255);
+$color-dark-grey: rgb(36, 36, 36);
+$color-light-grey: rgb(99, 99, 99);
+$color-black: rgb(0, 0, 0);
+$color-violet-light: rgb(100, 92, 163);
+$color-violet-dark: rgb(72, 55, 200);
 
-$box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-$shadow: #00000044;
+$box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 
 $margin-section-sm: 3em;
 $margin-section-lg: 5em;

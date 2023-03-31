@@ -4,5 +4,24 @@
     display: flex;
     text-align: center;
     justify-content: space-around;
+    align-items: center;
+  }
+  &__actions {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #000;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 700px) {
+  .form {
+    &__images {
+      margin: 0 auto;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+    }
   }
 }
