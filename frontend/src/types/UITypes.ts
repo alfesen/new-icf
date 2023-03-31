@@ -57,6 +57,10 @@ export type ButtonProps = {
   type: 'submit' | 'button' | 'reset'
 }
 
+export type HeaderFormProps = {
+  onCancel?: () => void
+}
+
 export type BackdropProps = {
   onDetach: () => void
 }
@@ -64,7 +68,7 @@ export type BackdropProps = {
 export type ModalProps = {
   children: ReactNode
   heading: string
-  actions: ReactNode
+  actions?: ReactNode
   show: boolean
   onDetach: () => void
 }

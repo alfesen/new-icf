@@ -1,12 +1,13 @@
 import { FormEvent } from 'react'
 import { useForm } from '../../../../hooks/useForm'
+import { HeaderFormProps } from '../../../../types/UITypes'
 import Button from '../Button/Button'
 import ImagePicker from '../ImagePicker/ImagePicker'
 import Input from '../Input/Input'
 
 import s from './HeaderForm.module.scss'
 
-const HeaderForm = () => {
+const HeaderForm = ({ onCancel }: HeaderFormProps) => {
   const { inputHandler, formState } = useForm({
     pageTitle: { value: '' },
     pageSubtitle: { value: '' },
@@ -59,7 +60,12 @@ const HeaderForm = () => {
           id='portraitImage'
         />
       </div>
-      <Button type='submit'>Submit</Button>
+      <div className={s.form__actions}>
+        <Button onClick={onCancel} type='button' reverse>
+          Cancel
+        </Button>
+        <Button type='submit'>Submit</Button>
+      </div>
     </form>
   )
 }

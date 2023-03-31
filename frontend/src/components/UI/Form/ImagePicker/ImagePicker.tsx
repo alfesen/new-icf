@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { ImagePickerProps } from '../../../../types/UITypes'
+import Button from '../Button/Button'
 import s from './ImagePicker.module.scss'
 
 const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
@@ -46,13 +47,13 @@ const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
         accept='.jpg,.png,.jpeg'
         onChange={pickedImageHandler}
       />
-      <div className='image-upload__preview'>
+      <div className={s.picker__preview}>
         {previewUrl && <img src={previewUrl} alt='Image Preview' />}
         {!previewUrl && <p>{label}</p>}
       </div>
-      <button type='button' onClick={pickImageHandler}>
+      <Button type='button' onClick={pickImageHandler}>
         Pick the image
-      </button>
+      </Button>
     </div>
   )
 }

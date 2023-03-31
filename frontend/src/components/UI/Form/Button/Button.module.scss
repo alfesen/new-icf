@@ -22,6 +22,6 @@
   }
   &:hover {
     translate: 0 -6px;
-    box-shadow: 0 6px 6px #00000066;
+    box-shadow: $box-shadow;
   }
 }
