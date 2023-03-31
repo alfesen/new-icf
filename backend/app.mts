@@ -1,5 +1,6 @@
-import bodyParser from 'body-parser'
 import express, { Request, Response, NextFunction } from 'express'
+import bodyParser from 'body-parser'
+import fs from 'fs'
 import { connect } from 'mongoose'
 import { HttpError } from './models/shared/HttpError.model.mjs'
 import headerRoutes from './routes/header.routes.mjs'
@@ -24,6 +25,22 @@ app.use('/api/', headerRoutes)
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
+  if (req.file) {
+    fs.unlink(req.file.path, err => {
+      console.log(err)
+    })
+  }
+  if (req.files && typeof req.files === 'object') {
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] }
+    for (let key in files) {
+      fs.unlink(files[key][0].path, err => {
+        console.log(err)
+      })
+    }
+  }
+  if (res.headersSent) {
+    return next(error)
+  }
   res.status(error.statusCode || 500)
   res.json({ message: error.message || 'Unhandled Server Error' })
 })
