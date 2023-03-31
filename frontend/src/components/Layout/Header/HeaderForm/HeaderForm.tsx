@@ -1,9 +1,9 @@
 import { FormEvent } from 'react'
 import { useForm } from '../../../../hooks/useForm'
 import { HeaderFormProps } from '../../../../types/UITypes'
-import Button from '../Button/Button'
-import ImagePicker from '../ImagePicker/ImagePicker'
-import Input from '../Input/Input'
+import Button from '../../../UI/Form/Button/Button'
+import ImagePicker from '../../../UI/Form/ImagePicker/ImagePicker'
+import Input from '../../../UI/Form/Input/Input'
 
 import s from './HeaderForm.module.scss'
 
