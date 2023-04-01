@@ -40,3 +40,15 @@ export const postHeaderData = (req, res, next) => __awaiter(void 0, void 0, void
         .status(200)
         .json({ headerData: createdHeaderData.toObject({ getters: true }) });
 });
+export const getHeaderData = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { pageTitle } = req.params;
+    let headerData;
+    try {
+        headerData = yield Header.findOne({ pagePath: '/' + pageTitle });
+    }
+    catch (err) {
+        const error = new HttpError(404, 'Header data not found on the server');
+        return next(error);
+    }
+    res.status(200).json({ headerData: headerData.toObject({ getters: true }) });
+});
