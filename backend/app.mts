@@ -5,6 +5,7 @@ import { connect } from 'mongoose'
 import { HttpError } from './models/shared/HttpError.model.mjs'
 import headerRoutes from './routes/header.routes.mjs'
 import path from 'path'
+import { MulterFiles } from './types.js'
 
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@merncluster.c47z4pr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
@@ -31,7 +32,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
     })
   }
   if (req.files) {
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] }
+    const files = req.files as MulterFiles
     for (let key in files) {
       fs.unlink(files[key][0].path, err => {
         console.log(err)

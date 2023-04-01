@@ -27,8 +27,13 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
     formData.append('pageSubtitle', formState.inputs.pageSubtitle.value)
     formData.append('desktopImage', formState.inputs.desktopImage.value)
     formData.append('mobileImage', formState.inputs.mobileImage.value)
+    formData.append('pagePath', pathname)
 
-    await sendRequest(`http://localhost:5000/api${pathname}/header`, 'POST', formData)
+    await sendRequest(
+      `http://localhost:5000/api${pathname}/header`,
+      'POST',
+      formData
+    )
   }
 
   return (
