@@ -40,6 +40,7 @@ const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
   return (
     <div className={s.picker}>
       <input
+        data-testid='image-picker'
         id={id}
         ref={pickerRef}
         style={{ display: 'none' }}
