@@ -74,6 +74,6 @@ export type ModalProps = {
 }
 
 export type CardProps = {
-  className: string
+  className?: string
   children: React.ReactNode
 }
