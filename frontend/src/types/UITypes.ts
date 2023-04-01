@@ -54,7 +54,7 @@ export type ButtonProps = {
   onClick?: () => void
   reverse?: boolean
   children: ReactNode
-  type: 'submit' | 'button' | 'reset'
+  type?: 'submit' | 'button' | 'reset'
 }
 
 export type HeaderFormProps = {
