@@ -16,23 +16,22 @@ export const postHeaderData = async (
     )
   }
 
-  const { path, pageTitle, pageSubtitle } = req.body
+  const { pagePath, pageTitle, pageSubtitle } = req.body
   const { desktopImage, mobileImage } = req.files as MulterFiles
-  
-  const existingHeader = await Header.findOne({pagePath: path})
-  if(existingHeader) {
+
+  const existingHeader = await Header.findOne({ pagePath: pagePath })
+  if (existingHeader) {
     const error = new HttpError(400, 'Header for this page already exists')
     return next(error)
   }
 
   const createdHeaderData = new Header({
-    pagePath: path,
+    pagePath,
     pageTitle,
     pageSubtitle,
     desktopImage: desktopImage[0].path,
     mobileImage: mobileImage[0].path,
   })
-
 
   try {
     await createdHeaderData.save()

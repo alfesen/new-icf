@@ -15,15 +15,15 @@ export const postHeaderData = (req, res, next) => __awaiter(void 0, void 0, void
     if (!errors.isEmpty()) {
         return next(new HttpError(401, 'Invalid inputs passed, please check your data'));
     }
-    const { path, pageTitle, pageSubtitle } = req.body;
+    const { pagePath, pageTitle, pageSubtitle } = req.body;
     const { desktopImage, mobileImage } = req.files;
-    const existingHeader = yield Header.findOne({ pagePath: path });
+    const existingHeader = yield Header.findOne({ pagePath: pagePath });
     if (existingHeader) {
         const error = new HttpError(400, 'Header for this page already exists');
         return next(error);
     }
     const createdHeaderData = new Header({
-        pagePath: path,
+        pagePath,
         pageTitle,
         pageSubtitle,
         desktopImage: desktopImage[0].path,
