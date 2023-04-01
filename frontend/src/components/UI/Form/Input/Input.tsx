@@ -24,14 +24,16 @@ const Input = ({
   const el =
     element === 'input' ? (
       <input
-        onChange={changeHandler}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        value={value}
+      data-testid='input'
+      onChange={changeHandler}
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      value={value}
       />
-    ) : (
-      <textarea
+      ) : (
+        <textarea
+        data-testid='textarea'
         onChange={changeHandler}
         id={id}
         name={name}
