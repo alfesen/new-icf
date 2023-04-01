@@ -1,5 +1,7 @@
 import { FormEvent } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useForm } from '../../../../hooks/useForm'
+import { useFetchData } from '../../../../hooks/useFetchData'
 import { HeaderFormProps } from '../../../../types/UITypes'
 import Button from '../../../UI/Form/Button/Button'
 import ImagePicker from '../../../UI/Form/ImagePicker/ImagePicker'
@@ -8,16 +10,25 @@ import Input from '../../../UI/Form/Input/Input'
 import s from './HeaderForm.module.scss'
 
 const HeaderForm = ({ onCancel }: HeaderFormProps) => {
+  const { pathname } = useLocation()
+  const { sendRequest } = useFetchData()
+
   const { inputHandler, formState } = useForm({
     pageTitle: { value: '' },
     pageSubtitle: { value: '' },
-    landscapeImage: { value: '' },
-    portraitImage: { value: '' },
+    desktopImage: { value: '' },
+    mobileImage: { value: '' },
   })
 
-  const headerFormSubmitHandler = (e: FormEvent) => {
+  const headerFormSubmitHandler = async (e: FormEvent) => {
     e.preventDefault()
-    console.log(formState.inputs)
+    const formData = new FormData()
+    formData.append('pageTitle', formState.inputs.pageTitle.value)
+    formData.append('pageSubtitle', formState.inputs.pageSubtitle.value)
+    formData.append('desktopImage', formState.inputs.desktopImage.value)
+    formData.append('mobileImage', formState.inputs.mobileImage.value)
+
+    await sendRequest(`http://localhost:5000/api${pathname}/header`, 'POST', formData)
   }
 
   return (
@@ -42,22 +53,22 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
         <ImagePicker
           label='Pick desktop hero image'
           image={
-            formState.inputs.landscapeImage.value
-              ? formState.inputs.landscapeImage.value
+            formState.inputs.desktopImage.value
+              ? formState.inputs.desktopImage.value
               : undefined
           }
           onInput={inputHandler}
-          id='landscapeImage'
+          id='desktopImage'
         />
         <ImagePicker
           label='Pick mobile hero image'
           image={
-            formState.inputs.portraitImage.value
-              ? formState.inputs.portraitImage.value
+            formState.inputs.mobileImage.value
+              ? formState.inputs.mobileImage.value
               : undefined
           }
           onInput={inputHandler}
-          id='portraitImage'
+          id='mobileImage'
         />
       </div>
       <div className={s.form__actions}>
