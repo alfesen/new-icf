@@ -30,7 +30,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
       console.log(err)
     })
   }
-  if (req.files && typeof req.files === 'object') {
+  if (req.files) {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] }
     for (let key in files) {
       fs.unlink(files[key][0].path, err => {
