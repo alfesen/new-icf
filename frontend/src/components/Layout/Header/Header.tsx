@@ -1,9 +1,39 @@
+import { useEffect, useState } from 'react'
 import s from './Header.module.scss'
+import { useFetchData } from '../../../hooks/useFetchData'
+import { useLocation } from 'react-router-dom'
+import { useClientWidth } from '../../../hooks/useClientWidth'
+import { HeaderData } from '../../../types/LayoutTypes'
 
 const Header = () => {
+  const [headerData, setHeaderData] = useState<HeaderData>(null)
+  const { loading, sendRequest } = useFetchData()
+  const { pathname } = useLocation()
+  const { width } = useClientWidth()
+
+  useEffect(() => {
+    const getHeader = async () => {
+      try {
+        const {headerData} = await sendRequest(
+          `http://localhost:5000/api${pathname}/header`
+        )
+        setHeaderData(headerData)
+      } catch (err) {}
+    }
+    getHeader()
+  }, [sendRequest])
+
   return (
     <header className={s.header}>
-      <img className={s.header__background} src='' alt='Welcome to ICF' />
+      {!loading && headerData && (
+        <img
+          className={s.header__background}
+          src={`http://localhost:5000/${
+            width > 700 ? headerData.desktopImage : headerData.mobileImage
+          }`}
+          alt='Welcome to ICF'
+        />
+      )}
     </header>
   )
 }

@@ -64,6 +64,5 @@ export const getHeaderData = async (
     return next(error)
   }
 
-
   res.status(200).json({ headerData: headerData.toObject({ getters: true }) })
 }
