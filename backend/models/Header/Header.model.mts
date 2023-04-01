@@ -1,6 +1,10 @@
 import { model, Schema } from 'mongoose'
 
 const headerSchema = new Schema({
+  pagePath: {
+    type: String,
+    required: true,
+  },
   pageTitle: {
     type: String,
     required: true,
@@ -9,7 +13,7 @@ const headerSchema = new Schema({
     type: String,
     required: false,
   },
-  pageImage: {
+  desktopImage: {
     type: String,
     required: true,
   },
