@@ -1,9 +1,11 @@
 import { Router } from 'express'
-import { postHeaderData } from '../controllers/header.controllers.mjs'
+import { getHeaderData, postHeaderData } from '../controllers/header.controllers.mjs'
 import fileUpload from '../middleware/file-upload.mjs'
 import { check } from 'express-validator'
 
 const router = Router()
+
+router.get('/:pageTitle/header', getHeaderData)
 
 router.post(
   '/:pageTitle/header',

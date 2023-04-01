@@ -47,3 +47,23 @@ export const postHeaderData = async (
     .status(200)
     .json({ headerData: createdHeaderData.toObject({ getters: true }) })
 }
+
+export const getHeaderData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { pageTitle } = req.params
+
+  let headerData: any
+
+  try {
+    headerData = await Header.findOne({ pagePath: '/' + pageTitle })
+  } catch (err) {
+    const error = new HttpError(404, 'Header data not found on the server')
+    return next(error)
+  }
+
+
+  res.status(200).json({ headerData: headerData.toObject({ getters: true }) })
+}
