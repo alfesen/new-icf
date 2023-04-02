@@ -49,6 +49,7 @@ export type ImagePickerProps = {
 }
 
 export type ButtonProps = {
+  edit?: boolean
   link?: boolean
   to?: string
   onClick?: () => void

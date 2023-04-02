@@ -7,8 +7,9 @@
     $color-violet-light,
     $color-violet-dark
   );
+  font-size: $font-md;
   padding: 1em 2em;
-  color: #fff;
+  color: $color-basic;
   border: $color-violet-dark;
   cursor: pointer;
   text-decoration: none;
@@ -20,7 +21,20 @@
     color: $color-violet-dark;
     border: 2px solid $color-violet-dark;
   }
-  &:hover {
+  &__edit {
+    position: absolute;
+    top: 30%;
+    right: -2em;
+    rotate: -90deg;
+    margin: 0 0 0 0;
+    z-index: 10;
+    translate: 15% 0;
+    transition: translate 0.2s;
+    &:hover {
+      translate: 0 0;
+    }
+  }
+  &:not(.button__edit):hover {
     translate: 0 -6px;
     box-shadow: $box-shadow;
   }
