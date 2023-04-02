@@ -23,7 +23,8 @@ $color-black: rgb(0, 0, 0);
 $color-violet-light: rgb(100, 92, 163);
 $color-violet-dark: rgb(72, 55, 200);
 
-$box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+$shadow: rgba(0, 0, 0, 0.5);
+$box-shadow: 0 5px 10px $shadow;
 
 $margin-section-sm: 3em;
 $margin-section-lg: 5em;

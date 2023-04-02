@@ -14,7 +14,7 @@ const Header = () => {
   useEffect(() => {
     const getHeader = async () => {
       try {
-        const {headerData} = await sendRequest(
+        const { headerData } = await sendRequest(
           `http://localhost:5000/api${pathname}/header`
         )
         setHeaderData(headerData)
@@ -26,13 +26,19 @@ const Header = () => {
   return (
     <header className={s.header}>
       {!loading && headerData && (
-        <img
-          className={s.header__background}
-          src={`http://localhost:5000/${
-            width > 700 ? headerData.desktopImage : headerData.mobileImage
-          }`}
-          alt='Welcome to ICF'
-        />
+        <>
+          <img
+            className={s.header__background}
+            src={`http://localhost:5000/${
+              width > 700 ? headerData.desktopImage : headerData.mobileImage
+            }`}
+            alt='Welcome to ICF'
+          />
+          <div className={s.header__info}>
+            <h1 className={s.header__title}>{headerData.pageTitle}</h1>
+            {headerData.pageSubtitle && <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>}
+          </div>
+        </>
       )}
     </header>
   )
