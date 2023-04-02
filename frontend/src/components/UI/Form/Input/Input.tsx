@@ -9,9 +9,14 @@ const Input = ({
   placeholder,
   rows,
   label,
+  initialValue,
   onInput,
 }: InputProps) => {
   const [value, setValue] = useState<string>('')
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   useEffect(() => {
     onInput(id, value)
@@ -24,15 +29,15 @@ const Input = ({
   const el =
     element === 'input' ? (
       <input
-      data-testid='input'
-      onChange={changeHandler}
-      id={id}
-      name={name}
-      placeholder={placeholder}
-      value={value}
+        data-testid='input'
+        onChange={changeHandler}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        value={value}
       />
-      ) : (
-        <textarea
+    ) : (
+      <textarea
         data-testid='textarea'
         onChange={changeHandler}
         id={id}
@@ -45,7 +50,9 @@ const Input = ({
 
   return (
     <div className={s.input}>
-      <label className={s.input__label} htmlFor={id}>{label}</label>
+      <label className={s.input__label} htmlFor={id}>
+        {label}
+      </label>
       {el}
     </div>
   )

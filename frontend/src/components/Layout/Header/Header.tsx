@@ -5,9 +5,12 @@ import { useLocation } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
 import { HeaderData } from '../../../types/LayoutTypes'
 import Button from '../../UI/Form/Button/Button'
+import Modal from '../../UI/Modal/Modal'
+import HeaderForm from './HeaderForm/HeaderForm'
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
+  const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const { loading, sendRequest } = useFetchData()
   const { pathname } = useLocation()
   const { width } = useClientWidth()
@@ -24,8 +27,20 @@ const Header = () => {
     getHeader()
   }, [sendRequest])
 
+  const showModal = () => {
+    setShowEditModal(true)
+  }
+  const closeModal = () => {
+    setShowEditModal(false)
+  }
+
   return (
     <header className={s.header}>
+      {showEditModal && (
+        <Modal show={showEditModal} heading='Edit header' onDetach={closeModal}>
+          <HeaderForm onCancel={closeModal} />
+        </Modal>
+      )}
       {!loading && headerData && (
         <>
           <img
@@ -41,7 +56,7 @@ const Header = () => {
               <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
             )}
           </div>
-          <Button edit type='button'>
+          <Button onClick={showModal} edit type='button'>
             Edit
           </Button>
         </>
