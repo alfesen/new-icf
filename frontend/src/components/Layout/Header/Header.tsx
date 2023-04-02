@@ -4,6 +4,7 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
 import { HeaderData } from '../../../types/LayoutTypes'
+import Button from '../../UI/Form/Button/Button'
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
@@ -36,8 +37,13 @@ const Header = () => {
           />
           <div className={s.header__info}>
             <h1 className={s.header__title}>{headerData.pageTitle}</h1>
-            {headerData.pageSubtitle && <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>}
+            {headerData.pageSubtitle && (
+              <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
+            )}
           </div>
+          <Button edit type='button'>
+            Edit
+          </Button>
         </>
       )}
     </header>
