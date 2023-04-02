@@ -1,4 +1,4 @@
-import { FormEvent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useForm } from '../../../../hooks/useForm'
 import { useFetchData } from '../../../../hooks/useFetchData'
@@ -12,13 +12,35 @@ import s from './HeaderForm.module.scss'
 const HeaderForm = ({ onCancel }: HeaderFormProps) => {
   const { pathname } = useLocation()
   const { sendRequest } = useFetchData()
+  const [isData, setIsData] = useState<boolean>(false)
 
-  const { inputHandler, formState } = useForm({
+  const { inputHandler, formState, setFormData } = useForm({
     pageTitle: { value: '' },
     pageSubtitle: { value: '' },
     desktopImage: { value: '' },
     mobileImage: { value: '' },
   })
+
+  useEffect(() => {
+    const getHeaderData = async () => {
+      try {
+        const { headerData } = await sendRequest(
+          `http://localhost:5000/api${pathname}/header`
+        )
+        if (!headerData) {
+          setIsData(false)
+        }
+        setFormData({
+          pageTitle: { value: headerData.pageTitle },
+          pageSubtitle: { value: headerData.pageSubtitle },
+          desktopImage: { value: headerData.desktopImage },
+          mobileImage: { value: headerData.mobileImage },
+        })
+        setIsData(true)
+      } catch (err) {}
+    }
+    getHeaderData()
+  }, [sendRequest])
 
   const headerFormSubmitHandler = async (e: FormEvent) => {
     e.preventDefault()
@@ -29,9 +51,17 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
     formData.append('mobileImage', formState.inputs.mobileImage.value)
     formData.append('pagePath', pathname)
 
+    if (!isData) {
+      await sendRequest(
+        `http://localhost:5000/api${pathname}/header`,
+        'POST',
+        formData
+      )
+      return
+    }
     await sendRequest(
       `http://localhost:5000/api${pathname}/header`,
-      'POST',
+      'PATCH',
       formData
     )
   }
@@ -39,6 +69,7 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
   return (
     <form className={s.form} onSubmit={headerFormSubmitHandler}>
       <Input
+        initialValue={(formState.inputs.pageTitle.value as string) || ''}
         element='input'
         label='Page Title'
         onInput={inputHandler}
@@ -47,6 +78,7 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
         name='pageTitle'
       />
       <Input
+        initialValue={(formState.inputs.pageSubtitle.value as string) || ''}
         element='input'
         label='Page Subtitle'
         onInput={inputHandler}

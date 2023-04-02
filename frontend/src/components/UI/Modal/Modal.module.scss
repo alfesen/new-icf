@@ -1,10 +1,11 @@
 @import '../../../sass/vars.scss';
 
 .backdrop {
+  position: absolute;
   width: 100%;
   height: 100vh;
   background-color: #000000dd;
-  z-index: 50;
+  z-index: 5;
 }
 
 .modal {
@@ -18,6 +19,7 @@
   max-height: 60rem;
   background-color: $color-basic;
   overflow: auto;
+  z-index: 6;
 
   &__header h2 {
     padding: 0.5em 1em;

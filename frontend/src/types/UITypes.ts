@@ -32,6 +32,7 @@ export type FormAction =
     }
 
 export type InputProps = {
+  initialValue: string
   element: 'input' | 'textarea'
   name: string
   placeholder: string
@@ -70,7 +71,7 @@ export type ModalProps = {
   children: ReactNode
   heading: string
   actions?: ReactNode
-  show: boolean
+  show?: boolean
   onDetach: () => void
 }
 
