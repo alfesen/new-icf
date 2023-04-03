@@ -60,7 +60,8 @@ export type ButtonProps = {
 }
 
 export type HeaderFormProps = {
-  onCancel?: () => void
+  onClose: () => void
+  edit?: boolean
 }
 
 export type BackdropProps = {

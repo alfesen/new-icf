@@ -42,4 +42,10 @@
   &__subtitle {
     font-family: $font-quirky;
   }
+
+  &__fallback {
+    background-color: $color-basic;
+    z-index: 1;
+    padding: 3em;
+  }
 }
