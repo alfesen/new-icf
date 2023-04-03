@@ -36,9 +36,9 @@ const Header = () => {
 
   return (
     <header className={s.header}>
-      {showEditModal && (
+      {(showEditModal || (!loading && !headerData)) && (
         <Modal show={showEditModal} heading='Edit header' onDetach={closeModal}>
-          <HeaderForm onCancel={closeModal} />
+          <HeaderForm edit={showEditModal && true} onClose={closeModal} />
         </Modal>
       )}
       {!loading && headerData && (

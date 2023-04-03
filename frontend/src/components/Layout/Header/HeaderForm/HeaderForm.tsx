@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, redirect } from 'react-router-dom'
 import { useForm } from '../../../../hooks/useForm'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import { HeaderFormProps } from '../../../../types/UITypes'
@@ -9,10 +9,10 @@ import Input from '../../../UI/Form/Input/Input'
 
 import s from './HeaderForm.module.scss'
 
-const HeaderForm = ({ onCancel }: HeaderFormProps) => {
+const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
+  const [isData, setIsData] = useState<boolean>(false)
   const { pathname } = useLocation()
   const { sendRequest } = useFetchData()
-  const [isData, setIsData] = useState<boolean>(false)
 
   const { inputHandler, formState, setFormData } = useForm({
     pageTitle: { value: '' },
@@ -27,18 +27,16 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
         const { headerData } = await sendRequest(
           `http://localhost:5000/api${pathname}/header`
         )
-        if (!headerData) {
-          setIsData(false)
-        }
+        setIsData(!!headerData)
         setFormData({
           pageTitle: { value: headerData.pageTitle },
           pageSubtitle: { value: headerData.pageSubtitle },
           desktopImage: { value: headerData.desktopImage },
           mobileImage: { value: headerData.mobileImage },
         })
-        setIsData(true)
       } catch (err) {}
     }
+    setIsData(false)
     getHeaderData()
   }, [sendRequest])
 
@@ -50,20 +48,23 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
     formData.append('desktopImage', formState.inputs.desktopImage.value)
     formData.append('mobileImage', formState.inputs.mobileImage.value)
     formData.append('pagePath', pathname)
+    console.log(formData)
 
-    if (!isData) {
+    if (isData) {
+      await sendRequest(
+        `http://localhost:5000/api${pathname}/header`,
+        'PATCH',
+        formData
+      )
+    } else
       await sendRequest(
         `http://localhost:5000/api${pathname}/header`,
         'POST',
         formData
       )
-      return
-    }
-    await sendRequest(
-      `http://localhost:5000/api${pathname}/header`,
-      'PATCH',
-      formData
-    )
+      location.reload()
+    onClose()
+    return redirect(pathname)
   }
 
   return (
@@ -109,9 +110,11 @@ const HeaderForm = ({ onCancel }: HeaderFormProps) => {
         />
       </div>
       <div className={s.form__actions}>
-        <Button onClick={onCancel} type='button' reverse>
-          Cancel
-        </Button>
+        {edit && (
+          <Button onClick={onClose} type='button' reverse>
+            Cancel
+          </Button>
+        )}
         <Button type='submit'>Submit</Button>
       </div>
     </form>
