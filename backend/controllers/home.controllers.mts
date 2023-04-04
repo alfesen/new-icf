@@ -17,6 +17,23 @@ export const postHomeWelcome = async (
     return next(error)
   }
 
+  let existingWelcomeData: any
+
+  try {
+    existingWelcomeData = await Welcome.find()
+  } catch (err) {
+    const error = new HttpError(401, "Data doesn't exist")
+    return next(error)
+  }
+
+  if (existingWelcomeData) {
+    const error = new HttpError(
+      401,
+      'Data already exists, update or delete it instead'
+    )
+    return next(error)
+  }
+
   const { title, content } = req.body
 
   const createdWelcome = new Welcome({
@@ -38,5 +55,3 @@ export const postHomeWelcome = async (
     .status(200)
     .json({ welcomeData: createdWelcome.toObject({ getters: true }) })
 }
-
-
