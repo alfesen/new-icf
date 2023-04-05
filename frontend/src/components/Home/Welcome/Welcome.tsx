@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { convertString } from '../../../helpers/convertString'
 import { HomeData } from '../../../types/HomeTypes'
+import s from './Welcome.module.scss'
 
 const Welcome = () => {
   const [welcome, setWelcome] = useState<HomeData>(null)
@@ -22,9 +23,9 @@ const Welcome = () => {
   return (
     <Fragment>
       {welcome && (
-        <section>
-          <h2>{welcome.title}</h2>
-          <div>{convertString(welcome.content)}</div>
+        <section className={s.welcome}>
+          <h2 className={s.welcome__title}>{welcome.title}</h2>
+          <div className={s.welcome__content}>{convertString(welcome.content)}</div>
         </section>
       )}
     </Fragment>
