@@ -22,7 +22,7 @@ export const convertString = (initialContent: any) => {
       return <p key={p.length + Math.random()}>{boldString(p.trim())}</p>
     })
   } else {
-    return initialContent
+    return <p>{boldString(initialContent)}</p>
   }
   return content
 }
