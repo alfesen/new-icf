@@ -55,3 +55,22 @@ export const postHomeWelcome = async (
     .status(200)
     .json({ welcomeData: createdWelcome.toObject({ getters: true }) })
 }
+
+export const getHomeWelcome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let homeWelcomeData: any
+
+  try {
+    homeWelcomeData = await Welcome.findOne()
+  } catch (err) {
+    const error = new HttpError(404, 'CHANGE THIS ERROR')
+    return next(error)
+  }
+
+  res
+    .status(200)
+    .json({ welcomeData: homeWelcomeData.toObject({ getters: true }) })
+}
