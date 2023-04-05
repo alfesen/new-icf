@@ -20,7 +20,7 @@ export const postHomeWelcome = async (
   let existingWelcomeData: WelcomeType
 
   try {
-    existingWelcomeData = (await Welcome.find()) as unknown as WelcomeType
+    existingWelcomeData = (await Welcome.findOne()) as WelcomeType
   } catch (err) {
     const error = new HttpError(401, "Data doesn't exist")
     return next(error)
@@ -150,5 +150,5 @@ export const deleteHomeWelcome = async (
     return next(error)
   }
 
-  res.status(200).json({message: 'Section removed successfully'})
+  res.status(200).json({ message: 'Section removed successfully' })
 }
