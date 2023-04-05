@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose'
+import { HeaderData } from '../../types'
 
-const headerSchema = new Schema({
+const headerSchema = new Schema<HeaderData>({
   pagePath: {
     type: String,
     required: true,
@@ -23,4 +24,4 @@ const headerSchema = new Schema({
   },
 })
 
-export default model('Header', headerSchema)
+export default model<HeaderData>('Header', headerSchema)

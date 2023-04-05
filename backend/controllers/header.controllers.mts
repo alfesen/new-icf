@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 import { HttpError } from '../models/shared/HttpError.model.mjs'
 import Header from '../models/Header/Header.model.mjs'
-import { MulterFiles } from '../types.js'
+import { HeaderData, MulterFiles } from '../types.js'
 import fs from 'fs'
 
 export const postHeaderData = async (
@@ -56,10 +56,10 @@ export const getHeaderData = async (
 ) => {
   const { pageId } = req.params
 
-  let headerData: any
+  let headerData: HeaderData
 
   try {
-    headerData = await Header.findOne({ pagePath: '/' + pageId })
+    headerData = await Header.findOne({ pagePath: '/' + pageId }) as HeaderData
   } catch (err) {
     const error = new HttpError(404, 'Header data not found on the server')
     return next(error)
@@ -90,10 +90,10 @@ export const updateHeaderData = async (
   const { pageTitle, pageSubtitle } = req.body
   // const { desktopImage, mobileImage } = req.files as MulterFiles
 
-  let headerData: any
+  let headerData: HeaderData
 
   try {
-    headerData = await Header.findOne({ pagePath: '/' + pageId })
+    headerData = await Header.findOne({ pagePath: '/' + pageId }) as HeaderData
   } catch (err) {
     const error = new HttpError(404, 'Header data not found on the server')
     return next(error)
