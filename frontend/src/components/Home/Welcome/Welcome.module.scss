@@ -1,0 +1,26 @@
+@import '../../../sass/vars';
+
+.welcome {
+  max-width: 100rem;
+  transition: padding 0.3s, background-color 0.3s;
+  
+  &__title {
+    text-align: center;
+  }
+  &__content {
+    color: $color-light-grey;
+    font-size: $font-sm;
+    font-weight: 500;
+    text-align: justify;
+    line-height: 1.5em;
+    
+  }
+}
+
+@media (min-width: 900px) {
+  .welcome {
+    &__text {
+      width: 100%;
+    }
+  }
+}
