@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { postHomeWelcome } from '../controllers/home.controllers.mjs'
+import { getHomeWelcome, postHomeWelcome } from '../controllers/home.controllers.mjs'
 import { check } from 'express-validator'
 
 const router = Router()
@@ -12,5 +12,7 @@ router.post(
   ],
   postHomeWelcome
 )
+
+router.get('/', getHomeWelcome)
 
 export default router
