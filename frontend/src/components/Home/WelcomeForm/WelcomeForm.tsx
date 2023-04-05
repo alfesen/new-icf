@@ -1,10 +1,14 @@
+import { FormEvent, useEffect, useState } from 'react'
 import { useForm } from '../../../hooks/useForm'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 import Modal from '../../UI/Modal/Modal'
+import { useFetchData } from '../../../hooks/useFetchData'
 
 const WelcomeForm = () => {
-  const { formState, inputHandler } = useForm({
+  const [isData, setIsData] = useState<boolean>(false)
+  const { sendRequest } = useFetchData()
+  const { formState, inputHandler, setFormData } = useForm({
     title: {
       value: '',
     },
@@ -13,11 +17,56 @@ const WelcomeForm = () => {
     },
   })
 
+  useEffect(() => {
+    const getWelcome = async () => {
+      try {
+        const { welcomeData } = await sendRequest(
+          'http://localhost:5000/api/home/'
+        )
+        setIsData(!!welcomeData)
+        setFormData({
+          title: { value: welcomeData.title },
+          content: { value: welcomeData.content },
+        })
+      } catch (err) {}
+    }
+    setIsData(false)
+    getWelcome()
+  }, [sendRequest])
+
+  const welcomeSubmitHandler = async (e: FormEvent) => {
+    e.preventDefault()
+    const newWelcomeData = {
+      title: formState.inputs.title.value,
+      content: formState.inputs.content.value,
+    }
+
+    if (isData) {
+      await sendRequest(
+        'http://localhost:5000/api/home',
+        'PATCH',
+        JSON.stringify(newWelcomeData),
+        { 'Content-Type': 'application/json' }
+      )
+    }
+    if (!isData) {
+      await sendRequest(
+        'http://localhost:5000/api/home',
+        'POST',
+        JSON.stringify(newWelcomeData),
+        { 'Content-Type': 'application/json' }
+      )
+    }
+  }
+
   return (
-    <Modal onDetach={() => {}} heading='Editing Welcome'>
-      <form>
+    <Modal
+      actions={<Button type='button'>Remove section</Button>}
+      onDetach={() => {}}
+      heading='Editing Welcome'>
+      <form onSubmit={welcomeSubmitHandler}>
         <Input
-          id='welcome-title-input'
+          id='title'
           label='Title'
           onInput={inputHandler}
           name='welcome-title'
@@ -26,7 +75,7 @@ const WelcomeForm = () => {
           placeholder='Provide title for the section'
         />
         <Input
-          id='welcome-content-input'
+          id='content'
           label='Content'
           onInput={inputHandler}
           name='welcome-content'
@@ -40,9 +89,6 @@ const WelcomeForm = () => {
             Cancel
           </Button>
           <Button type='submit'>Submit</Button>
-        </div>
-        <div>
-          <Button type='button'>Remove section</Button>
         </div>
       </form>
     </Modal>
