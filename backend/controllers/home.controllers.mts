@@ -80,9 +80,11 @@ export const getHomeWelcome = async (
     .json({ welcomeData: homeWelcomeData.toObject({ getters: true }) })
 }
 
-
-
-export const updateHomeWelcome = async (req: Request, res: Response, next: NextFunction) => {
+export const updateHomeWelcome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     const error = new HttpError(
@@ -122,4 +124,31 @@ export const updateHomeWelcome = async (req: Request, res: Response, next: NextF
   res
     .status(200)
     .json({ welcomeData: homeWelcomeData.toObject({ getters: true }) })
+}
+
+export const deleteHomeWelcome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let homeWelcomeData: WelcomeType
+
+  try {
+    homeWelcomeData = (await Welcome.findOne()) as WelcomeType
+  } catch (err) {
+    const error = new HttpError(404, "There's nothing to remove ¯_(ツ)_/¯")
+    return next(error)
+  }
+
+  try {
+    await homeWelcomeData.deleteOne()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Deleting unsuccessful, please try again later or contact your system administrator'
+    )
+    return next(error)
+  }
+
+  res.status(200).json({message: 'Section removed successfully'})
 }
