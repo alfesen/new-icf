@@ -1,0 +1,23 @@
+.welcome {
+  max-width: 100rem;
+  position: relative;
+  -webkit-transition: padding 0.3s, background-color 0.3s;
+  transition: padding 0.3s, background-color 0.3s;
+  overflow: hidden;
+}
+.welcome__title {
+  text-align: center;
+}
+.welcome__content {
+  color: rgb(99, 99, 99);
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-align: justify;
+  line-height: 1.5em;
+}
+
+@media (min-width: 900px) {
+  .welcome__text {
+    width: 100%;
+  }
+}/*# sourceMappingURL=Welcome.module.css.map */
