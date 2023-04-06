@@ -2,10 +2,9 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useForm } from '../../../hooks/useForm'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
-import Modal from '../../UI/Modal/Modal'
 import { useFetchData } from '../../../hooks/useFetchData'
 
-const WelcomeForm = () => {
+const WelcomeForm = ({ onCancel }: { onCancel: () => void }) => {
   const [isData, setIsData] = useState<boolean>(false)
   const { sendRequest } = useFetchData()
   const { formState, inputHandler, setFormData } = useForm({
@@ -57,41 +56,37 @@ const WelcomeForm = () => {
         { 'Content-Type': 'application/json' }
       )
     }
+    location.reload()
   }
 
   return (
-    <Modal
-      actions={<Button type='button'>Remove section</Button>}
-      onDetach={() => {}}
-      heading='Editing Welcome'>
-      <form onSubmit={welcomeSubmitHandler}>
-        <Input
-          id='title'
-          label='Title'
-          onInput={inputHandler}
-          name='welcome-title'
-          element='input'
-          initialValue={formState.inputs.title.value as string}
-          placeholder='Provide title for the section'
-        />
-        <Input
-          id='content'
-          label='Content'
-          onInput={inputHandler}
-          name='welcome-content'
-          element='textarea'
-          rows={6}
-          initialValue={formState.inputs.content.value as string}
-          placeholder='Provide content for the section'
-        />
-        <div>
-          <Button type='button' reverse>
-            Cancel
-          </Button>
-          <Button type='submit'>Submit</Button>
-        </div>
-      </form>
-    </Modal>
+    <form onSubmit={welcomeSubmitHandler}>
+      <Input
+        id='title'
+        label='Title'
+        onInput={inputHandler}
+        name='welcome-title'
+        element='input'
+        initialValue={formState.inputs.title.value as string}
+        placeholder='Provide title for the section'
+      />
+      <Input
+        id='content'
+        label='Content'
+        onInput={inputHandler}
+        name='welcome-content'
+        element='textarea'
+        rows={6}
+        initialValue={formState.inputs.content.value as string}
+        placeholder='Provide content for the section'
+      />
+      <div>
+        <Button type='button' onClick={onCancel} reverse>
+          Cancel
+        </Button>
+        <Button type='submit'>Submit</Button>
+      </div>
+    </form>
   )
 }
 
