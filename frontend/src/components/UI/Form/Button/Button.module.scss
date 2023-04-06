@@ -22,16 +22,26 @@
     border: 2px solid $color-violet-dark;
   }
   &__edit {
+    opacity: 0.3;
     position: absolute;
-    top: 30%;
-    right: -2em;
-    rotate: -90deg;
     margin: 0 0 0 0;
     z-index: 10;
-    translate: 15% 0;
-    transition: translate 0.2s;
+    top: 0;
+    right: 2em;
+    translate: 0 -15%;
+    transition: translate 0.2s, opacity 0.2s;
     &:hover {
       translate: 0 0;
+      opacity: 1;
+    }
+    &.side {
+      top: 30%;
+      right: -2.5em;
+      rotate: -90deg;
+      translate: 15% 0;
+      &:hover {
+        translate: 0 0;
+      }
     }
   }
   &:not(.button__edit):hover {

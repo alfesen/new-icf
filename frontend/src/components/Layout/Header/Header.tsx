@@ -56,7 +56,7 @@ const Header = () => {
               <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
             )}
           </div>
-          <Button onClick={showModal} edit type='button'>
+          <Button side onClick={showModal} edit type='button'>
             Edit
           </Button>
         </>

@@ -10,6 +10,7 @@ const Button = ({
   reverse,
   children,
   edit,
+  side,
 }: ButtonProps) => {
   const buttonClass = !reverse ? s.button : `${s.button} ${s.button__reverse}`
 
@@ -21,7 +22,9 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${buttonClass} ${edit ? s.button__edit : ''}`}>
+      className={`${buttonClass} ${edit ? s.button__edit : ''} ${
+        side ? s.side : ''
+      }`}>
       {children}
     </button>
   )
