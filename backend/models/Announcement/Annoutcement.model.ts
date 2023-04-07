@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
+import { AnnouncementType } from '../../types'
 
-const announcementSchema = new Schema({
+const announcementSchema = new Schema<AnnouncementType>({
   date: {
     type: String,
     required: true,
@@ -15,4 +16,4 @@ const announcementSchema = new Schema({
   },
 })
 
-export default model('Announcement', announcementSchema)
+export default model<AnnouncementType>('Announcement', announcementSchema)
