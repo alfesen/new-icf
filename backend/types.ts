@@ -16,3 +16,9 @@ export interface WelcomeType extends Document  {
   title: string,
   content: string
 }
+
+export interface AnnouncementType extends Document {
+  date: string,
+  time: string
+  title: string
+}
