@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
-import { HttpError } from '../models/shared/HttpError.model.mjs'
-import Welcome from '../models/Home/welcome-home.mjs'
-import { WelcomeType } from '../types.js'
+import { HttpError } from '../../models/shared/HttpError.model.mjs'
+import Welcome from '../../models/Home/welcome-home.mjs'
+import { WelcomeType } from '../../types.js'
 export const postHomeWelcome = async (
   req: Request,
   res: Response,
