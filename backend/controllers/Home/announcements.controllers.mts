@@ -24,7 +24,7 @@ export const postAnnouncement = async (
     date,
     time,
     title,
-    description
+    description,
   }) as AnnouncementType
 
   try {
@@ -35,6 +35,27 @@ export const postAnnouncement = async (
       'Failed to post the announcement, please try again later or contact your system administrator'
     )
     return next(error)
+  }
+
+  let existingAnnouncements: AnnouncementType[]
+
+  try {
+    existingAnnouncements = (await Announcement.find()) as AnnouncementType[]
+  } catch (err) {
+    const error = new HttpError(404, 'No announcements found')
+    return next(error)
+  }
+
+  if (existingAnnouncements.length > 30) {
+    try {
+      await existingAnnouncements[0].deleteOne()
+    } catch (err) {
+      const error = new HttpError(
+        500,
+        'Limiting data unsuccessful, please try again later or contact your system administrator'
+      )
+      return next(error)
+    }
   }
 
   res
@@ -62,7 +83,7 @@ export const getAnnouncements = async (
   }
 
   res.status(200).json({
-    announcements: announcements.map(a => a.toObject({ getters: true })),
+    announcements: announcements.slice(-5).map(a => a.toObject({ getters: true })),
   })
 }
 
