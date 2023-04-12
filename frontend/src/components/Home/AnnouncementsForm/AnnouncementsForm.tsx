@@ -2,6 +2,7 @@ import { FormEvent } from 'react'
 import { useForm } from '../../../hooks/useForm'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
+import { useFetchData } from '../../../hooks/useFetchData'
 
 const AnnouncementsForm = () => {
   const { formState, inputHandler } = useForm({
@@ -18,9 +19,29 @@ const AnnouncementsForm = () => {
       value: '',
     },
   })
+  const { sendRequest } = useFetchData()
 
-  const announcementSubmitHandler = (e: FormEvent) => {
+  const announcementSubmitHandler = async (e: FormEvent) => {
     e.preventDefault()
+
+    const newAnnouncement = {
+      title: formState.inputs.title.value,
+      description: formState.inputs.description.value,
+      date: new Date(formState.inputs.date.value as string).toISOString(),
+      time: formState.inputs.time.value,
+    }
+
+    try {
+     const response =  await sendRequest(
+        'http://localhost:5000/api/home/announcements',
+        'POST',
+        JSON.stringify(newAnnouncement),
+        { 'Content-Type': 'application/json' }
+      )
+      console.log(response)
+    } catch (err) {}
+
+    location.reload()
   }
 
   return (

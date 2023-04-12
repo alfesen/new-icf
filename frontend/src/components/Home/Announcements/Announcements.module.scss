@@ -1,3 +1,8 @@
 .list {
   padding: 0;
+  &__actions {
+    padding-right: 2em;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
