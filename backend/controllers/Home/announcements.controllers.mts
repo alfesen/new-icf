@@ -111,3 +111,35 @@ export const updateAnnouncement = async (
     .status(200)
     .json({ announcement: existingAnnouncement.toObject({ getters: true }) })
 }
+
+export const deleteAnnouncement = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { announcementId } = req.params
+
+  let existingAnnouncement: AnnouncementType
+
+  try {
+    existingAnnouncement = (await Announcement.findByIdAndRemove(
+      announcementId
+    )) as AnnouncementType
+  } catch (err) {
+    const error = new HttpError(
+      404,
+      "Announcement with a given ID wasn't found"
+    )
+    return next(error)
+  }
+
+  if (!existingAnnouncement) {
+    const error = new HttpError(
+      404,
+      "Announcement with a given ID wasn't found"
+    )
+    return next(error)
+  }
+
+  res.status(500).json({ message: 'Announcement Removed' })
+}

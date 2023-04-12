@@ -7,6 +7,7 @@ import {
 } from '../controllers/Home/home.controllers.mjs'
 import { check } from 'express-validator'
 import {
+  deleteAnnouncement,
   getAnnouncements,
   postAnnouncement,
   updateAnnouncement,
@@ -57,5 +58,7 @@ router.patch(
   ],
   updateAnnouncement
 )
+
+router.delete('/announcements/:announcementId', deleteAnnouncement)
 
 export default router
