@@ -60,9 +60,54 @@ export const getAnnouncements = async (
     return next(error)
   }
 
+  res.status(200).json({
+    announcements: announcements.map(a => a.toObject({ getters: true })),
+  })
+}
+
+export const updateAnnouncement = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const error = new HttpError(
+      400,
+      'Invalid inputs passed, please provide valid data'
+    )
+    return next(error)
+  }
+
+  const { announcementId } = req.params
+  const { title, date, time } = req.body
+
+  let existingAnnouncement: AnnouncementType
+
+  try {
+    existingAnnouncement = (await Announcement.findById(
+      announcementId
+    )) as AnnouncementType
+  } catch (err) {
+    const error = new HttpError(404, 'No announcement with a given ID found')
+    return next(error)
+  }
+
+  existingAnnouncement.title = title
+  existingAnnouncement.date = date
+  existingAnnouncement.time = time
+
+  try {
+    await existingAnnouncement.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Could not update the announcement, please try again later'
+    )
+    return next(error)
+  }
+
   res
     .status(200)
-    .json({
-      announcements: announcements.map(a => a.toObject({ getters: true })),
-    })
+    .json({ announcement: existingAnnouncement.toObject({ getters: true }) })
 }

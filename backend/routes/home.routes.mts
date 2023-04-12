@@ -6,7 +6,11 @@ import {
   updateHomeWelcome,
 } from '../controllers/Home/home.controllers.mjs'
 import { check } from 'express-validator'
-import { getAnnouncements, postAnnouncement } from '../controllers/Home/announcements.controllers.mjs'
+import {
+  getAnnouncements,
+  postAnnouncement,
+  updateAnnouncement,
+} from '../controllers/Home/announcements.controllers.mjs'
 
 const router = Router()
 
@@ -32,12 +36,26 @@ router.patch(
 
 router.delete('/', deleteHomeWelcome)
 
-router.post('/announcements', [
-  check('date').notEmpty(),
-  check('time').notEmpty(),
-  check('title').notEmpty().isLength({min: 3, max: 40})
-], postAnnouncement)
+router.post(
+  '/announcements',
+  [
+    check('date').notEmpty(),
+    check('time').notEmpty(),
+    check('title').notEmpty().isLength({ min: 3, max: 40 }),
+  ],
+  postAnnouncement
+)
 
 router.get('/announcements', getAnnouncements)
+
+router.patch(
+  '/announcements/:announcementId',
+  [
+    check('date').notEmpty(),
+    check('time').notEmpty(),
+    check('title').notEmpty().isLength({ min: 3, max: 40 }),
+  ],
+  updateAnnouncement
+)
 
 export default router
