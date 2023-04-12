@@ -21,4 +21,5 @@ export interface AnnouncementType extends Document {
   date: string,
   time: string
   title: string
+  description?: string
 }

@@ -14,6 +14,10 @@ const announcementSchema = new Schema<AnnouncementType>({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: false
+  }
 })
 
 export default model<AnnouncementType>('Announcement', announcementSchema)
