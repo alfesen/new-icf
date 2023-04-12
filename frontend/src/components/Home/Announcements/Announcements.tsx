@@ -3,6 +3,7 @@ import Card from '../../UI/Card/Card'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { Announcement as AnnouncementType } from '../../../types/HomeTypes'
 import Announcement from './Announcement/Announcement'
+import s from './Announcements.module.scss'
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState<AnnouncementType[]>([])
@@ -36,7 +37,7 @@ const Announcements = () => {
 
   return (
     <Card>
-      <ul>{renderAnnouncements}</ul>
+      <ul className={s.list}>{renderAnnouncements}</ul>
     </Card>
   )
 }
