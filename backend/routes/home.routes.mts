@@ -6,7 +6,7 @@ import {
   updateHomeWelcome,
 } from '../controllers/Home/home.controllers.mjs'
 import { check } from 'express-validator'
-import { postAnnouncement } from '../controllers/Home/announcements.controllers.mjs'
+import { getAnnouncements, postAnnouncement } from '../controllers/Home/announcements.controllers.mjs'
 
 const router = Router()
 
@@ -37,5 +37,7 @@ router.post('/announcements', [
   check('time').notEmpty(),
   check('title').notEmpty().isLength({min: 3, max: 40})
 ], postAnnouncement)
+
+router.get('/announcements', getAnnouncements)
 
 export default router
