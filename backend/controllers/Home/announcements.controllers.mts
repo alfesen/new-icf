@@ -18,12 +18,13 @@ export const postAnnouncement = async (
     return next(error)
   }
 
-  const { date, time, title } = req.body
+  const { date, time, title, description } = req.body
 
   const newAnnouncement = new Announcement({
     date,
     time,
     title,
+    description
   }) as AnnouncementType
 
   try {
@@ -80,7 +81,7 @@ export const updateAnnouncement = async (
   }
 
   const { announcementId } = req.params
-  const { title, date, time } = req.body
+  const { title, date, time, description } = req.body
 
   let existingAnnouncement: AnnouncementType
 
@@ -96,6 +97,7 @@ export const updateAnnouncement = async (
   existingAnnouncement.title = title
   existingAnnouncement.date = date
   existingAnnouncement.time = time
+  existingAnnouncement.description = description
 
   try {
     await existingAnnouncement.save()

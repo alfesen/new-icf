@@ -43,6 +43,7 @@ router.post(
     check('date').notEmpty(),
     check('time').notEmpty(),
     check('title').notEmpty().isLength({ min: 3, max: 40 }),
+    check('description').isLength({ max: 250 }),
   ],
   postAnnouncement
 )
