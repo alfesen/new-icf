@@ -1,0 +1,46 @@
+@import '../../../../sass/vars.scss';
+
+.announcement {
+  list-style: none;
+  padding: 1em;
+  margin-bottom: 0.5em;
+  width: 90%;
+  margin: 0 auto 0.5em;
+  &:not(:last-child) {
+    border-bottom: 1px solid #000000dd;
+  }
+  &__schedule {
+    font-size: $font-sm;
+    display: flex;
+    justify-content: space-around;
+  }
+  &__content {
+    font-size: $font-sm;
+    padding: 0 2em;
+    text-align: center;
+    &--title {
+      margin: 0;
+      font-size: $font-tertiary-header-sm;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .announcement {
+    display: flex;
+    align-items: center;
+    &__schedule {
+      display: block;
+      text-align: center;
+    }
+    &__content {
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     justify-content: center;
+     &--title {
+      margin: .5em 0 0;
+     }
+    }
+  }
+}
