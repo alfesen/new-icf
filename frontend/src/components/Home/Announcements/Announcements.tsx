@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import Card from '../../UI/Card/Card'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { Announcement } from '../../../types/HomeTypes'
+import { Announcement as AnnouncementType } from '../../../types/HomeTypes'
+import Announcement from './Announcement/Announcement'
 
 const Announcements = () => {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [announcements, setAnnouncements] = useState<AnnouncementType[]>([])
   const { sendRequest } = useFetchData()
 
   useEffect(() => {
@@ -20,7 +21,24 @@ const Announcements = () => {
     getAnnouncements()
   }, [sendRequest])
 
-  return <Card>Announcements</Card>
+  const renderAnnouncements = announcements.map(
+    ({ id, title, description, date, time }: AnnouncementType) => (
+      <Announcement
+        key={`${id}_announcement_type`}
+        id={id}
+        title={title}
+        description={description}
+        date={date}
+        time={time}
+      />
+    )
+  )
+
+  return (
+    <Card>
+      <ul>{renderAnnouncements}</ul>
+    </Card>
+  )
 }
 
 export default Announcements
