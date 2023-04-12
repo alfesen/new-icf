@@ -11,6 +11,7 @@ const Input = ({
   label,
   initialValue,
   onInput,
+  type,
 }: InputProps) => {
   const [value, setValue] = useState<string>('')
 
@@ -29,6 +30,7 @@ const Input = ({
   const el =
     element === 'input' ? (
       <input
+        type={type ? type : 'text'}
         data-testid='input'
         onChange={changeHandler}
         id={id}

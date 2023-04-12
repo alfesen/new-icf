@@ -40,6 +40,7 @@ export type InputProps = {
   id: string
   label?: string
   onInput: (id: string, value: string | File) => void
+  type?: string
 }
 
 export type ImagePickerProps = {
