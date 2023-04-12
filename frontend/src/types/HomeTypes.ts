@@ -4,6 +4,7 @@ export type HomeData = {
 } | null
 
 export type Announcement = {
+  id: string
   title: string,
   description: string,
   date: string,
