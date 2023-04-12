@@ -16,7 +16,8 @@ const announcementSchema = new Schema<AnnouncementType>({
   },
   description: {
     type: String,
-    required: false
+    required: false,
+    default: "No description provided"
   }
 })
 
