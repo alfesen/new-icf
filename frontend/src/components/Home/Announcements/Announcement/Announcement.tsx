@@ -42,10 +42,11 @@ const Announcement = ({
           <h3 className={s['announcement__content--title']}>{title}</h3>
           <div>{convertString(description)}</div>
         </div>
+        <div className={s.announcement__actions}>
           <Button onClick={showEditModal} type='button'>
             Edit
           </Button>
-          
+        </div>
       </li>
     </Fragment>
   )
