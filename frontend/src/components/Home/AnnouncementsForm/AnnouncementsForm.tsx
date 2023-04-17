@@ -127,8 +127,8 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
         placeholder='Event time'
       />
       <div className={s.form__actions}>
+        {id && <Button reverse onClick={deleteAnnouncement} type='button'>Delete</Button>}
         <Button type='submit'>Submit</Button>
-        {id && <Button onClick={deleteAnnouncement} type='button'>Delete</Button>}
       </div>
     </form>
   )

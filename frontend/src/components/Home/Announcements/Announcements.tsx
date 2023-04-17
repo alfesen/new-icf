@@ -68,7 +68,7 @@ const Announcements = () => {
       <Card>
         <ul className={s.list}>{renderAnnouncements}</ul>
         <div className={s.list__actions}>
-          <Button type='button' onClick={showEditModal}>
+          <Button reverse type='button' onClick={showEditModal}>
             Add
           </Button>
         </div>
