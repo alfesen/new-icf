@@ -1,0 +1,34 @@
+@use '../../../sass/mixins' as m;
+@import '../../../sass/vars';
+
+.link {
+  width: 100%;
+  margin: 1em;
+  &__img {
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1/0.7;
+    width: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__overlay {
+    opacity: 0.3;
+    @include m.absolute-background(rgba(#000, 0.7));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s;
+    h3 {
+      margin: 0;
+      color: $color-basic;
+      text-transform: uppercase;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

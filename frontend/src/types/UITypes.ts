@@ -82,3 +82,9 @@ export type CardProps = {
   className?: string
   children: React.ReactNode
 }
+
+export type ImageLinkProps = {
+  className?: string
+  image: string
+  link: string
+}
