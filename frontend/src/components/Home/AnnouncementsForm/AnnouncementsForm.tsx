@@ -74,6 +74,18 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
     location.reload()
   }
 
+  const deleteAnnouncement = async () => {
+    if (id) {
+      try {
+        await sendRequest(
+          `http://localhost:5000/api/home/announcements/${id}`,
+          'DELETE'
+        )
+      } catch (err) {}
+    }
+    location.reload()
+  }
+
   return (
     <form onSubmit={announcementSubmitHandler}>
       <Input
@@ -116,7 +128,7 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
       />
       <div className={s.form__actions}>
         <Button type='submit'>Submit</Button>
-        {id && <Button type='button'>Delete</Button>}
+        {id && <Button onClick={deleteAnnouncement} type='button'>Delete</Button>}
       </div>
     </form>
   )
