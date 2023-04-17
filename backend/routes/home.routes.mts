@@ -9,6 +9,7 @@ import { check } from 'express-validator'
 import {
   deleteAnnouncement,
   getAnnouncements,
+  getSingleAnnouncement,
   postAnnouncement,
   updateAnnouncement,
 } from '../controllers/Home/announcements.controllers.mjs'
@@ -49,6 +50,8 @@ router.post(
 )
 
 router.get('/announcements', getAnnouncements)
+
+router.get('/announcements/:announcementId', getSingleAnnouncement)
 
 router.patch(
   '/announcements/:announcementId',
