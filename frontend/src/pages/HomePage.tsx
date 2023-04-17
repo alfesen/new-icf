@@ -1,13 +1,13 @@
 import Announcements from '../components/Home/Announcements/Announcements'
+import Shortcuts from '../components/Home/Shortcuts/Shortcuts'
 import Welcome from '../components/Home/Welcome/Welcome'
 
 const HomePage = () => {
   return (
     <div>
       <Welcome />
-      <section>
-        <Announcements />
-      </section>
+      <Announcements />
+      <Shortcuts />
     </div>
   )
 }

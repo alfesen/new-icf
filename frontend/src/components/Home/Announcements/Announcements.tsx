@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import Card from '../../UI/Card/Card'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { Announcement as AnnouncementType } from '../../../types/HomeTypes'
@@ -56,7 +56,7 @@ const Announcements = () => {
   }
 
   return (
-    <Fragment>
+    <section>
       {showModal && (
         <Modal
           show={showModal}
@@ -73,7 +73,7 @@ const Announcements = () => {
           </Button>
         </div>
       </Card>
-    </Fragment>
+    </section>
   )
 }
 
