@@ -47,8 +47,12 @@ export const postAnnouncement = async (
   }
 
   if (existingAnnouncements.length > 30) {
+    const sortedAnnouncement = existingAnnouncements.sort((an1, an2) => {
+      return new Date(an1.date) < new Date(an2.date) ? 1 : -1
+    })
+
     try {
-      await existingAnnouncements[0].deleteOne()
+      await sortedAnnouncement.at(-1)?.deleteOne()
     } catch (err) {
       const error = new HttpError(
         500,
@@ -82,9 +86,39 @@ export const getAnnouncements = async (
     return next(error)
   }
 
-  res.status(200).json({
-    announcements: announcements.slice(-5).map(a => a.toObject({ getters: true })),
+  const sortedAnnouncement = announcements.sort((an1, an2) => {
+    return new Date(an1.date) > new Date(an2.date) ? 1 : -1
   })
+
+  res.status(200).json({
+    announcements: sortedAnnouncement
+      .slice(-5)
+      .reverse()
+      .map(a => a.toObject({ getters: true })),
+  })
+}
+
+export const getSingleAnnouncement = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { announcementId } = req.params
+  let announcement: AnnouncementType
+
+  try {
+    announcement = (await Announcement.findById(
+      announcementId
+    )) as AnnouncementType
+    console.log(announcement)
+  } catch (err) {
+    const error = new HttpError(404, "Announcement wasn't found")
+    return next(error)
+  }
+
+  res
+    .status(200)
+    .json({ announcement: announcement.toObject({ getters: true }) })
 }
 
 export const updateAnnouncement = async (
