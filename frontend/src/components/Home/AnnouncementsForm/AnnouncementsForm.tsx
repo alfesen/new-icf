@@ -1,11 +1,12 @@
-import { FormEvent } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { useForm } from '../../../hooks/useForm'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import { useFetchData } from '../../../hooks/useFetchData'
+import s from './AnnouncementsForm.module.scss'
 
-const AnnouncementsForm = () => {
-  const { formState, inputHandler } = useForm({
+const AnnouncementsForm = ({ id }: { id?: string }) => {
+  const { formState, inputHandler, setFormData } = useForm({
     title: {
       value: '',
     },
@@ -21,6 +22,25 @@ const AnnouncementsForm = () => {
   })
   const { sendRequest } = useFetchData()
 
+  useEffect(() => {
+    const getAnnouncement = async () => {
+      try {
+        const { announcement } = await sendRequest(
+          `http://localhost:5000/api/home/announcements/${id}`
+        )
+        setFormData({
+          title: { value: announcement.title },
+          description: { value: announcement.description },
+          date: { value: announcement.date },
+          time: { value: announcement.time },
+        })
+      } catch (err) {}
+    }
+    if (id) {
+      getAnnouncement()
+    }
+  }, [sendRequest])
+
   const announcementSubmitHandler = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -31,15 +51,25 @@ const AnnouncementsForm = () => {
       time: formState.inputs.time.value,
     }
 
-    try {
-     const response =  await sendRequest(
-        'http://localhost:5000/api/home/announcements',
-        'POST',
-        JSON.stringify(newAnnouncement),
-        { 'Content-Type': 'application/json' }
-      )
-      console.log(response)
-    } catch (err) {}
+    if (!id) {
+      try {
+        await sendRequest(
+          'http://localhost:5000/api/home/announcements',
+          'POST',
+          JSON.stringify(newAnnouncement),
+          { 'Content-Type': 'application/json' }
+        )
+      } catch (err) {}
+    } else {
+      try {
+        await sendRequest(
+          `http://localhost:5000/api/home/announcements/${id}`,
+          'PATCH',
+          JSON.stringify(newAnnouncement),
+          { 'Content-Type': 'application/json' }
+        )
+      } catch (err) {}
+    }
 
     location.reload()
   }
@@ -84,7 +114,10 @@ const AnnouncementsForm = () => {
         initialValue={formState.inputs.time.value as string}
         placeholder='Event time'
       />
-      <Button type='submit'>Submit</Button>
+      <div className={s.form__actions}>
+        <Button type='submit'>Submit</Button>
+        {id && <Button type='button'>Delete</Button>}
+      </div>
     </form>
   )
 }
