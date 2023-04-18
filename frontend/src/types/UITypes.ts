@@ -88,3 +88,9 @@ export type ImageLinkProps = {
   image: string
   link: string
 }
+
+export type UsefulLinkProps = {
+  image: string
+  text: string
+  url: string
+}
