@@ -1,0 +1,69 @@
+@use '../../../sass/mixins.scss' as m;
+@import '../../../sass/vars.scss';
+
+.nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1em;
+  height: 100vh;
+  width: 26rem;
+  overflow-y: auto;
+  text-align: left;
+  text-transform: uppercase;
+  text-align: right;
+  color: $color-basic;
+  font-size: 1.6rem;
+  background-color: $color-dark-grey;
+  translate: 100% 0;
+  transition: translate 0.3s;
+  z-index: 40;
+
+  &__button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1em;
+    z-index: 41;
+  }
+
+  &__links {
+    margin-top: 5rem;
+    text-align: left;
+    list-style: none;
+    li:last-child {
+      margin-top: 1em;
+    }
+  }
+  
+  &.show {
+    translate: 0;
+  }
+}
+
+@media (min-width: 700px) {
+  .nav {
+    translate: 0;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    justify-content: flex-end;
+    height: 8rem;
+    margin-top: 3rem;
+    width: 85%;
+    max-width: 700px;
+    background: none;
+    font-size: 1.4rem;
+    &__links {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      li:last-child {
+        margin-top: 0;
+      }
+    }
+    &__button {
+      display: none;
+    }
+  }
+}
