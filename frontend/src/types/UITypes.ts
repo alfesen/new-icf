@@ -101,3 +101,5 @@ export type IconLinkProps = {
   url: string
   icon: IconDefinition
 }
+
+export type BurgerProps = { onToggle: (isActive: boolean) => void }
