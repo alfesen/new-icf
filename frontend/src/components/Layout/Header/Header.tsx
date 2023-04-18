@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import s from './Header.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation } from 'react-router-dom'
@@ -7,6 +7,7 @@ import { HeaderData } from '../../../types/LayoutTypes'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import HeaderForm from './HeaderForm/HeaderForm'
+import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
@@ -15,7 +16,7 @@ const Header = () => {
   const { pathname } = useLocation()
   const { width } = useClientWidth()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getHeader = async () => {
       try {
         const { headerData } = await sendRequest(
@@ -33,14 +34,16 @@ const Header = () => {
   const closeModal = () => {
     setShowEditModal(false)
   }
+  console.log(loading)
 
   return (
     <header className={s.header}>
-      {(showEditModal || (!loading && !headerData)) && (
+      {showEditModal && (
         <Modal show={showEditModal} heading='Edit header' onDetach={closeModal}>
           <HeaderForm edit={showEditModal && true} onClose={closeModal} />
         </Modal>
       )}
+      {loading && <LoadingSpinner />}
       {!loading && headerData && (
         <>
           <img
