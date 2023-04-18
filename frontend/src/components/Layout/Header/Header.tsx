@@ -34,7 +34,6 @@ const Header = () => {
   const closeModal = () => {
     setShowEditModal(false)
   }
-  console.log(loading)
 
   return (
     <header className={s.header}>
@@ -59,11 +58,11 @@ const Header = () => {
               <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
             )}
           </div>
-          <Button side onClick={showModal} edit type='button'>
-            Edit
-          </Button>
         </>
       )}
+      {!loading && <Button side onClick={showModal} edit type='button'>
+        Edit
+      </Button>}
     </header>
   )
 }

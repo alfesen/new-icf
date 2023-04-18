@@ -7,11 +7,12 @@ import s from './Announcements.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import AnnouncementsForm from '../AnnouncementsForm/AnnouncementsForm'
+import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 
 const Announcements = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [announcements, setAnnouncements] = useState<AnnouncementType[]>([])
-  const { sendRequest } = useFetchData()
+  const { loading, sendRequest } = useFetchData()
 
   useEffect(() => {
     const getAnnouncements = async () => {
@@ -57,6 +58,7 @@ const Announcements = () => {
 
   return (
     <section>
+      {!announcements && loading && <LoadingSpinner />}
       {showModal && (
         <Modal
           show={showModal}
