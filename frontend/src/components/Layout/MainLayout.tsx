@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './Header/Header'
+import Footer from './Footer/Footer'
 
 const MainLayout = () => {
   return (
@@ -9,6 +10,7 @@ const MainLayout = () => {
       <main className='container'>
         <Outlet />
       </main>
+      <Footer />
     </Fragment>
   )
 }

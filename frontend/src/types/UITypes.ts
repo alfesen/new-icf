@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 export type FormReducer = (state: FormState, action: FormAction) => FormState
 
@@ -93,4 +94,10 @@ export type UsefulLinkProps = {
   image: string
   text: string
   url: string
+}
+
+export type IconLinkProps = {
+  className?: string
+  url: string
+  icon: IconDefinition
 }

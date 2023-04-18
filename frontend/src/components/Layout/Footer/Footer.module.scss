@@ -1,0 +1,60 @@
+@use '../../../sass/mixins.scss' as m;
+@import '../../../sass/vars.scss';
+
+.footer {
+  background-color: $color-dark-grey;
+  padding: 1em 0em 2em;
+  margin-top: $margin-section-sm;
+  text-align: center;
+  hr {
+    margin: 3em 0;
+  }
+  &__social {
+    text-align: center;
+  }
+  &__rodo {
+    display: block;
+    font-size: $font-sm;
+    text-align: center;
+    margin-top: 1em;
+    transition: color 0.1s;
+    &:hover {
+      color: $color-light-grey;
+    }
+  }
+  &__essentials {
+    color: $color-light-grey;
+    &--address {
+      font-size: $font-sm;
+    }
+
+    &--join-time {
+      color: $color-light-grey;
+      text-transform: uppercase;
+      margin-top: 1em;
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .footer {
+    margin-top: $margin-section-lg;
+    &__essentials {
+      &--join {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .footer {
+    &__essentials {
+      &--address {
+        font-size: $font-lg;
+      }
+    }
+  }
+}
