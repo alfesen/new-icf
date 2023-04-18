@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { useLocation, redirect } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useForm } from '../../../../hooks/useForm'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import { HeaderFormProps } from '../../../../types/UITypes'
@@ -48,7 +48,6 @@ const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
     formData.append('desktopImage', formState.inputs.desktopImage.value)
     formData.append('mobileImage', formState.inputs.mobileImage.value)
     formData.append('pagePath', pathname)
-    console.log(formData)
 
     if (isData) {
       await sendRequest(
@@ -62,9 +61,7 @@ const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
         'POST',
         formData
       )
-      location.reload()
-    onClose()
-    return redirect(pathname)
+    location.reload()
   }
 
   return (
