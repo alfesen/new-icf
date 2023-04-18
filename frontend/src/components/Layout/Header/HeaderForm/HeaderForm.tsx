@@ -62,7 +62,7 @@ const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
         'POST',
         formData
       )
-      location.reload()
+      // location.reload()
     onClose()
     return redirect(pathname)
   }

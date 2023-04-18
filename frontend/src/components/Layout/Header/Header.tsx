@@ -26,7 +26,7 @@ const Header = () => {
       } catch (err) {}
     }
     getHeader()
-  }, [sendRequest])
+  }, [sendRequest, pathname])
 
   const showModal = () => {
     setShowEditModal(true)
@@ -60,9 +60,11 @@ const Header = () => {
           </div>
         </>
       )}
-      {!loading && <Button side onClick={showModal} edit type='button'>
-        Edit
-      </Button>}
+      {!loading && (
+        <Button side onClick={showModal} edit type='button'>
+          Edit
+        </Button>
+      )}
     </header>
   )
 }
