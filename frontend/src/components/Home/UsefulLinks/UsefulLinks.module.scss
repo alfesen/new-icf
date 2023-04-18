@@ -1,0 +1,24 @@
+@use '../../../sass/mixins' as m;
+@import '../../../sass/vars';
+.links {
+  width: 100%;
+  padding-top: 3em;
+  margin-top: $margin-section-sm;
+  border-top: 1px solid $shadow;
+}
+
+@media (min-width: 700px) {
+  .links {
+    display: flex;
+    justify-content: space-around;
+    margin-top: $margin-section-lg;
+    padding-top: 5em;
+  }
+}
+
+@media (min-width: 900px) {
+  .links {
+    padding: 5em 0;
+    margin: 5em 0;
+  }
+}
