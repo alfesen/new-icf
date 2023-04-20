@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import SideNavigation from '../SideNavigation/SideNavigation'
 import { about } from '../../db/links.json'
+import { Outlet } from 'react-router-dom'
 
 const AboutPage = () => {
   return (
@@ -10,7 +11,7 @@ const AboutPage = () => {
         collectionTitle='About'
         links={about.links}
       />
-      <div>AboutPage</div>
+      <Outlet />
     </Fragment>
   )
 }
