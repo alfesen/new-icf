@@ -1,0 +1,33 @@
+{
+  "about": {
+    "title": "About",
+    "links": [
+      "Welcome & location",
+      "Our pastors and staff",
+      "What to expect",
+      "What we believe",
+      "EU Regulation 2016/79",
+      "Privacy Policy & RODO",
+      "Leadership team",
+      "Ministry leaders"
+    ]
+  },
+  "churchLife": {
+    "title": "Church Life",
+    "links": [
+      "Upcoming events",
+      "Small groups",
+      "ICF Kids",
+      "Young adults",
+      "Women",
+      "Men",
+      "Sermon Archives",
+      "ICF Library",
+      "Daily Hope"
+    ]
+  },
+  "give": {
+    "title": "Give",
+    "links": ["Giving to ICF", "1%", "Missionaries"]
+  }
+}
