@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
-import Announcement from '../../models/Announcement/Announcement.model.mjs'
+import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
 
 export const postAnnouncement = async (

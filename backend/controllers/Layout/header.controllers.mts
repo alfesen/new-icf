@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
-import { HttpError } from '../models/shared/HttpError.model.mjs'
-import Header from '../models/Header/Header.model.mjs'
-import { HeaderData, MulterFiles } from '../types.js'
+import { HttpError } from '../../models/shared/HttpError.model.mjs'
+import Header from '../../models/Layout/header.model.mjs'
+import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
 
 export const postHeaderData = async (
