@@ -25,7 +25,7 @@ const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
     const getHeaderData = async () => {
       try {
         const { headerData } = await sendRequest(
-          `http://localhost:5000/api${pathname}/header`
+          `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`
         )
         setIsData(!!headerData)
         setFormData({
@@ -48,16 +48,15 @@ const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
     formData.append('desktopImage', formState.inputs.desktopImage.value)
     formData.append('mobileImage', formState.inputs.mobileImage.value)
     formData.append('pagePath', pathname)
-
     if (isData) {
       await sendRequest(
-        `http://localhost:5000/api${pathname}/header`,
+        `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'PATCH',
         formData
       )
     } else
       await sendRequest(
-        `http://localhost:5000/api${pathname}/header`,
+        `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'POST',
         formData
       )

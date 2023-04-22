@@ -20,7 +20,7 @@ const Header = () => {
     const getHeader = async () => {
       try {
         const { headerData } = await sendRequest(
-          `http://localhost:5000/api${pathname}/header`
+          `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`
         )
         setHeaderData(headerData)
       } catch (err) {}
