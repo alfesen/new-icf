@@ -11,13 +11,13 @@ function App() {
       path: '/',
       element: <MainLayout />,
       children: [
-        { path: '/', element: <Navigate to='/home' /> },
+        { path: '/', element: <Navigate replace to='/home' /> },
         { path: '/home', element: <HomePage /> },
         {
-          path: '/about/*',
+          path: '/about',
           element: <AboutPage />,
           children: [
-            { index: true, element: <Navigate to='welcome-location' /> },
+            { index: true, element: <Navigate replace to='welcome-location' /> },
             { path: 'welcome-location', element: <WelcomeLocation /> },
           ],
         },
