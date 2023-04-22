@@ -5,6 +5,7 @@ import { connect } from 'mongoose'
 import { HttpError } from './models/shared/HttpError.model.mjs'
 import headerRoutes from './routes/header.routes.mjs'
 import homeRoutes from './routes/home.routes.mjs'
+import aboutRoutes from './routes/about/about.routes.mjs'
 import path from 'path'
 import { MulterFiles } from './types.js'
 
@@ -25,6 +26,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(bodyParser.json())
 app.use('/api/', headerRoutes)
 app.use('/api/home', homeRoutes)
+app.use('/api/about', aboutRoutes)
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
