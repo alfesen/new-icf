@@ -54,3 +54,25 @@ export const postAboutWelcome = async (
 
   res.status(200).json({ welcome: welcome.toObject({ getters: true }) })
 }
+
+export const getAboutWelcome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let welcome: WelcomeType
+
+  try {
+    welcome = (await AboutWelcome.findOne()) as WelcomeType
+  } catch (err) {
+    const error = new HttpError(404, 'No welcome text found for this page')
+    return next(error)
+  }
+
+  if (!welcome) {
+    const error = new HttpError(404, 'Data was not found on the server')
+    return next(error)
+  }
+
+  res.status(200).json({ welcome: welcome.toObject({ getters: true }) })
+}
