@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import { postAboutWelcome } from '../../controllers/About/about-welcome.controllers.mjs'
+import { getAboutWelcome, postAboutWelcome } from '../../controllers/About/about-welcome.controllers.mjs'
 
 const router = Router()
 
 router.post('/', postAboutWelcome)
+
+router.get('/', getAboutWelcome)
 
 export default router
