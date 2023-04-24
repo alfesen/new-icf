@@ -5,9 +5,9 @@ import { HomeData } from '../../../types/HomeTypes'
 import s from './Welcome.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
-import WelcomeForm from '../../shared/WelcomeForm/WelcomeForm'
+import WelcomeForm from '../WelcomeForm/WelcomeForm'
 
-const Welcome = () => {
+const Welcome = ({ route }: { route: string }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [welcome, setWelcome] = useState<HomeData>(null)
   const { sendRequest } = useFetchData()
@@ -16,7 +16,7 @@ const Welcome = () => {
     const getWelcome = async () => {
       try {
         const { welcomeData } = await sendRequest(
-          'http://localhost:5000/api/home'
+          `http://localhost:5000/api/${route}`
         )
         setWelcome(welcomeData)
       } catch (err) {}
@@ -35,7 +35,7 @@ const Welcome = () => {
 
   const removeWelcomeSection = async () => {
     try {
-      await sendRequest('http://localhost:5000/api/home', 'DELETE')
+      await sendRequest(`http://localhost:5000/api/${route}`, 'DELETE')
     } catch (err) {}
     location.reload()
   }
@@ -57,7 +57,7 @@ const Welcome = () => {
           }
           onDetach={closeEditModal}
           heading='Editing Welcome'>
-          <WelcomeForm route='home' onCancel={closeEditModal} />
+          <WelcomeForm route={route} onCancel={closeEditModal} />
         </Modal>
       )}
       {welcome && (

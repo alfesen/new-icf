@@ -52,7 +52,7 @@ export const postAboutWelcome = async (
     return next(error)
   }
 
-  res.status(200).json({ welcome: welcome.toObject({ getters: true }) })
+  res.status(200).json({ welcomeData: welcome.toObject({ getters: true }) })
 }
 
 export const getAboutWelcome = async (
@@ -74,7 +74,7 @@ export const getAboutWelcome = async (
     return next(error)
   }
 
-  res.status(200).json({ welcome: welcome.toObject({ getters: true }) })
+  res.status(200).json({ welcomeData: welcome.toObject({ getters: true }) })
 }
 
 export const updateAboutWelcome = async (
@@ -118,7 +118,5 @@ export const updateAboutWelcome = async (
     return next(error)
   }
 
-  res
-    .status(200)
-    .json({ welcome: welcome.toObject({ getters: true }) })
+  res.status(200).json({ welcomeData: welcome.toObject({ getters: true }) })
 }
