@@ -3,8 +3,9 @@ import { useForm } from '../../../hooks/useForm'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 import { useFetchData } from '../../../hooks/useFetchData'
+import { WelcomeFormProps } from '../../../types/UITypes'
 
-const WelcomeForm = ({ onCancel, route }: { onCancel: () => void, route: string }) => {
+const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
   const [isData, setIsData] = useState<boolean>(false)
   const { sendRequest } = useFetchData()
   const { formState, inputHandler, setFormData } = useForm({
