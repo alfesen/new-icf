@@ -3,8 +3,9 @@ import { useForm } from '../../../hooks/useForm'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 import { useFetchData } from '../../../hooks/useFetchData'
+import { WelcomeFormProps } from '../../../types/UITypes'
 
-const WelcomeForm = ({ onCancel }: { onCancel: () => void }) => {
+const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
   const [isData, setIsData] = useState<boolean>(false)
   const { sendRequest } = useFetchData()
   const { formState, inputHandler, setFormData } = useForm({
@@ -20,7 +21,7 @@ const WelcomeForm = ({ onCancel }: { onCancel: () => void }) => {
     const getWelcome = async () => {
       try {
         const { welcomeData } = await sendRequest(
-          'http://localhost:5000/api/home/'
+          `http://localhost:5000/api/${route}`
         )
         setIsData(!!welcomeData)
         setFormData({
@@ -42,7 +43,7 @@ const WelcomeForm = ({ onCancel }: { onCancel: () => void }) => {
 
     if (isData) {
       await sendRequest(
-        'http://localhost:5000/api/home',
+        `http://localhost:5000/api/${route}`,
         'PATCH',
         JSON.stringify(newWelcomeData),
         { 'Content-Type': 'application/json' }
@@ -50,7 +51,7 @@ const WelcomeForm = ({ onCancel }: { onCancel: () => void }) => {
     }
     if (!isData) {
       await sendRequest(
-        'http://localhost:5000/api/home',
+        `http://localhost:5000/api/${route}`,
         'POST',
         JSON.stringify(newWelcomeData),
         { 'Content-Type': 'application/json' }

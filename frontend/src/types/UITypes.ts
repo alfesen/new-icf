@@ -103,3 +103,5 @@ export type IconLinkProps = {
 }
 
 export type BurgerProps = { onToggle: (isActive: boolean) => void }
+
+export type WelcomeFormProps = { onCancel: () => void; route: string }

@@ -5,7 +5,7 @@ import { HomeData } from '../../../types/HomeTypes'
 import s from './Welcome.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
-import WelcomeForm from '../WelcomeForm/WelcomeForm'
+import WelcomeForm from '../../shared/WelcomeForm/WelcomeForm'
 
 const Welcome = () => {
   const [editMode, setEditMode] = useState<boolean>(false)
@@ -57,7 +57,7 @@ const Welcome = () => {
           }
           onDetach={closeEditModal}
           heading='Editing Welcome'>
-          <WelcomeForm onCancel={closeEditModal} />
+          <WelcomeForm route='home' onCancel={closeEditModal} />
         </Modal>
       )}
       {welcome && (
