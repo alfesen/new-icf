@@ -76,3 +76,49 @@ export const getAboutWelcome = async (
 
   res.status(200).json({ welcome: welcome.toObject({ getters: true }) })
 }
+
+export const updateAboutWelcome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const error = new HttpError(
+      401,
+      'Invalid inputs passed, please check your data'
+    )
+    return next(error)
+  }
+
+  const { title, content } = req.body
+
+  let welcome: WelcomeType
+
+  try {
+    welcome = (await AboutWelcome.findOne()) as WelcomeType
+  } catch (err) {
+    const error = new HttpError(
+      404,
+      'No data for this section found, please try again later'
+    )
+    return next(error)
+  }
+
+  welcome.title = title
+  welcome.content = content
+
+  try {
+    await welcome.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Updating section failed, please try again later or contact your system administrator'
+    )
+    return next(error)
+  }
+
+  res
+    .status(200)
+    .json({ welcome: welcome.toObject({ getters: true }) })
+}
