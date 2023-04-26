@@ -62,7 +62,7 @@ export type ButtonProps = {
   side?: boolean
 }
 
-export type HeaderFormProps = {
+export type FormProps = {
   onClose: () => void
   edit?: boolean
 }

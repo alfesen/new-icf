@@ -8,9 +8,8 @@ const router = Router()
 router.post('/', fileUpload.single('image'), [
   check('title').notEmpty().isLength({ min: 5, max: 50 }),
   check('address').notEmpty(),
-  check('image').notEmpty(),
   check('map').notEmpty(),
-  check('direction').notEmpty(),
+  check('directions').notEmpty(),
 ], postLocation)
 
 router.get('/', getLocation)

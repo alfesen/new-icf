@@ -2,14 +2,14 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useForm } from '../../../../hooks/useForm'
 import { useFetchData } from '../../../../hooks/useFetchData'
-import { HeaderFormProps } from '../../../../types/UITypes'
+import { FormProps } from '../../../../types/UITypes'
 import Button from '../../../UI/Form/Button/Button'
 import ImagePicker from '../../../UI/Form/ImagePicker/ImagePicker'
 import Input from '../../../UI/Form/Input/Input'
 
 import s from './HeaderForm.module.scss'
 
-const HeaderForm = ({ onClose, edit }: HeaderFormProps) => {
+const HeaderForm = ({ onClose, edit }: FormProps) => {
   const [isData, setIsData] = useState<boolean>(false)
   const { pathname } = useLocation()
   const { sendRequest } = useFetchData()

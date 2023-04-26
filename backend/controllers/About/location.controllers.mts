@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
-import { LocationType, MulterFiles } from '../../types.js'
+import { LocationType } from '../../types.js'
 import Location from '../../models/About/location.model.mjs'
 
 export const postLocation = async (
@@ -16,24 +16,13 @@ export const postLocation = async (
   }
 
   const { title, address, directions, map } = req.body
-  const { image } = req.files as MulterFiles
 
-  let existingLocation: LocationType
-
-  try {
-    existingLocation = (await Location.findOne()) as LocationType
-  } catch (err) {
-    const error = new HttpError(
-      404,
-      'Location not found, proceed to add location'
-    )
-    return next(error)
-  }
+  const existingLocation = (await Location.findOne()) as LocationType
 
   if (existingLocation) {
     const error = new HttpError(
-      404,
-      'Location not found, proceed to add location'
+      401,
+      'Location is found in the database, please edit'
     )
     return next(error)
   }
@@ -42,7 +31,7 @@ export const postLocation = async (
     title,
     address,
     directions,
-    image: image[0].path,
+    image: req.file?.path,
     map,
   })
 

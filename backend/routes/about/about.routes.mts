@@ -5,6 +5,6 @@ import locationRoutes from './location.routes.mjs'
 const router = Router()
 
 router.use('/welcome', welcomeRoutes)
-router.use('/locations', locationRoutes)
+router.use('/location', locationRoutes)
 
 export default router
