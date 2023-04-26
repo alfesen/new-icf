@@ -58,3 +58,23 @@ export const postLocation = async (
 
   res.status(200).json({ location: location.toObject({ getters: true }) })
 }
+
+export const getLocation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let location: LocationType
+
+  try {
+    location = (await Location.findOne()) as LocationType
+  } catch (err) {
+    const error = new HttpError(
+      404,
+      'No location found, please try again or contact your system administrator'
+    )
+    return next(error)
+  }
+
+  res.status(200).json({ location: location.toObject({ getters: true }) })
+}
