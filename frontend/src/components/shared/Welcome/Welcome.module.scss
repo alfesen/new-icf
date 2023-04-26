@@ -5,7 +5,7 @@
   position: relative;
   transition: padding 0.3s, background-color 0.3s;
   overflow: hidden;
-  
+
   &__title {
     text-align: center;
   }
@@ -16,12 +16,22 @@
     text-align: justify;
     line-height: 1.5em;
   }
+
+  &.subpage {
+    margin: 6em auto 0;
+    .welcome__title {
+      text-align: left;
+    }
+  }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 700px) {
   .welcome {
     &__text {
       width: 100%;
+    }
+    &.subpage {
+      margin: 0 auto;
     }
   }
 }
