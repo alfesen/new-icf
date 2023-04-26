@@ -76,6 +76,15 @@ h3 {
   h3 {
     font-size: $font-tertiary-header-md;
   }
+
+  .page {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .subpage {
+    flex-grow: .85;
+  }
 }
 
 @media (min-width: 1200px) {

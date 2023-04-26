@@ -1,9 +1,10 @@
+import { Fragment } from "react"
 import Welcome from "../../../components/shared/Welcome/Welcome"
 
 const WelcomeLocation = () => {
-  return <section>
-    <Welcome route='about/welcome' />
-  </section>
+  return <Fragment>
+    <Welcome subpage route='about/welcome' />
+  </Fragment>
 }
 
 export default WelcomeLocation

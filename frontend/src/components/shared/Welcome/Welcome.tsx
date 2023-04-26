@@ -7,7 +7,7 @@ import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import WelcomeForm from '../WelcomeForm/WelcomeForm'
 
-const Welcome = ({ route }: { route: string }) => {
+const Welcome = ({ route, subpage }: { route: string, subpage?: boolean }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [welcome, setWelcome] = useState<HomeData>(null)
   const { sendRequest } = useFetchData()
@@ -61,7 +61,7 @@ const Welcome = ({ route }: { route: string }) => {
         </Modal>
       )}
       {welcome && (
-        <section className={s.welcome}>
+        <section className={`${s.welcome} ${subpage ? s.subpage : ''}`}>
           <h2 className={s.welcome__title}>{welcome.title}</h2>
           <div className={s.welcome__content}>
             {convertString(welcome.content)}
