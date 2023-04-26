@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
+import { LocationType } from '../../types'
 
-const locationSchema = new Schema({
+const locationSchema = new Schema<LocationType>({
   title: {
     type: String,
     required: true,
@@ -23,4 +24,4 @@ const locationSchema = new Schema({
   },
 })
 
-export default model('Location', locationSchema)
+export default model<LocationType>('Location', locationSchema)
