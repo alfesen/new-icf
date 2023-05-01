@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import Modal from '../../UI/Modal/Modal'
 import LocationForm from '../LocationForm/LocationForm'
 import Button from '../../UI/Form/Button/Button'
@@ -31,7 +31,7 @@ const Location = () => {
   const closeEditModal = () => setShowModal(false)
 
   return (
-    <div className={s.location}>
+    <Fragment>
       {showModal && (
         <Modal
           show={showModal}
@@ -40,29 +40,31 @@ const Location = () => {
           <LocationForm onClose={closeEditModal} />
         </Modal>
       )}
-      <div className={s.location__actions}>
-        <Button edit reverse type='button' onClick={showEditModal}>
-          Edit
-        </Button>
-      </div>
       {loading && <LoadingSpinner />}
       {!loading && locationData && (
-        <div>
+        <section className={s.location}>
+          <div className={s.location__actions}>
+            <Button edit reverse type='button' onClick={showEditModal}>
+              Edit
+            </Button>
+          </div>
           <h3>{locationData?.title}</h3>
           <address>{locationData?.address}</address>
-          <img
-            src={`http://localhost:5000/${locationData?.image}`}
-            alt='Church building'
-          />
+          <div className={s.location__image}>
+            <img
+              src={`http://localhost:5000/${locationData?.image}`}
+              alt='Church building'
+            />
+          </div>
           <p>{locationData?.directions}</p>
           <iframe
             src={locationData?.map}
             width='600'
             height='450'
             loading='lazy'></iframe>
-        </div>
+        </section>
       )}
-    </div>
+    </Fragment>
   )
 }
 
