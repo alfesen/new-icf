@@ -81,9 +81,8 @@ h3 {
     display: flex;
     justify-content: space-between;
   }
-
   .subpage {
-    flex-grow: .85;
+    width: 65%;
   }
 }
 
@@ -96,5 +95,8 @@ h3 {
   }
   h3 {
     font-size: $font-tertiary-header-sm;
+  }
+  .subpage {
+    width: 70%;
   }
 }
