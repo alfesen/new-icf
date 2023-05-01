@@ -32,3 +32,14 @@ export interface LocationType extends Document {
   directions: string
   map: string
 }
+
+export interface MemberType extends Document {
+  name: String,
+  role: String,
+  category: 'pastors' | 'leadership team' | 'ministry leaders',
+  image: string,
+  bio: string,
+  isAdmin: boolean,
+  isAuthor: boolean,
+  contact?: string
+}
