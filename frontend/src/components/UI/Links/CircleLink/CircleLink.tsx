@@ -1,12 +1,13 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import s from './CircleLink.module.scss'
+import { CircleLinkProps } from '../../../../types/UITypes'
 
-const CircleLink = () => {
+const CircleLink = ({ image, name, id }: CircleLinkProps) => {
   return (
-    <Link className={s.link} to=''>
-      <img src="https://images.pexels.com/photos/12903578/pexels-photo-12903578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className={s.link__image} />
+    <Link className={s.link} to={id}>
+      <img src={image} alt={`${name} bio link`} className={s.link__image} />
       <div className={s.link__name}>
-        <p>Scott Parmenter</p>
+        <p>{name}</p>
       </div>
     </Link>
   )

@@ -102,6 +102,8 @@ export type IconLinkProps = {
   icon: IconDefinition
 }
 
+export type CircleLinkProps = {image: string, name: string, id: string}
+
 export type BurgerProps = { onToggle: (isActive: boolean) => void }
 
 export type WelcomeFormProps = { onCancel: () => void; route: string }
