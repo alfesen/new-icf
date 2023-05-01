@@ -156,5 +156,25 @@ export const updateMember = async (
     return next(error)
   }
 
-  res.status(200).json({member: existingMember.toObject({getters: true})})
+  res.status(200).json({ member: existingMember.toObject({ getters: true }) })
+}
+
+export const deleteMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { memberId } = req.params
+
+  try {
+    await Member.findByIdAndDelete(memberId)
+  } catch (err) {
+    const error = new HttpError(
+      400,
+      'Member deletion failed, please try again later'
+    )
+    return next(error)
+  }
+
+  res.status(200).json({ message: 'Member successfully deleted' })
 }
