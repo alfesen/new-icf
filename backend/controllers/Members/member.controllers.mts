@@ -3,6 +3,7 @@ import Member from '../../models/About/member.model.mjs'
 import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { MemberType } from '../../types.js'
+import fs from 'fs'
 
 export const createMember = async (
   req: Request,
@@ -104,6 +105,60 @@ export const getSingleMember = async (
   res.status(200).json({ member: existingMember.toObject({ getters: true }) })
 }
 
+export const updateMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { memberId } = req.params
+
+  let existingMember: MemberType
+
+  try {
+    existingMember = (await Member.findById(memberId)) as MemberType
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Something went wrong, please try again later or contact your system administrator'
+    )
+    return next(error)
+  }
+
+  if (!existingMember) {
+    const error = new HttpError(404, 'No member with this id found')
+    return next(error)
+  }
+
+  const { name, role, category, bio, contact, isAuthor } = req.body
+
+  if (req.file) {
+    fs.unlink(existingMember.image, err => {
+      console.log(err)
+    })
+
+    existingMember.image = req.file.path
+  }
+
+  existingMember.name = name
+  existingMember.role = role
+  existingMember.category = category
+  existingMember.bio = bio
+  existingMember.contact = contact
+  existingMember.isAuthor = isAuthor
+
+  try {
+    await existingMember.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Something went wrong, please try again later or contact your system administrator'
+    )
+    return next(error)
+  }
+
+  res.status(200).json({ member: existingMember.toObject({ getters: true }) })
+}
+
 export const deleteMember = async (
   req: Request,
   res: Response,
@@ -114,9 +169,12 @@ export const deleteMember = async (
   try {
     await Member.findByIdAndDelete(memberId)
   } catch (err) {
-    const error = new HttpError(400, 'Member deletion failed, please try again later')
+    const error = new HttpError(
+      400,
+      'Member deletion failed, please try again later'
+    )
     return next(error)
   }
 
-  res.status(200).json({message: 'Member successfully deleted'})
+  res.status(200).json({ message: 'Member successfully deleted' })
 }

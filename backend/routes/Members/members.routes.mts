@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createMember, deleteMember, getAllMembers, getSingleMember } from '../../controllers/Members/member.controllers.mjs'
+import { createMember, getAllMembers, getSingleMember, updateMember, deleteMember } from '../../controllers/Members/member.controllers.mjs'
 
 const router = Router()
 
@@ -10,5 +10,7 @@ router.get('/', getAllMembers)
 router.get('/:memberId', getSingleMember)
 
 router.delete('/:memberId', deleteMember)
+
+router.patch('/:memberId', updateMember)
 
 export default router
