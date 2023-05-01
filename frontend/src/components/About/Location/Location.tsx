@@ -65,6 +65,7 @@ const Location = () => {
             loading='lazy'></iframe>
         </section>
       )}
+      {!loading && !locationData && <Button type="button" onClick={showEditModal}>Add location</Button>}
     </Fragment>
   )
 }

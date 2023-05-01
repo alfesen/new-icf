@@ -47,20 +47,22 @@ const LocationForm = ({ onClose, edit }: FormProps) => {
     formData.append('image', formState.inputs.image.value)
     formData.append('directions', formState.inputs.directions.value)
     formData.append('map', formState.inputs.map.value)
-    
+    console.log(formData)
+
     if (isData) {
-      await sendRequest(
+     const response = await sendRequest(
         `http://localhost:5000/api/about/location`,
         'PATCH',
         formData
       )
+      console.log(response)
     } else
       await sendRequest(
         `http://localhost:5000/api/about/location`,
         'POST',
         formData
       )
-    // location.reload()
+    location.reload()
   }
 
   return (
