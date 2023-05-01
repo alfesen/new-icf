@@ -16,13 +16,13 @@ export const createMember = async (
     return next(error)
   }
 
-  const { name, role, category, bio, contact, isAuthor } = req.body
+  const { name, role, category, bio, contact, isAuthor, image } = req.body
 
   const newMember = new Member({
     name,
     role,
     category,
-    image: req.file?.path,
+    image,
     bio,
     contact,
     isAuthor,
@@ -110,6 +110,12 @@ export const updateMember = async (
   res: Response,
   next: NextFunction
 ) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const error = new HttpError(400, 'Invalid inputs passed')
+    return next(error)
+  }
+
   const { memberId } = req.params
 
   let existingMember: MemberType
