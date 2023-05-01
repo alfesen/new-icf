@@ -72,3 +72,23 @@ export const getAllMembers = async (
 
     res.status(200).json({pastors, leadership, ministryLeaders})
 }
+
+export const getSingleMember = async (req: Request, res: Response, next: NextFunction) => {
+  const {memberId} = req.params
+
+  let existingMember: MemberType
+
+  try {
+    existingMember = await Member.findById(memberId) as MemberType
+  } catch (err) {
+    const error = new HttpError(500, 'Something went wrong, please try again later or contact your system administrator')
+    return next(error)
+  }
+
+  if(!existingMember) {
+    const error = new HttpError(404, 'No member with this id found')
+    return next(error)
+  }
+
+  res.status(200).json({member: existingMember.toObject({getters: true})})
+}
