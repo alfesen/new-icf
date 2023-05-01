@@ -6,6 +6,7 @@ import s from './Location.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { LocationData } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
+import { convertString } from '../../../helpers/convertString'
 
 const Location = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -48,17 +49,17 @@ const Location = () => {
               Edit
             </Button>
           </div>
-          <h3>{locationData?.title}</h3>
-          <address>{locationData?.address}</address>
+          <h2 className={s.location__title}>{locationData.title}</h2>
+          <address className={s.location__address}>{convertString(locationData.address)}</address>
           <div className={s.location__image}>
             <img
-              src={`http://localhost:5000/${locationData?.image}`}
+              src={`http://localhost:5000/${locationData.image}`}
               alt='Church building'
             />
           </div>
-          <p>{locationData?.directions}</p>
+          <div className={s.location__directions}>{convertString(locationData.directions)}</div>
           <iframe
-            src={locationData?.map}
+            src={locationData.map}
             width='600'
             height='450'
             loading='lazy'></iframe>

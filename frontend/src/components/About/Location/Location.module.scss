@@ -1,6 +1,21 @@
+@import '../../../sass/vars.scss';
+
 .location {
   position: relative;
   width: 100%;
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__address {
+    font-size: $font-sm;
+    margin: 0 0 1em;
+  }
+  
+  &__directions {
+    font-size: $font-sm;
+  }
 
   &__image {
     text-align: center;
