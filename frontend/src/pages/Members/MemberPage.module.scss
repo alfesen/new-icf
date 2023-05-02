@@ -34,6 +34,15 @@
       text-align: left;
     }
   }
+  &__contact {
+    padding: 1em;
+    h3 {
+      text-align: left;
+    }
+    address {
+      font-size: $font-sm;
+    }
+  }
 }
 
 @media (min-width: 600px) {
@@ -45,7 +54,8 @@
     }
     &__info {
       border-bottom: 1px solid #000;
-      h2, h3 {
+      h2,
+      h3 {
         text-align: left;
       }
     }
@@ -53,7 +63,7 @@
 }
 @media (min-width: 900px) {
   .member {
-    header  {
+    header {
       align-items: start;
     }
     &__avatar {
@@ -61,7 +71,8 @@
     }
     &__info {
       border-bottom: 1px solid #000;
-      h2, h3 {
+      h2,
+      h3 {
         text-align: left;
       }
     }
