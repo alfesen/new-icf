@@ -12,6 +12,7 @@ const Input = ({
   initialValue,
   onInput,
   type,
+  options,
 }: InputProps) => {
   const [value, setValue] = useState<string>('')
 
@@ -24,11 +25,12 @@ const Input = ({
   }, [id, onInput, value])
 
   const changeHandler = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setValue(e.target.value)
 
-  const el =
-    element === 'input' ? (
+  let el
+  if (element === 'input') {
+    el = (
       <input
         type={type ? type : 'text'}
         data-testid='input'
@@ -38,7 +40,9 @@ const Input = ({
         placeholder={placeholder}
         value={value}
       />
-    ) : (
+    )
+  } else if (element === 'textarea') {
+    el = (
       <textarea
         data-testid='textarea'
         onChange={changeHandler}
@@ -49,6 +53,15 @@ const Input = ({
         value={value}
       />
     )
+  } else if (element === 'select' && options) {
+    el = (
+      <select  onChange={changeHandler}>
+        {options.map(o => {
+          return <option key={`${o}__input_key`} value={o}>{o}</option>
+        })}
+      </select>
+    )
+  }
 
   return (
     <div className={s.input}>
