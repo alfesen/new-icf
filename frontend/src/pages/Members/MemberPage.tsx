@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Member } from '../../types/MemberTypes'
 import { useFetchData } from '../../hooks/useFetchData'
 import { convertString } from '../../helpers/convertString'
+import s from './MemberPage.module.scss'
 
 const MemberPage = () => {
   const [member, setMember] = useState<Member>()
@@ -28,22 +29,22 @@ const MemberPage = () => {
   const { image, name, role, bio, contact } = member
 
   return (
-    <section>
-      <header>
-        <div>
+    <section className={s.member}>
+      <header className={s.member__header}>
+        <div className={s.member__avatar}>
           <img src={`http://localhost:5000/${image}`} alt={`${name} avatar`} />
         </div>
-        <div>
+        <div className={s.member__info}>
           <h2>{name}</h2>
           <h3>{role}</h3>
         </div>
       </header>
-      <div>
+      <div className={s.member__bio}>
         <h3>Bio:</h3>
         {convertString(bio)}
       </div>
       {contact && (
-        <div>
+        <div className={s.member__contact}>
           <h3>Contact me:</h3>
           <address>{convertString(contact)}</address>
         </div>
