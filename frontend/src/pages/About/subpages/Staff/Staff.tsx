@@ -1,7 +1,9 @@
 import { useReducer, useEffect } from 'react'
-import { useFetchData } from '../../../hooks/useFetchData'
-import { Member, StaffAction, StaffState } from '../../../types/MemberTypes'
-import CircleLink from '../../../components/UI/Links/CircleLink/CircleLink'
+import { useFetchData } from '../../../../hooks/useFetchData'
+import { Member, StaffAction, StaffState } from '../../../../types/MemberTypes'
+import CircleLink from '../../../../components/UI/Links/CircleLink/CircleLink'
+import Button from '../../../../components/UI/Form/Button/Button'
+import s from './Staff.module.scss'
 
 const reducer = (state: StaffState, action: StaffAction): StaffState => {
   switch (action.type) {
@@ -54,7 +56,7 @@ const Staff = () => {
   }
 
   return (
-    <section>
+    <section className={s.staff}>
       {pastors && pastors.length > 0 && (
         <div>
           <h3>Pastors</h3>
@@ -76,6 +78,11 @@ const Staff = () => {
           {renderMembers(ministryLeaders)}
         </div>
       )}
+      <div className={s.staff__actions}>
+        <Button link to='/staff/new-member'>
+          Add new member
+        </Button>
+      </div>
     </section>
   )
 }
