@@ -16,16 +16,16 @@ export const createMember = async (
     return next(error)
   }
 
-  const { name, role, category, bio, contact, isAuthor, image } = req.body
+  const { name, role, category, bio, contact, isAuthor } = req.body
 
   const newMember = new Member({
     name,
     role,
     category,
-    image,
+    image: req.file?.path,
     bio,
     contact,
-    isAuthor,
+    isAuthor: !!isAuthor,
   })
 
   try {
