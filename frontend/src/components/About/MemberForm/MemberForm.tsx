@@ -61,6 +61,7 @@ const MemberForm = () => {
       <Input
         element='input'
         name='name'
+        label='Name'
         id='name'
         placeholder="Enter new member's name"
         onInput={inputHandler}
@@ -69,6 +70,7 @@ const MemberForm = () => {
       <Input
         element='input'
         name='role'
+        label='Role'
         id='role'
         placeholder="Enter new member's role"
         onInput={inputHandler}
@@ -78,6 +80,7 @@ const MemberForm = () => {
         element='select'
         name='category'
         id='category'
+        label='Category'
         options={['pastors', 'leadership team', 'ministry leaders']}
         placeholder="Enter new member's category"
         onInput={inputHandler}
@@ -95,6 +98,7 @@ const MemberForm = () => {
         element='textarea'
         name='bio'
         id='bio'
+        label='Bio'
         placeholder="Enter new member's bio"
         onInput={inputHandler}
         initialValue={(formState.inputs.bio.value as string) || ''}
@@ -103,6 +107,7 @@ const MemberForm = () => {
         element='textarea'
         name='contact'
         id='contact'
+        label='Contact'
         placeholder="Enter new member's contact"
         onInput={inputHandler}
         initialValue={(formState.inputs.contact.value as string)}
