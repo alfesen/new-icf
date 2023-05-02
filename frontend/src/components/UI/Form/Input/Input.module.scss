@@ -6,11 +6,15 @@
   justify-content: space-between;
 
   input,
-  textarea {
+  textarea,
+  select {
+    background-color: $color-basic;
     margin: 1em 0;
     padding: 1em;
     border-radius: 0.25rem;
-    border-color: rgba($color-violet-dark, .4);
-    
+    border-color: rgba($color-violet-dark, 0.4);
+  }
+  label {
+    font-size: $font-sm;
   }
 }
