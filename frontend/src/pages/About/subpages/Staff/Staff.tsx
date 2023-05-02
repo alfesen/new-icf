@@ -1,9 +1,9 @@
 import { useReducer, useEffect } from 'react'
 import { useFetchData } from '../../../../hooks/useFetchData'
-import { Member, StaffAction, StaffState } from '../../../../types/MemberTypes'
-import CircleLink from '../../../../components/UI/Links/CircleLink/CircleLink'
+import { StaffAction, StaffState } from '../../../../types/MemberTypes'
 import Button from '../../../../components/UI/Form/Button/Button'
 import s from './Staff.module.scss'
+import StaffCategory from '../../../../components/About/StaffCategory/StaffCategory'
 
 const reducer = (state: StaffState, action: StaffAction): StaffState => {
   switch (action.type) {
@@ -49,34 +49,16 @@ const Staff = () => {
     getMembers()
   }, [sendRequest])
 
-  const renderMembers = (category: Member[]) => {
-    return category.map(({ id, name, image }: Member) => {
-      return <CircleLink key={name + id} image={image} id={id} name={name} />
-    })
-  }
-
   return (
     <section className={s.staff}>
       {pastors && pastors.length > 0 && (
-        <div>
-          <h3>Pastors</h3>
-          <hr />
-          {renderMembers(pastors)}
-        </div>
+        <StaffCategory category='Pastors' items={pastors} />
       )}
       {leadership && leadership.length > 0 && (
-        <div>
-          <h3>Leadership Team</h3>
-          <hr />
-          {renderMembers(leadership)}
-        </div>
+        <StaffCategory category='Leadership Team' items={leadership} />
       )}
       {ministryLeaders && ministryLeaders.length > 0 && (
-        <div>
-          <h3>Ministry Leaders</h3>
-          <hr />
-          {renderMembers(ministryLeaders)}
-        </div>
+        <StaffCategory category='Ministry Leaders' items={ministryLeaders} />
       )}
       <div className={s.staff__actions}>
         <Button link to='/staff/edit-member'>

@@ -68,8 +68,10 @@
 
 @media (min-width: 900px) {
   .member {
-    header {
+    max-width: 90rem;
+    &__header {
       align-items: start;
+      margin-bottom: 4em;
     }
     &__avatar {
       max-width: 15rem;
