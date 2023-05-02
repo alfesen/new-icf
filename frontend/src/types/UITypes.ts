@@ -34,14 +34,15 @@ export type FormAction =
 
 export type InputProps = {
   initialValue: string
-  element: 'input' | 'textarea'
+  element: 'input' | 'textarea' | 'select'
   name: string
   placeholder: string
   rows?: number
   id: string
   label?: string
   onInput: (id: string, value: string | File) => void
-  type?: string
+  type?: string,
+  options?: string[]
 }
 
 export type ImagePickerProps = {
@@ -49,6 +50,7 @@ export type ImagePickerProps = {
   id: string
   label: string
   onInput: (id: string, value: string | File) => void
+  circle?: boolean
 }
 
 export type ButtonProps = {
