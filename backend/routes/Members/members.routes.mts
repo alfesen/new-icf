@@ -7,23 +7,23 @@ import {
   deleteMember,
 } from '../../controllers/Members/member.controllers.mjs'
 import { check } from 'express-validator'
+import fileUpload from '../../middleware/file-upload.mjs'
 
 const router = Router()
 
 router.post(
   '/',
+  fileUpload.single('image'),
   [
-    check('name')
-      .notEmpty(),
-    check('role')
-      .isLength({ max: 50 }),
-    check('category').custom((value) => {
-      const categories = ['pastors', 'leadership team', 'ministry leaders'];
+    check('name').notEmpty(),
+    check('role').isLength({ max: 50 }),
+    check('category').custom(value => {
+      const categories = ['pastors', 'leadership team', 'ministry leaders']
       if (!categories.includes(value)) {
-        throw new Error('Unknown category.');
+        throw new Error('Unknown category.')
       }
-    
-      return true;
+
+      return true
     }),
     check('bio').notEmpty(),
   ],
@@ -38,18 +38,18 @@ router.delete('/:memberId', deleteMember)
 
 router.patch(
   '/:memberId',
+  fileUpload.single('image'),
+
   [
-    check('name')
-      .notEmpty(),
-    check('role')
-      .isLength({ max: 50 }),
-    check('category').custom((value) => {
-      const categories = ['pastors', 'leadership team', 'ministry leaders'];
+    check('name').notEmpty(),
+    check('role').isLength({ max: 50 }),
+    check('category').custom(value => {
+      const categories = ['pastors', 'leadership team', 'ministry leaders']
       if (!categories.includes(value)) {
-        throw new Error('Unknown category.');
+        throw new Error('Unknown category.')
       }
-    
-      return true;
+
+      return true
     }),
   ],
   updateMember
