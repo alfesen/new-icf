@@ -1,4 +1,5 @@
-import { FormEvent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useForm } from '../../../hooks/useForm'
 import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
@@ -6,7 +7,10 @@ import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import Button from '../../UI/Form/Button/Button'
 
 const MemberForm = () => {
-  const { formState, inputHandler } = useForm({
+  const navigate = useNavigate()
+  const [isData, setIsData] = useState<boolean>(false)
+  const { memberId } = useParams()
+  const { formState, inputHandler, setFormData } = useForm({
     name: {
       value: '',
     },
@@ -31,6 +35,29 @@ const MemberForm = () => {
   })
   const { sendRequest } = useFetchData()
 
+  useEffect(() => {
+    const getMemberData = async () => {
+      try {
+        const { member } = await sendRequest(
+          `http://localhost:5000/api/members/${memberId}`
+        )
+        setIsData(!!member)
+        if (!!member) {
+          setFormData({
+            name: { value: member.name },
+            role: { value: member.role },
+            category: { value: member.category },
+            image: { value: member.image },
+            bio: { value: member.bio },
+            contact: { value: member.contact },
+            isAuthor: { value: member.isAuthor },
+          })
+        }
+      } catch (err) {}
+    }
+    getMemberData()
+  }, [])
+
   const handleAuthorCheckbox = () => {
     inputHandler(
       'isAuthor',
@@ -50,10 +77,25 @@ const MemberForm = () => {
     formData.append('contact', formState.inputs.contact.value)
     formData.append('isAuthor', formState.inputs.isAuthor.value)
 
-    try {
-      await sendRequest('http://localhost:5000/api/members/', 'POST', formData)
-      location.reload()
-    } catch (err) {}
+    if (!isData) {
+      try {
+        await sendRequest(
+          'http://localhost:5000/api/members/',
+          'POST',
+          formData
+        )
+        navigate('/about/our-pastors-and-staff')
+      } catch (err) {}
+    } else {
+      try {
+        await sendRequest(
+          `http://localhost:5000/api/members/${memberId}`,
+          'PATCH',
+          formData
+        )
+        navigate('/about/our-pastors-and-staff')
+      } catch (err) {}
+    }
   }
 
   return (
@@ -88,7 +130,7 @@ const MemberForm = () => {
       />
       <div className='center'>
         <ImagePicker
-        circle
+          circle
           id='image'
           onInput={inputHandler}
           label='Pick the image'
@@ -111,7 +153,7 @@ const MemberForm = () => {
         label='Contact'
         placeholder="Enter new member's contact"
         onInput={inputHandler}
-        initialValue={(formState.inputs.contact.value as string)}
+        initialValue={formState.inputs.contact.value as string}
       />
       <div>
         <label htmlFor='isAuthor'>Author</label>
