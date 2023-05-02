@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose'
 import { WelcomeType } from '../../types'
- 
 
 const welcomeSchema = new Schema<WelcomeType>({
   title: {
@@ -10,7 +9,7 @@ const welcomeSchema = new Schema<WelcomeType>({
   content: {
     type: String,
     required: true,
-  }
+  },
 })
 
 export default model<WelcomeType>('Welcome', welcomeSchema)
