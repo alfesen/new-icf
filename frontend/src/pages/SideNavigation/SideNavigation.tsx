@@ -2,7 +2,6 @@ import { useState, Fragment } from 'react'
 import s from './SideNavigation.module.scss'
 import { NavLink } from 'react-router-dom'
 import { formatLink } from '../../helpers/formatLink'
-import Card from '../../components/UI/Card/Card'
 import { Fade } from 'react-awesome-reveal'
 import { SideNav } from '../../types/LayoutTypes'
 
@@ -35,7 +34,7 @@ const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
 
   return (
     <Fade triggerOnce>
-      <Card className={s.aside}>
+      <div className={s.aside}>
         <button onClick={toggleNavigation} className={s.aside__button}>
           <span>{buttonSymbol}</span> {buttonText} navigation
         </button>
@@ -43,7 +42,7 @@ const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
           <h3 className={s.aside__title}>{title ? title : collectionTitle}</h3>
           {renderLinks}
         </Fragment>
-      </Card>
+      </div>
     </Fade>
   )
 }
