@@ -6,6 +6,7 @@ import AboutPage from './pages/About/AboutPage'
 import WelcomeLocation from './pages/About/subpages/WelcomeLocation'
 import Staff from './pages/About/subpages/Staff/Staff'
 import NewMember from './pages/Members/NewMember'
+import MemberPage from './pages/Members/MemberPage'
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +28,7 @@ function App() {
             { path: 'our-pastors-and-staff', element: <Staff /> },
           ],
         },
+        {path: 'staff/:memberId', element: <MemberPage />},
         {path: 'staff/new-member', element: <NewMember />}
       ],
     },
