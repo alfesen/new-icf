@@ -4,7 +4,8 @@ import MainLayout from './components/Layout/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/About/AboutPage'
 import WelcomeLocation from './pages/About/subpages/WelcomeLocation'
-import Staff from './pages/About/subpages/Staff'
+import Staff from './pages/About/subpages/Staff/Staff'
+import NewMember from './pages/Members/NewMember'
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ function App() {
             { path: 'our-pastors-and-staff', element: <Staff /> },
           ],
         },
+        {path: 'staff/new-member', element: <NewMember />}
       ],
     },
   ])
