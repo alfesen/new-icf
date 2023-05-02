@@ -79,7 +79,7 @@ const Staff = () => {
         </div>
       )}
       <div className={s.staff__actions}>
-        <Button link to='/staff/new-member'>
+        <Button link to='/staff/edit-member'>
           Add new member
         </Button>
       </div>

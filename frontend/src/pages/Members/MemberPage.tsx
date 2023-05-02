@@ -4,6 +4,7 @@ import { Member } from '../../types/MemberTypes'
 import { useFetchData } from '../../hooks/useFetchData'
 import { convertString } from '../../helpers/convertString'
 import s from './MemberPage.module.scss'
+import Button from '../../components/UI/Form/Button/Button'
 
 const MemberPage = () => {
   const [member, setMember] = useState<Member>()
@@ -26,7 +27,7 @@ const MemberPage = () => {
     return <h2>No staff member with provided ID </h2>
   }
 
-  const { image, name, role, bio, contact } = member
+  const {id, image, name, role, bio, contact } = member
 
   return (
     <section className={s.member}>
@@ -49,6 +50,9 @@ const MemberPage = () => {
           <address>{convertString(contact)}</address>
         </div>
       )}
+      <div className={s.member__actions}>
+        <Button link to={`/staff/edit-member/${id}`}>Edit</Button>
+      </div>
     </section>
   )
 }

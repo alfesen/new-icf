@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/About/AboutPage'
 import WelcomeLocation from './pages/About/subpages/WelcomeLocation'
 import Staff from './pages/About/subpages/Staff/Staff'
-import NewMember from './pages/Members/NewMember'
+import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
 
 function App() {
@@ -28,8 +28,9 @@ function App() {
             { path: 'our-pastors-and-staff', element: <Staff /> },
           ],
         },
-        {path: 'staff/:memberId', element: <MemberPage />},
-        {path: 'staff/new-member', element: <NewMember />}
+        { path: 'staff/:memberId', element: <MemberPage /> },
+        { path: 'staff/edit-member', element: <EditMember /> },
+        { path: 'staff/edit-member/:memberId', element: <EditMember /> },
       ],
     },
   ])

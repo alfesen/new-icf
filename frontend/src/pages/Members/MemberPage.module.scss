@@ -43,6 +43,10 @@
       font-size: $font-sm;
     }
   }
+  &__actions {
+    padding: 1em;
+    text-align: right;
+  }
 }
 
 @media (min-width: 600px) {
@@ -61,6 +65,7 @@
     }
   }
 }
+
 @media (min-width: 900px) {
   .member {
     header {

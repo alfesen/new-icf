@@ -1,7 +1,7 @@
 import MemberForm from '../../components/About/MemberForm/MemberForm'
-import s from './NewMember.module.scss'
+import s from './EditMember.module.scss'
 
-const NewMember = () => {
+const EditMember = () => {
   return (
     <section className={s.new__member}>
       <h2 className='center'>Add new member</h2>
@@ -10,4 +10,4 @@ const NewMember = () => {
   )
 }
 
-export default NewMember
+export default EditMember
