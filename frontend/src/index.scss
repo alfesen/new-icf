@@ -65,6 +65,11 @@ h3 {
   font-weight: 700;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 @media (min-width: 700px) {
   h1 {
     font-size: $font-main-header-md;

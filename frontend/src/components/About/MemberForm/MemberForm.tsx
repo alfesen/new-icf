@@ -86,8 +86,9 @@ const MemberForm = () => {
         onInput={inputHandler}
         initialValue={(formState.inputs.category.value as string) || 'pastors'}
       />
-      <div>
+      <div className='center'>
         <ImagePicker
+        circle
           id='image'
           onInput={inputHandler}
           label='Pick the image'

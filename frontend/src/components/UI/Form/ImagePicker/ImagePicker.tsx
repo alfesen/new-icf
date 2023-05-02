@@ -3,7 +3,7 @@ import { ImagePickerProps } from '../../../../types/UITypes'
 import Button from '../Button/Button'
 import s from './ImagePicker.module.scss'
 
-const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
+const ImagePicker = ({ image, id, label, onInput, circle }: ImagePickerProps) => {
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const [file, setFile] = useState<File | null>(null)
 
@@ -48,7 +48,7 @@ const ImagePicker = ({ image, id, label, onInput }: ImagePickerProps) => {
         accept='.jpg,.png,.jpeg'
         onChange={pickedImageHandler}
       />
-      <div className={s.picker__preview}>
+      <div className={`${s.picker__preview} ${circle ? s['picker__preview--circle'] : ''}`}>
         {previewUrl && <img src={previewUrl} alt='Image Preview' />}
         {!previewUrl && <p>{label}</p>}
       </div>

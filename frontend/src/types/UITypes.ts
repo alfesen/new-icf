@@ -50,6 +50,7 @@ export type ImagePickerProps = {
   id: string
   label: string
   onInput: (id: string, value: string | File) => void
+  circle?: boolean
 }
 
 export type ButtonProps = {
