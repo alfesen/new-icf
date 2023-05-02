@@ -1,21 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
-import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Header from '../../models/Layout/header.model.mjs'
 import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
+import { validation } from '../../hooks/validation.mjs'
 
 export const postHeaderData = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError(401, 'Invalid inputs passed, please check your data')
-    )
-  }
+  validation(req, next)
 
   const { pagePath, pageTitle, pageSubtitle } = req.body
   const { desktopImage, mobileImage } = req.files as MulterFiles
@@ -59,7 +54,9 @@ export const getHeaderData = async (
   let headerData: HeaderData
 
   try {
-    headerData = await Header.findOne({ pagePath: '/' + pageId }) as HeaderData
+    headerData = (await Header.findOne({
+      pagePath: '/' + pageId,
+    })) as HeaderData
   } catch (err) {
     const error = new HttpError(404, 'Header data not found on the server')
     return next(error)
@@ -78,12 +75,7 @@ export const updateHeaderData = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError(401, 'Invalid inputs passed, please check your data')
-    )
-  }
+  validation(req, next)
 
   const { pageId } = req.params
 
@@ -93,7 +85,9 @@ export const updateHeaderData = async (
   let headerData: HeaderData
 
   try {
-    headerData = await Header.findOne({ pagePath: '/' + pageId }) as HeaderData
+    headerData = (await Header.findOne({
+      pagePath: '/' + pageId,
+    })) as HeaderData
   } catch (err) {
     const error = new HttpError(404, 'Header data not found on the server')
     return next(error)

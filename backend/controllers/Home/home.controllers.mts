@@ -1,22 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
-import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { WelcomeType } from '../../types.js'
+import { validation } from '../../hooks/validation.mjs'
+
 export const postHomeWelcome = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(
-      401,
-      'Invalid inputs passed, please check your data'
-    )
-    return next(error)
-  }
-
+  validation(req, next)
+  
   let existingWelcomeData: WelcomeType
 
   try {
@@ -85,14 +79,7 @@ export const updateHomeWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(
-      401,
-      'Invalid inputs passed, please check your data'
-    )
-    return next(error)
-  }
+  validation(req, next)
 
   const { title, content } = req.body
 

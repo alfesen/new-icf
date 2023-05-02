@@ -1,22 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
-import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
+import { validation } from '../../hooks/validation.mjs'
 
 export const postAnnouncement = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(
-      400,
-      'Invalid inputs passed, please provide valid data'
-    )
-    return next(error)
-  }
+  validation(req, next)
 
   const { date, time, title, description } = req.body
 
@@ -126,14 +119,7 @@ export const updateAnnouncement = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(
-      400,
-      'Invalid inputs passed, please provide valid data'
-    )
-    return next(error)
-  }
+  validation(req, next)
 
   const { announcementId } = req.params
   const { title, date, time, description } = req.body

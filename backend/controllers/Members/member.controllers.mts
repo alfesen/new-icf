@@ -1,21 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import Member from '../../models/About/member.model.mjs'
-import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { MemberType } from '../../types.js'
 import fs from 'fs'
+import { validation } from '../../hooks/validation.mjs'
 
 export const createMember = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(400, 'Invalid inputs passed')
-    return next(error)
-  }
-
+  validation(req, next)
   const { name, role, category, bio, contact, isAuthor } = req.body
 
   const newMember = new Member({
@@ -110,11 +105,7 @@ export const updateMember = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const error = new HttpError(400, 'Invalid inputs passed')
-    return next(error)
-  }
+  validation(req, next)
 
   const { memberId } = req.params
 
