@@ -5,6 +5,41 @@ import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
 
+const findExistingHeaderData = async (
+  req: Request,
+  next: NextFunction
+): Promise<HeaderData | void> => {
+  const { pageId } = req.params
+
+  let headerData: HeaderData
+
+  try {
+    headerData = (await Header.findOne({
+      pagePath: pageId,
+    })) as HeaderData
+  } catch (err) {
+    const error = new HttpError(404, 'Header data not found on the server')
+    return next(error)
+  }
+  
+  return headerData
+}
+
+const saveHeaderData = async (
+  data: HeaderData,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await data.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Something went wrong, please try again later'
+    )
+    return next(error)
+  }
+}
+
 export const postHeaderData = async (
   req: Request,
   res: Response,
@@ -15,29 +50,22 @@ export const postHeaderData = async (
   const { pagePath, pageTitle, pageSubtitle } = req.body
   const { desktopImage, mobileImage } = req.files as MulterFiles
 
-  const existingHeader = await Header.findOne({ pagePath: pagePath })
+  const existingHeader = await findExistingHeaderData(req, next)
+
   if (existingHeader) {
     const error = new HttpError(400, 'Header for this page already exists')
     return next(error)
   }
 
   const createdHeaderData = new Header({
-    pagePath,
+    pagePath: pagePath.replaceAll('/', ''),
     pageTitle,
     pageSubtitle,
     desktopImage: desktopImage[0].path,
     mobileImage: mobileImage[0].path,
   })
 
-  try {
-    await createdHeaderData.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again later'
-    )
-    return next(error)
-  }
+  await saveHeaderData(createdHeaderData, next)
 
   res
     .status(200)
@@ -49,18 +77,7 @@ export const getHeaderData = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { pageId } = req.params
-
-  let headerData: HeaderData
-
-  try {
-    headerData = (await Header.findOne({
-      pagePath: '/' + pageId,
-    })) as HeaderData
-  } catch (err) {
-    const error = new HttpError(404, 'Header data not found on the server')
-    return next(error)
-  }
+  const headerData = await findExistingHeaderData(req, next)
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
@@ -77,24 +94,18 @@ export const updateHeaderData = async (
 ) => {
   validation(req, next)
 
-  const { pageId } = req.params
-
   const { pageTitle, pageSubtitle } = req.body
-  // const { desktopImage, mobileImage } = req.files as MulterFiles
 
-  let headerData: HeaderData
+  const headerData = await findExistingHeaderData(req, next)
 
-  try {
-    headerData = (await Header.findOne({
-      pagePath: '/' + pageId,
-    })) as HeaderData
-  } catch (err) {
+  if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
     return next(error)
   }
 
   headerData.pageTitle = pageTitle
   headerData.pageSubtitle = pageSubtitle
+
   if (req.files) {
     const files = req.files as MulterFiles
     if (files.desktopImage) {
@@ -111,15 +122,7 @@ export const updateHeaderData = async (
     }
   }
 
-  try {
-    await headerData.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, could not save data'
-    )
-    return next(error)
-  }
+  await saveHeaderData(headerData, next)
 
   res.status(200).json({ headerData: headerData.toObject({ getters: true }) })
 }
