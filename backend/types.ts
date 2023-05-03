@@ -34,12 +34,18 @@ export interface LocationType extends Document {
 }
 
 export interface MemberType extends Document {
-  name: String,
-  role: String,
-  category: 'pastors' | 'leadership team' | 'ministry leaders',
-  image: string,
-  bio: string,
-  isAdmin: boolean,
-  isAuthor: boolean,
+  name: String
+  role: String
+  category: 'pastors' | 'leadership team' | 'ministry leaders'
+  image: string
+  bio: string
+  isAdmin: boolean
+  isAuthor: boolean
   contact?: string
+}
+
+export type FindOptions<T> = {
+  id?: string
+  filter?: any
+  array?: boolean
 }

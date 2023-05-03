@@ -3,23 +3,7 @@ import { WelcomeType } from '../../types'
 import { validation } from '../../hooks/validation.mjs'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
-
-const findExistingWelcomeData = async (
-  model: typeof Welcome,
-  req: Request,
-  next: NextFunction
-): Promise<WelcomeType | void> => {
-  let existingWelcomeData: WelcomeType
-
-  try {
-    existingWelcomeData = (await model.findOne()) as WelcomeType
-  } catch (err) {
-    const error = new HttpError(401, "Data doesn't exist")
-    return next(error)
-  }
-
-  return existingWelcomeData
-}
+import { findExistingData } from '../../hooks/findExistingData.mjs'
 
 const saveWelcomeData = async (
   data: WelcomeType,
@@ -44,7 +28,7 @@ export const postWelcome = async (
 ) => {
   validation(req, next)
 
-  const existingWelcomeData = await findExistingWelcomeData(model, req, next)
+  const existingWelcomeData = await findExistingData(model, next)
 
   if (existingWelcomeData) {
     const error = new HttpError(
@@ -78,7 +62,7 @@ export const updateWelcome = async (
 
   const { title, content } = req.body
 
-  const welcomeData = await findExistingWelcomeData(model, req, next)
+  const welcomeData = (await findExistingData(model, next)) as WelcomeType
 
   if (!welcomeData) {
     const error = new HttpError(
@@ -102,7 +86,7 @@ export const getWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  const welcomeData = await findExistingWelcomeData(model, req, next)
+  const welcomeData = (await findExistingData(model, next)) as WelcomeType
 
   if (!welcomeData) {
     const error = new HttpError(404, 'Data was not found on the server')
@@ -118,7 +102,7 @@ export const deleteWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  const welcomeData = await findExistingWelcomeData(model, req, next)
+  const welcomeData = (await findExistingData(model, next)) as WelcomeType
 
   if (!welcomeData) {
     const error = new HttpError(404, 'Data was not found on the server')

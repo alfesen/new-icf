@@ -4,24 +4,7 @@ import { LocationType } from '../../types.js'
 import Location from '../../models/About/location.model.mjs'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
-
-const findExistingLocation = async (
-  next: NextFunction
-): Promise<LocationType | void> => {
-  let location: LocationType
-
-  try {
-    location = (await Location.findOne()) as LocationType
-  } catch (err) {
-    const error = new HttpError(
-      404,
-      'No location found, please try again or contact your system administrator'
-    )
-    return next(error)
-  }
-
-  return location
-}
+import { findExistingData } from '../../hooks/findExistingData.mjs'
 
 const saveLocation = async (
   location: LocationType,
@@ -47,7 +30,10 @@ export const postLocation = async (
 
   const { title, address, directions, map } = req.body
 
-  const existingLocation = await findExistingLocation(next)
+  const existingLocation = (await findExistingData(
+    Location,
+    next
+  )) as LocationType
 
   if (existingLocation) {
     const error = new HttpError(
@@ -75,7 +61,7 @@ export const getLocation = async (
   res: Response,
   next: NextFunction
 ) => {
-  const location = await findExistingLocation(next)
+  const location = (await findExistingData(Location, next)) as LocationType
 
   if (!location) {
     const error = new HttpError(
@@ -97,7 +83,7 @@ export const updateLocation = async (
 
   const { title, address, directions, map } = req.body
 
-  const location = await findExistingLocation(next)
+  const location = (await findExistingData(Location, next)) as LocationType
 
   if (!location) {
     const error = new HttpError(404, 'Location is not found in the database')

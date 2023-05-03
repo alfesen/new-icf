@@ -4,26 +4,7 @@ import Header from '../../models/Layout/header.model.mjs'
 import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
-
-const findExistingHeaderData = async (
-  req: Request,
-  next: NextFunction
-): Promise<HeaderData | void> => {
-  const { pageId } = req.params
-
-  let headerData: HeaderData
-
-  try {
-    headerData = (await Header.findOne({
-      pagePath: pageId,
-    })) as HeaderData
-  } catch (err) {
-    const error = new HttpError(404, 'Header data not found on the server')
-    return next(error)
-  }
-  
-  return headerData
-}
+import { findExistingData } from '../../hooks/findExistingData.mjs'
 
 const saveHeaderData = async (
   data: HeaderData,
@@ -50,7 +31,11 @@ export const postHeaderData = async (
   const { pagePath, pageTitle, pageSubtitle } = req.body
   const { desktopImage, mobileImage } = req.files as MulterFiles
 
-  const existingHeader = await findExistingHeaderData(req, next)
+  const existingHeader = await findExistingData(Header, next, {
+    filter: {
+      pagePath: req.params.pageId,
+    },
+  })
 
   if (existingHeader) {
     const error = new HttpError(400, 'Header for this page already exists')
@@ -77,7 +62,11 @@ export const getHeaderData = async (
   res: Response,
   next: NextFunction
 ) => {
-  const headerData = await findExistingHeaderData(req, next)
+  const headerData = await findExistingData(Header, next, {
+    filter: {
+      pagePath: req.params.pageId,
+    },
+  })  as HeaderData
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
@@ -96,7 +85,11 @@ export const updateHeaderData = async (
 
   const { pageTitle, pageSubtitle } = req.body
 
-  const headerData = await findExistingHeaderData(req, next)
+  const headerData = (await findExistingData(Header, next, {
+    filter: {
+      pagePath: req.params.pageId,
+    },
+  })) as HeaderData
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
