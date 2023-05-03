@@ -4,6 +4,48 @@ import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
 import { validation } from '../../hooks/validation.mjs'
 
+const findExistingAnnouncements = async (
+  next: NextFunction,
+  id?: string
+): Promise<AnnouncementType[] | AnnouncementType | void> => {
+  if (id) {
+    let announcement: AnnouncementType
+    try {
+      announcement = (await Announcement.findById(id)) as AnnouncementType
+    } catch (err) {
+      const error = new HttpError(404, "Announcement wasn't found")
+      return next(error)
+    }
+    return announcement
+  }
+
+  let existingAnnouncements: AnnouncementType | AnnouncementType[]
+
+  try {
+    existingAnnouncements = (await Announcement.find()) as AnnouncementType[]
+  } catch (err) {
+    const error = new HttpError(404, 'No announcements found')
+    return next(error)
+  }
+
+  return existingAnnouncements
+}
+
+const saveAnnouncement = async (
+  announcement: AnnouncementType,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await announcement.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Failed to post / edit the announcement, please try again later or contact your system administrator'
+    )
+    return next(error)
+  }
+}
+
 export const postAnnouncement = async (
   req: Request,
   res: Response,
@@ -20,26 +62,13 @@ export const postAnnouncement = async (
     description,
   }) as AnnouncementType
 
-  try {
-    await newAnnouncement.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Failed to post the announcement, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  await saveAnnouncement(newAnnouncement, next)
 
-  let existingAnnouncements: AnnouncementType[]
+  const existingAnnouncements = (await findExistingAnnouncements(
+    next
+  )) as AnnouncementType[]
 
-  try {
-    existingAnnouncements = (await Announcement.find()) as AnnouncementType[]
-  } catch (err) {
-    const error = new HttpError(404, 'No announcements found')
-    return next(error)
-  }
-
-  if (existingAnnouncements.length > 30) {
+  if (existingAnnouncements && existingAnnouncements.length > 30) {
     const sortedAnnouncement = existingAnnouncements.sort((an1, an2) => {
       return new Date(an1.date) < new Date(an2.date) ? 1 : -1
     })
@@ -65,14 +94,9 @@ export const getAnnouncements = async (
   res: Response,
   next: NextFunction
 ) => {
-  let announcements: AnnouncementType[]
-
-  try {
-    announcements = await Announcement.find()
-  } catch (err) {
-    const error = new HttpError(404, 'No announcements found')
-    return next(error)
-  }
+  const announcements = (await findExistingAnnouncements(
+    next
+  )) as AnnouncementType[]
 
   if (!announcements) {
     const error = new HttpError(404, 'No announcements found')
@@ -97,17 +121,10 @@ export const getSingleAnnouncement = async (
   next: NextFunction
 ) => {
   const { announcementId } = req.params
-  let announcement: AnnouncementType
-
-  try {
-    announcement = (await Announcement.findById(
-      announcementId
-    )) as AnnouncementType
-    console.log(announcement)
-  } catch (err) {
-    const error = new HttpError(404, "Announcement wasn't found")
-    return next(error)
-  }
+  const announcement = (await findExistingAnnouncements(
+    next,
+    announcementId
+  )) as AnnouncementType
 
   res
     .status(200)
@@ -124,35 +141,21 @@ export const updateAnnouncement = async (
   const { announcementId } = req.params
   const { title, date, time, description } = req.body
 
-  let existingAnnouncement: AnnouncementType
+  const announcement = (await findExistingAnnouncements(
+    next,
+    announcementId
+  )) as AnnouncementType
 
-  try {
-    existingAnnouncement = (await Announcement.findById(
-      announcementId
-    )) as AnnouncementType
-  } catch (err) {
-    const error = new HttpError(404, 'No announcement with a given ID found')
-    return next(error)
-  }
+  announcement.title = title
+  announcement.date = date
+  announcement.time = time
+  announcement.description = description
 
-  existingAnnouncement.title = title
-  existingAnnouncement.date = date
-  existingAnnouncement.time = time
-  existingAnnouncement.description = description
-
-  try {
-    await existingAnnouncement.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Could not update the announcement, please try again later'
-    )
-    return next(error)
-  }
+  await saveAnnouncement(announcement, next)
 
   res
     .status(200)
-    .json({ announcement: existingAnnouncement.toObject({ getters: true }) })
+    .json({ announcement: announcement.toObject({ getters: true }) })
 }
 
 export const deleteAnnouncement = async (
