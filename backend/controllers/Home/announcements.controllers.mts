@@ -4,21 +4,7 @@ import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
 import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
-
-const saveAnnouncement = async (
-  announcement: AnnouncementType,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    await announcement.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Failed to post / edit the announcement, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
-}
+import { saveData } from '../../hooks/saveData.mjs'
 
 export const postAnnouncement = async (
   req: Request,
@@ -36,7 +22,7 @@ export const postAnnouncement = async (
     description,
   }) as AnnouncementType
 
-  await saveAnnouncement(newAnnouncement, next)
+  await saveData(newAnnouncement, next)
 
   const existingAnnouncements = (await findExistingData(Announcement, next, {
     array: true,
@@ -123,7 +109,7 @@ export const updateAnnouncement = async (
   announcement.time = time
   announcement.description = description
 
-  await saveAnnouncement(announcement, next)
+  await saveData(announcement, next)
 
   res
     .status(200)

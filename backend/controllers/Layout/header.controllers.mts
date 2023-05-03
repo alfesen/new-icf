@@ -5,21 +5,7 @@ import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
-
-const saveHeaderData = async (
-  data: HeaderData,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    await data.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again later'
-    )
-    return next(error)
-  }
-}
+import { saveData } from '../../hooks/saveData.mjs'
 
 export const postHeaderData = async (
   req: Request,
@@ -50,7 +36,7 @@ export const postHeaderData = async (
     mobileImage: mobileImage[0].path,
   })
 
-  await saveHeaderData(createdHeaderData, next)
+  await saveData(createdHeaderData, next)
 
   res
     .status(200)
@@ -115,7 +101,7 @@ export const updateHeaderData = async (
     }
   }
 
-  await saveHeaderData(headerData, next)
+  await saveData(headerData, next)
 
   res.status(200).json({ headerData: headerData.toObject({ getters: true }) })
 }
