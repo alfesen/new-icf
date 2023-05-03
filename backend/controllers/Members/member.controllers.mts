@@ -5,6 +5,7 @@ import { MemberType } from '../../types.js'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
+import { saveData } from '../../hooks/saveData.mjs'
 
 export const createMember = async (
   req: Request,
@@ -24,15 +25,7 @@ export const createMember = async (
     isAuthor: !!isAuthor,
   })
 
-  try {
-    await newMember.save()
-  } catch (err) {
-    const error = new HttpError(
-      400,
-      'Something went wrong, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  await saveData(newMember, next)
 
   res.status(200).json({ member: newMember.toObject({ getters: true }) })
 }
@@ -94,11 +87,11 @@ export const updateMember = async (
 
   const { memberId } = req.params
 
-  const existingMember = (await findExistingData(Member, next, {
+  const member = (await findExistingData(Member, next, {
     id: memberId,
   })) as MemberType
 
-  if (!existingMember) {
+  if (!member) {
     const error = new HttpError(404, 'No member with this id found')
     return next(error)
   }
@@ -106,31 +99,23 @@ export const updateMember = async (
   const { name, role, category, bio, contact, isAuthor } = req.body
 
   if (req.file) {
-    fs.unlink(existingMember.image, err => {
+    fs.unlink(member.image, err => {
       console.log(err)
     })
 
-    existingMember.image = req.file.path
+    member.image = req.file.path
   }
 
-  existingMember.name = name
-  existingMember.role = role
-  existingMember.category = category
-  existingMember.bio = bio
-  existingMember.contact = contact
-  existingMember.isAuthor = isAuthor
+  member.name = name
+  member.role = role
+  member.category = category
+  member.bio = bio
+  member.contact = contact
+  member.isAuthor = isAuthor
 
-  try {
-    await existingMember.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  await saveData(member, next)
 
-  res.status(200).json({ member: existingMember.toObject({ getters: true }) })
+  res.status(200).json({ member: member.toObject({ getters: true }) })
 }
 
 export const deleteMember = async (

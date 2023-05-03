@@ -5,21 +5,7 @@ import Location from '../../models/About/location.model.mjs'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
-
-const saveLocation = async (
-  location: LocationType,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    await location.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again or contact your system administrator'
-    )
-    return next(error)
-  }
-}
+import { saveData } from '../../hooks/saveData.mjs'
 
 export const postLocation = async (
   req: Request,
@@ -51,7 +37,7 @@ export const postLocation = async (
     map,
   })
 
-  await saveLocation(location, next)
+  await saveData(location, next)
 
   res.status(200).json({ location: location.toObject({ getters: true }) })
 }
@@ -102,7 +88,7 @@ export const updateLocation = async (
   location.directions = directions
   location.map = map
 
-  await saveLocation(location, next)
+  await saveData(location, next)
 
   res.status(200).json({ location: location.toObject({ getters: true }) })
 }

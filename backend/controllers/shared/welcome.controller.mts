@@ -4,21 +4,7 @@ import { validation } from '../../hooks/validation.mjs'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
-
-const saveWelcomeData = async (
-  data: WelcomeType,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    await data.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again or contact administrator'
-    )
-    return next(error)
-  }
-}
+import { saveData } from '../../hooks/saveData.mjs'
 
 export const postWelcome = async (
   model: typeof Welcome,
@@ -45,7 +31,7 @@ export const postWelcome = async (
     content,
   })
 
-  await saveWelcomeData(createdWelcome, next)
+  await saveData(createdWelcome, next)
 
   res
     .status(200)
@@ -75,7 +61,7 @@ export const updateWelcome = async (
   welcomeData.title = title
   welcomeData.content = content
 
-  await saveWelcomeData(welcomeData, next)
+  await saveData(welcomeData, next)
 
   res.status(200).json({ welcomeData: welcomeData.toObject({ getters: true }) })
 }
