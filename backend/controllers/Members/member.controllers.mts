@@ -4,6 +4,7 @@ import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { MemberType } from '../../types.js'
 import fs from 'fs'
 import { validation } from '../../hooks/validation.mjs'
+import { findExistingData } from '../../hooks/findExistingData.mjs'
 
 export const createMember = async (
   req: Request,
@@ -41,17 +42,9 @@ export const getAllMembers = async (
   res: Response,
   next: NextFunction
 ) => {
-  let members: MemberType[]
-
-  try {
-    members = await Member.find()
-  } catch (err) {
-    const error = new HttpError(
-      400,
-      'Something went wrong, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  const members = (await findExistingData(Member, next, {
+    array: true,
+  })) as MemberType[]
 
   if (!members) {
     const error = new HttpError(404, 'No staff found in the database')
@@ -80,17 +73,9 @@ export const getSingleMember = async (
 ) => {
   const { memberId } = req.params
 
-  let existingMember: MemberType
-
-  try {
-    existingMember = (await Member.findById(memberId)) as MemberType
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  const existingMember = (await findExistingData(Member, next, {
+    id: memberId,
+  })) as MemberType
 
   if (!existingMember) {
     const error = new HttpError(404, 'No member with this id found')
@@ -109,17 +94,9 @@ export const updateMember = async (
 
   const { memberId } = req.params
 
-  let existingMember: MemberType
-
-  try {
-    existingMember = (await Member.findById(memberId)) as MemberType
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  const existingMember = (await findExistingData(Member, next, {
+    id: memberId,
+  })) as MemberType
 
   if (!existingMember) {
     const error = new HttpError(404, 'No member with this id found')

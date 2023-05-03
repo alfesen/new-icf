@@ -3,33 +3,7 @@ import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
 import { validation } from '../../hooks/validation.mjs'
-
-const findExistingAnnouncements = async (
-  next: NextFunction,
-  id?: string
-): Promise<AnnouncementType[] | AnnouncementType | void> => {
-  if (id) {
-    let announcement: AnnouncementType
-    try {
-      announcement = (await Announcement.findById(id)) as AnnouncementType
-    } catch (err) {
-      const error = new HttpError(404, "Announcement wasn't found")
-      return next(error)
-    }
-    return announcement
-  }
-
-  let existingAnnouncements: AnnouncementType | AnnouncementType[]
-
-  try {
-    existingAnnouncements = (await Announcement.find()) as AnnouncementType[]
-  } catch (err) {
-    const error = new HttpError(404, 'No announcements found')
-    return next(error)
-  }
-
-  return existingAnnouncements
-}
+import { findExistingData } from '../../hooks/findExistingData.mjs'
 
 const saveAnnouncement = async (
   announcement: AnnouncementType,
@@ -64,9 +38,9 @@ export const postAnnouncement = async (
 
   await saveAnnouncement(newAnnouncement, next)
 
-  const existingAnnouncements = (await findExistingAnnouncements(
-    next
-  )) as AnnouncementType[]
+  const existingAnnouncements = (await findExistingData(Announcement, next, {
+    array: true,
+  })) as AnnouncementType[]
 
   if (existingAnnouncements && existingAnnouncements.length > 30) {
     const sortedAnnouncement = existingAnnouncements.sort((an1, an2) => {
@@ -94,9 +68,9 @@ export const getAnnouncements = async (
   res: Response,
   next: NextFunction
 ) => {
-  const announcements = (await findExistingAnnouncements(
-    next
-  )) as AnnouncementType[]
+  const announcements = (await findExistingData(Announcement, next, {
+    array: true,
+  })) as AnnouncementType[]
 
   if (!announcements) {
     const error = new HttpError(404, 'No announcements found')
@@ -121,10 +95,9 @@ export const getSingleAnnouncement = async (
   next: NextFunction
 ) => {
   const { announcementId } = req.params
-  const announcement = (await findExistingAnnouncements(
-    next,
-    announcementId
-  )) as AnnouncementType
+  const announcement = (await findExistingData(Announcement, next, {
+    id: announcementId,
+  })) as AnnouncementType
 
   res
     .status(200)
@@ -141,10 +114,9 @@ export const updateAnnouncement = async (
   const { announcementId } = req.params
   const { title, date, time, description } = req.body
 
-  const announcement = (await findExistingAnnouncements(
-    next,
-    announcementId
-  )) as AnnouncementType
+  const announcement = (await findExistingData(Announcement, next, {
+    id: announcementId,
+  })) as AnnouncementType
 
   announcement.title = title
   announcement.date = date
