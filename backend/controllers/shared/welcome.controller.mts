@@ -4,14 +4,11 @@ import { validation } from '../../hooks/validation.mjs'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 
-export const postWelcome = async (
+const findExistingWelcomeData = async (
   model: typeof Welcome,
   req: Request,
-  res: Response,
   next: NextFunction
-) => {
-  validation(req, next)
-
+): Promise<WelcomeType | void> => {
   let existingWelcomeData: WelcomeType
 
   try {
@@ -20,6 +17,34 @@ export const postWelcome = async (
     const error = new HttpError(401, "Data doesn't exist")
     return next(error)
   }
+
+  return existingWelcomeData
+}
+
+const saveWelcomeData = async (
+  data: WelcomeType,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await data.save()
+  } catch (err) {
+    const error = new HttpError(
+      500,
+      'Something went wrong, please try again or contact administrator'
+    )
+    return next(error)
+  }
+}
+
+export const postWelcome = async (
+  model: typeof Welcome,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  validation(req, next)
+
+  const existingWelcomeData = await findExistingWelcomeData(model, req, next)
 
   if (existingWelcomeData) {
     const error = new HttpError(
@@ -36,15 +61,7 @@ export const postWelcome = async (
     content,
   })
 
-  try {
-    await createdWelcome.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Something went wrong, please try again or contact administrator'
-    )
-    return next(error)
-  }
+  await saveWelcomeData(createdWelcome, next)
 
   res
     .status(200)
@@ -61,14 +78,12 @@ export const updateWelcome = async (
 
   const { title, content } = req.body
 
-  let welcomeData: WelcomeType
+  const welcomeData = await findExistingWelcomeData(model, req, next)
 
-  try {
-    welcomeData = (await model.findOne()) as WelcomeType
-  } catch (err) {
+  if (!welcomeData) {
     const error = new HttpError(
       404,
-      'No data for this section found, please try again later'
+      "Welcome data wasn't found in the database"
     )
     return next(error)
   }
@@ -76,15 +91,7 @@ export const updateWelcome = async (
   welcomeData.title = title
   welcomeData.content = content
 
-  try {
-    await welcomeData.save()
-  } catch (err) {
-    const error = new HttpError(
-      500,
-      'Updating section failed, please try again later or contact your system administrator'
-    )
-    return next(error)
-  }
+  await saveWelcomeData(welcomeData, next)
 
   res.status(200).json({ welcomeData: welcomeData.toObject({ getters: true }) })
 }
@@ -95,14 +102,7 @@ export const getWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  let welcomeData: WelcomeType
-
-  try {
-    welcomeData = (await model.findOne()) as WelcomeType
-  } catch (err) {
-    const error = new HttpError(404, 'No data found for this section')
-    return next(error)
-  }
+  const welcomeData = await findExistingWelcomeData(model, req, next)
 
   if (!welcomeData) {
     const error = new HttpError(404, 'Data was not found on the server')
@@ -118,12 +118,10 @@ export const deleteWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  let welcomeData: WelcomeType
+  const welcomeData = await findExistingWelcomeData(model, req, next)
 
-  try {
-    welcomeData = (await model.findOne()) as WelcomeType
-  } catch (err) {
-    const error = new HttpError(404, "There's nothing to remove ¯_(ツ)_/¯")
+  if (!welcomeData) {
+    const error = new HttpError(404, 'Data was not found on the server')
     return next(error)
   }
 
