@@ -44,8 +44,7 @@
   }
 
   &__fallback {
-    background-color: $color-basic;
-    z-index: 1;
-    padding: 3em;
+    position: relative;
+    z-index: 40;
   }
 }

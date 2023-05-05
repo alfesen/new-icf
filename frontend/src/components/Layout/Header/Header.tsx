@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from 'react'
 import s from './Header.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
 import { HeaderData } from '../../../types/LayoutTypes'
 import Button from '../../UI/Form/Button/Button'
@@ -15,6 +15,7 @@ const Header = () => {
   const { loading, sendRequest } = useFetchData()
   const { pathname } = useLocation()
   const { width } = useClientWidth()
+  const { memberId } = useParams()
 
   useLayoutEffect(() => {
     const getHeader = async () => {
@@ -33,6 +34,25 @@ const Header = () => {
   }
   const closeModal = () => {
     setShowEditModal(false)
+  }
+
+  if (!headerData) {
+    if (memberId) {
+      return <></>
+    }
+    return (
+      <div className={`center ${s.header__fallback}`}>
+        <Button onClick={showModal}>Add header</Button>
+        {showEditModal && (
+          <Modal
+            show={showEditModal}
+            heading='Edit header'
+            onDetach={closeModal}>
+            <HeaderForm edit={showEditModal && true} onClose={closeModal} />
+          </Modal>
+        )}
+      </div>
+    )
   }
 
   return (
