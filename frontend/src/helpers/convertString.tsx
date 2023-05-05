@@ -1,28 +1,54 @@
-const boldString = (string: string) => {
-  const splitString = string.split('**')
-  const toReturn = splitString.map((text: string) => {
-    if (splitString.indexOf(text) % 2 !== 0) {
-      return (
-        <span className='bold' key={`${text} key`}>
-          {text}
-        </span>
-      )
-    } else {
-      return text
-    }
-  })
-  return toReturn
-}
+import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
 
 export const convertString = (initialContent: any) => {
   let content: string | string[] = ''
   if (initialContent.includes('\n')) {
     const splitContent = initialContent.split('\n')
     content = splitContent.map((p: string) => {
-      return <p key={p.length + Math.random()}>{boldString(p.trim())}</p>
+      return (
+        <div key={p.length + Math.random()}>
+          {boldAndHighlightedString(p.trim())}
+        </div>
+      )
     })
   } else {
-    return <p>{boldString(initialContent)}</p>
+    content = [initialContent.trim()]
   }
-  return content
+  if (Array.isArray(content)) {
+    return content.map((text: string | JSX.Element, index: number) => {
+      if (typeof text === 'string') {
+        return <div key={index}>{boldAndHighlightedString(text)}</div>
+      } else {
+        return text
+      }
+    })
+  } else {
+    return <div>{boldAndHighlightedString(content)}</div>
+  }
+}
+
+const boldAndHighlightedString = (string: string) => {
+  const boldSplitString = string.split('**')
+  const boldAndHighlightedSplitString = boldSplitString.map((text: string, index: number) => {
+    if (index % 2 !== 0) {
+      return (
+        <span className='bold' key={`${text} key`}>
+          {text}
+        </span>
+      )
+    } else {
+      const highlightedSplitString = text.split('^')
+      if (highlightedSplitString.length === 1) {
+        return text
+      }
+      return highlightedSplitString.map((text: string, index: number) => {
+        if (index % 2 === 1) {
+          return <BibleVerse key={Math.random()} reference={text} />
+        } else {
+          return text
+        }
+      })
+    }
+  })
+  return boldAndHighlightedSplitString.flat()
 }

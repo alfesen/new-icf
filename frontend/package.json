@@ -43,6 +43,7 @@
     "sass": "^1.56.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3",
+    "vite-plugin-environment": "^1.1.3",
     "vitest": "^0.29.1"
   },
   "vitest": {
