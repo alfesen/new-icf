@@ -47,7 +47,7 @@ const MemberPage = () => {
       {contact && (
         <div className={s.member__contact}>
           <h3>Contact me:</h3>
-          <address>{convertString(contact)}</address>
+          <address>{convertString(contact, true)}</address>
         </div>
       )}
       <div className={s.member__actions}>
