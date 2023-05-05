@@ -14,9 +14,9 @@ const Footer = () => {
     { icon: faFacebookSquare, url: 'https://www.facebook.com/ICFWarsaw/' },
   ]
 
-  const renderIcons = iconLinks.map(link => {
+  const renderIcons = iconLinks.map((link, index) => {
     return (
-      <IconLink key={iconLinks.indexOf(link)} icon={link.icon} url={link.url} />
+      <IconLink key={index} icon={link.icon} url={link.url} />
     )
   })
 
