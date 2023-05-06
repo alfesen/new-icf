@@ -1,54 +1,37 @@
-import { FormEvent, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useForm } from '../../../../hooks/useForm'
 import { useFetchData } from '../../../../hooks/useFetchData'
 import { FormProps } from '../../../../types/UITypes'
 import Button from '../../../UI/Form/Button/Button'
 import ImagePicker from '../../../UI/Form/ImagePicker/ImagePicker'
 import Input from '../../../UI/Form/Input/Input'
+import { useForm } from 'react-hook-form'
 
 import s from './HeaderForm.module.scss'
 
 const HeaderForm = ({ onClose, edit }: FormProps) => {
-  const [isData, setIsData] = useState<boolean>(false)
   const { pathname } = useLocation()
   const { sendRequest } = useFetchData()
 
-  const { inputHandler, formState, setFormData } = useForm({
-    pageTitle: { value: '' },
-    pageSubtitle: { value: '' },
-    desktopImage: { value: '' },
-    mobileImage: { value: '' },
+  const {
+    handleSubmit,
+    formState: { defaultValues },
+    control,
+    watch,
+  } = useForm({
+    defaultValues: async () =>
+      fetch(`http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`)
+        .then(res => res.json())
+        .then(({ headerData }: any) => headerData),
   })
 
-  useEffect(() => {
-    const getHeaderData = async () => {
-      try {
-        const { headerData } = await sendRequest(
-          `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`
-        )
-        setIsData(!!headerData)
-        setFormData({
-          pageTitle: { value: headerData.pageTitle },
-          pageSubtitle: { value: headerData.pageSubtitle },
-          desktopImage: { value: headerData.desktopImage },
-          mobileImage: { value: headerData.mobileImage },
-        })
-      } catch (err) {}
-    }
-    setIsData(false)
-    getHeaderData()
-  }, [sendRequest])
-
-  const headerFormSubmitHandler = async (e: FormEvent) => {
-    e.preventDefault()
+  const headerFormSubmitHandler = async () => {
     const formData = new FormData()
-    formData.append('pageTitle', formState.inputs.pageTitle.value)
-    formData.append('pageSubtitle', formState.inputs.pageSubtitle.value)
-    formData.append('desktopImage', formState.inputs.desktopImage.value)
-    formData.append('mobileImage', formState.inputs.mobileImage.value)
+    formData.append('pageTitle', watch('pageTitle'))
+    formData.append('pageSubtitle', watch('pageSubtitle'))
+    formData.append('desktopImage', watch('desktopImage'))
+    formData.append('mobileImage', watch('mobileImage'))
     formData.append('pagePath', pathname)
-    if (isData) {
+    if (defaultValues) {
       await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'PATCH',
@@ -64,45 +47,64 @@ const HeaderForm = ({ onClose, edit }: FormProps) => {
   }
 
   return (
-    <form className={s.form} onSubmit={headerFormSubmitHandler}>
+    <form className={s.form} onSubmit={handleSubmit(headerFormSubmitHandler)}>
       <Input
-        initialValue={(formState.inputs.pageTitle.value as string) || ''}
+        rules={{
+          required: 'Page title field is required',
+          minLength: { value: 3, message: 'Minimum length is 3' },
+          maxLength: { value: 50, message: 'Maximum length is 50' },
+        }}
         element='input'
         label='Page Title'
-        onInput={inputHandler}
         placeholder='Please enter page title'
-        id='pageTitle'
         name='pageTitle'
+        control={control}
       />
       <Input
-        initialValue={(formState.inputs.pageSubtitle.value as string) || ''}
+        rules={{
+          required: 'Page subtitle field is required',
+          minLength: { value: 3, message: 'Minimum length is 3' },
+          maxLength: { value: 50, message: 'Maximum length is 50' },
+        }}
         element='input'
         label='Page Subtitle'
-        onInput={inputHandler}
         placeholder='Please enter page title'
-        id='pageSubtitle'
         name='pageSubtitle'
+        control={control}
       />
       <div className={s.form__images}>
         <ImagePicker
+          rules={{
+            required: 'Desktop Hero Image is required',
+            validate: {
+              lessThan10MB: (file: File) =>
+                file.size < 1000000 || 'Maximum 10 MB',
+              acceptedFormats: (file: File) =>
+                ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type) ||
+                'Only PNG, JPEG or JPG',
+            },
+          }}
           label='Pick desktop hero image'
-          image={
-            formState.inputs.desktopImage.value
-              ? formState.inputs.desktopImage.value
-              : undefined
-          }
-          onInput={inputHandler}
+          image={defaultValues?.desktopImage}
+          control={control}
           id='desktopImage'
+          name='desktopImage'
         />
         <ImagePicker
+          rules={{
+            required: 'Mobile Hero Image is required',
+            validate: {
+              lessThan6MB: (file: File) => file.size < 600000 || 'Maximum 6 MB',
+              acceptedFormats: (file: File) =>
+                ['image/jpeg', 'image/png', 'image/gif'].includes(file.type) ||
+                'Only PNG, JPEG e GIF',
+            },
+          }}
           label='Pick mobile hero image'
-          image={
-            formState.inputs.mobileImage.value
-              ? formState.inputs.mobileImage.value
-              : undefined
-          }
-          onInput={inputHandler}
-          id='mobileImage'
+          image={defaultValues?.mobileImage}
+          id='desktopImage'
+          control={control}
+          name='mobileImage'
         />
       </div>
       <div className={s.form__actions}>
