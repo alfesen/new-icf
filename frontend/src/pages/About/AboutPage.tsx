@@ -1,4 +1,4 @@
-import SideNavigation from '../SideNavigation/SideNavigation'
+import SideNavigation from '../../components/Layout/SideNavigation/SideNavigation'
 import { about } from '../../db/links.json'
 import { Outlet } from 'react-router-dom'
 
