@@ -1,0 +1,44 @@
+@import '../../../../sass/vars';
+
+.item {
+  padding: 0.3em 0;
+  cursor: pointer;
+  &__link,
+  a {
+    font-size: $font-sm;
+    color: $color-basic;
+    padding: 0;
+    display: block;
+    &--span {
+      display: inline-block;
+      width: 1rem;
+    }
+    &:hover {
+      color: #e3e3e3;
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .item {
+    position: relative;
+
+    &__link,
+    a {
+      font-size: $font-sm;
+      padding: 0.5em 1em;
+      &--span {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .item {
+    &__link,
+    a {
+      font-size: $font-sm;
+    }
+  }
+}
