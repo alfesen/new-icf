@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { Control } from 'react-hook-form'
+import { Control, FieldValues, RegisterOptions } from 'react-hook-form'
 
 export type FormReducer = (state: FormState, action: FormAction) => FormState
 
@@ -34,7 +34,7 @@ export type FormAction =
     }
 
 export type InputProps = {
-  control: Control<any>
+  control: Control<FieldValues>
   element: string
   rows?: number
   label: string
@@ -42,12 +42,12 @@ export type InputProps = {
   type?: string
   options?: string[]
   name: string
-  rules?: object
+  rules?: Pick<RegisterOptions<FieldValues>, 'maxLength' | 'minLength' | 'validate' | 'required'>
 }
 
 export type ImagePickerProps = {
   name: string
-  control: Control<any>
+  control: Control<FieldValues>
   id: string
   label: string
   image: string | undefined

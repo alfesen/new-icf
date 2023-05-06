@@ -1,57 +1,36 @@
-import { FormEvent, useEffect } from 'react'
-import { useForm } from '../../../hooks/useForm'
+import { useForm } from 'react-hook-form'
+import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
-import { useFetchData } from '../../../hooks/useFetchData'
 import s from './AnnouncementsForm.module.scss'
 
 const AnnouncementsForm = ({ id }: { id?: string }) => {
-  const { formState, inputHandler, setFormData } = useForm({
-    title: {
-      value: '',
-    },
-    description: {
-      value: '',
-    },
-    date: {
-      value: '',
-    },
-    time: {
-      value: '',
-    },
-  })
   const { sendRequest } = useFetchData()
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { defaultValues },
+  } = useForm({
+    defaultValues: id ? async () =>
+      fetch(`http://localhost:5000/api/home/announcements/${id}`)
+        .then(res => res.json())
+        .then(({ announcement }: any) => announcement) : {
+          title: '',
+          description: '',
+          date: '',
+          time: ''
+        }
+  })
 
-  useEffect(() => {
-    const getAnnouncement = async () => {
-      try {
-        const { announcement } = await sendRequest(
-          `http://localhost:5000/api/home/announcements/${id}`
-        )
-        setFormData({
-          title: { value: announcement.title },
-          description: { value: announcement.description },
-          date: { value: announcement.date },
-          time: { value: announcement.time },
-        })
-      } catch (err) {}
-    }
-    if (id) {
-      getAnnouncement()
-    }
-  }, [sendRequest])
-
-  const announcementSubmitHandler = async (e: FormEvent) => {
-    e.preventDefault()
-
+  const announcementSubmitHandler = async () => {
     const newAnnouncement = {
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
-      date: new Date(formState.inputs.date.value as string).toISOString(),
-      time: formState.inputs.time.value,
+      title: watch('title'),
+      description: watch('description'),
+      date: new Date(watch('date')).toISOString(),
+      time: watch('time'),
     }
-
-    if (!id) {
+    if (!defaultValues) {
       try {
         await sendRequest(
           'http://localhost:5000/api/home/announcements',
@@ -87,47 +66,43 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
   }
 
   return (
-    <form onSubmit={announcementSubmitHandler}>
+    <form onSubmit={handleSubmit(announcementSubmitHandler)}>
       <Input
         element='input'
-        id='title'
         label='Title'
-        onInput={inputHandler}
-        name='announcement-title'
-        initialValue={formState.inputs.title.value as string}
+        name='title'
+        control={control}
         placeholder='Provide announcement title'
       />
       <Input
         element='textarea'
-        id='description'
+        name='description'
         label='Description'
-        onInput={inputHandler}
-        name='announcement-description'
-        initialValue={formState.inputs.description.value as string}
+        control={control}
         placeholder='Provide announcement description'
       />
       <Input
-        id='date'
+        name='date'
         type='date'
         element='input'
-        onInput={inputHandler}
         label='Date'
-        name='announcement-date'
-        initialValue={formState.inputs.date.value as string}
         placeholder='Event date'
+        control={control}
       />
       <Input
-        id='time'
+        name='time'
         type='time'
         element='input'
-        onInput={inputHandler}
         label='Time'
-        name='announcement-time'
-        initialValue={formState.inputs.time.value as string}
         placeholder='Event time'
+        control={control}
       />
       <div className={s.form__actions}>
-        {id && <Button reverse onClick={deleteAnnouncement} type='button'>Delete</Button>}
+        {id && (
+          <Button reverse onClick={deleteAnnouncement} type='button'>
+            Delete
+          </Button>
+        )}
         <Button type='submit'>Submit</Button>
       </div>
     </form>
