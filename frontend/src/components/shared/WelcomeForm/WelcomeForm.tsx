@@ -1,47 +1,30 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { useForm } from '../../../hooks/useForm'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { WelcomeFormProps } from '../../../types/UITypes'
+import { useForm } from 'react-hook-form'
 
 const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
-  const [isData, setIsData] = useState<boolean>(false)
   const { sendRequest } = useFetchData()
-  const { formState, inputHandler, setFormData } = useForm({
-    title: {
-      value: '',
-    },
-    content: {
-      value: '',
-    },
+  const {
+    control,
+    watch,
+    formState: { defaultValues },
+    handleSubmit,
+  } = useForm({
+    defaultValues: async () =>
+      fetch(`http://localhost:5000/api/${route}`)
+        .then(res => res.json())
+        .then(({ welcomeData }: any) => welcomeData),
   })
 
-  useEffect(() => {
-    const getWelcome = async () => {
-      try {
-        const { welcomeData } = await sendRequest(
-          `http://localhost:5000/api/${route}`
-        )
-        setIsData(!!welcomeData)
-        setFormData({
-          title: { value: welcomeData.title },
-          content: { value: welcomeData.content },
-        })
-      } catch (err) {}
-    }
-    setIsData(false)
-    getWelcome()
-  }, [sendRequest])
-
-  const welcomeSubmitHandler = async (e: FormEvent) => {
-    e.preventDefault()
+  const welcomeSubmitHandler = async () => {
     const newWelcomeData = {
-      title: formState.inputs.title.value,
-      content: formState.inputs.content.value,
+      title: watch('title'),
+      content: watch('content'),
     }
 
-    if (isData) {
+    if (defaultValues) {
       await sendRequest(
         `http://localhost:5000/api/${route}`,
         'PATCH',
@@ -49,36 +32,42 @@ const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
         { 'Content-Type': 'application/json' }
       )
     }
-    if (!isData) {
-      await sendRequest(
-        `http://localhost:5000/api/${route}`,
-        'POST',
-        JSON.stringify(newWelcomeData),
-        { 'Content-Type': 'application/json' }
-      )
-    }
+    await sendRequest(
+      `http://localhost:5000/api/${route}`,
+      'POST',
+      JSON.stringify(newWelcomeData),
+      { 'Content-Type': 'application/json' }
+    )
     location.reload()
   }
 
   return (
-    <form onSubmit={welcomeSubmitHandler}>
+    <form onSubmit={handleSubmit(welcomeSubmitHandler)}>
       <Input
-        id='title'
+        rules={{
+          required: 'This field is required',
+          maxLength: {
+            value: 40,
+            message: 'Maximum value is 40 characters',
+          },
+          minLength: {
+            value: 5,
+            message: 'Minimum value is 5 characters',
+          },
+        }}
         label='Title'
-        onInput={inputHandler}
-        name='welcome-title'
+        name='title'
+        control={control}
         element='input'
-        initialValue={formState.inputs.title.value as string}
         placeholder='Provide title for the section'
       />
       <Input
-        id='content'
+        rules={{ required: 'This field is required' }}
         label='Content'
-        onInput={inputHandler}
-        name='welcome-content'
+        name='content'
         element='textarea'
         rows={6}
-        initialValue={formState.inputs.content.value as string}
+        control={control}
         placeholder='Provide content for the section'
       />
       <div>
