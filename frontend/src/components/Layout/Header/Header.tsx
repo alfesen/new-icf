@@ -19,9 +19,6 @@ const Header = () => {
 
   useLayoutEffect(() => {
     const getHeader = async () => {
-      if (memberId) {
-        return
-      }
       try {
         const { headerData } = await sendRequest(
           `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`
@@ -29,7 +26,9 @@ const Header = () => {
         setHeaderData(headerData)
       } catch (err) {}
     }
-    getHeader()
+    if (!memberId) {
+      getHeader()
+    }
   }, [sendRequest, pathname])
 
   const showModal = () => {
@@ -39,10 +38,11 @@ const Header = () => {
     setShowEditModal(false)
   }
 
+  if (memberId) {
+    return <></>
+  }
+  
   if (!headerData) {
-    if (memberId) {
-      return <></>
-    }
     return (
       <div className={`center ${s.header__fallback}`}>
         <Button onClick={showModal}>Add header</Button>

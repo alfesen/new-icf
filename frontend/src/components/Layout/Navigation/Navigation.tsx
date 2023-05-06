@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
-import s from './Navigation.module.scss'
-import Burger from '../../UI/UX/Burger/Burger'
 import { Fragment, useState } from 'react'
+import Burger from '../../UI/UX/Burger/Burger'
+import NavItem from './NavItem/NavItem'
+import s from './Navigation.module.scss'
+import { about, churchLife, give } from '../../../db/links.json'
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
@@ -17,9 +18,9 @@ const Navigation = () => {
       </div>
       <nav className={`${s.nav} ${isActive ? s.show : ''}`}>
         <ul className={s.nav__links}>
-          <li className={s.nav__link}>
-            <Link to='/about'>About us</Link>
-          </li>
+          <NavItem links={about.links} title={about.title} />
+          <NavItem links={churchLife.links} title={churchLife.title} />
+          <NavItem links={give.links} title={give.title} />
         </ul>
       </nav>
     </Fragment>
