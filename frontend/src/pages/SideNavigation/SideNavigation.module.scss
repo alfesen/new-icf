@@ -2,7 +2,9 @@
 
 .aside {
   padding: 1em;
-  
+  border-radius: .6rem;
+  box-shadow: $box-shadow;
+
   &__button {
     display: flex;
     justify-content: space-between;
@@ -45,6 +47,7 @@
 @media (min-width: 700px) {
   .aside {
     width: 100%;
+    box-shadow: none;
 
     &__button {
       display: none;

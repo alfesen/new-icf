@@ -2,22 +2,38 @@
 @import '../../../sass/vars.scss';
 
 .nav {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 1em;
-  height: 100vh;
-  width: 26rem;
-  overflow-y: auto;
-  text-align: left;
-  text-transform: uppercase;
-  text-align: right;
-  color: $color-basic;
-  font-size: 1.6rem;
-  background-color: $color-dark-grey;
-  translate: 100% 0;
-  transition: translate 0.3s;
-  z-index: 40;
+  &__dark {
+    background-color: $color-dark-grey;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    .nav__button {
+      position: relative;
+    }
+  }
+  &__inner {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1em;
+    height: 100vh;
+    width: 26rem;
+    overflow-y: auto;
+    text-align: left;
+    text-transform: uppercase;
+    text-align: right;
+    color: $color-basic;
+    font-size: 1.6rem;
+    background-color: $color-dark-grey;
+    translate: 100% 0;
+    transition: translate 0.3s;
+    z-index: 40;
+    position: absolute;
+    &.show {
+      translate: 0;
+    }
+  }
 
   &__button {
     position: absolute;
@@ -31,37 +47,47 @@
     margin-top: 5rem;
     text-align: left;
     list-style: none;
-    li:last-child {
-      margin-top: 1em;
-    }
-  }
-
-  &.show {
-    translate: 0;
   }
 }
 
 @media (min-width: 700px) {
   .nav {
-    right: 50%;
-    translate: 50% 0;
+    position: absolute;
+    width: 100%;
+    z-index: 20;
     display: flex;
-    align-items: center;
-    overflow: visible;
-    justify-content: flex-end;
-    height: 8rem;
-    margin: 3rem auto;
-    width: 90%;
-    max-width: 1200px;
-    background: none;
-    font-size: 1.4rem;
-    &__links {
+    &:not(&__dark) {
+      .nav__links {
+        @include m.blur($color-black, 6rem);
+      }
+    }
+    &__dark {
+      padding: 1em 0;
+      position: relative;
+      background-color: $color-dark-grey;
+      .nav__inner {
+        height: 3rem;
+      }
+    }
+    &__inner {
+      position: relative;
+      translate: 0;
+      width: 80%;
+      background: none;
+      max-width: 1000px;
+      margin: 0 auto;
+      height: 6rem;
       display: flex;
       align-items: center;
+      overflow: visible;
+    }
+    &__links {
       margin: 0;
-      li:last-child {
-        margin-top: 0;
-      }
+      padding: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1em;
     }
     &__button {
       display: none;

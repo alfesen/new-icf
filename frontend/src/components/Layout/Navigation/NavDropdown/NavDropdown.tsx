@@ -1,8 +1,16 @@
 import s from './NavDropdown.module.scss'
 import { formatLink } from '../../../../helpers/formatLink'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-const NavDropdown = ({ links, collectionTitle }: { links: string[], collectionTitle: string}) => {
+const NavDropdown = ({
+  links,
+  collectionTitle,
+}: {
+  links: string[]
+  collectionTitle: string
+}) => {
+  
+  const { memberId } = useParams()
   const renderLinks =
     links &&
     links.map(link => {
@@ -10,6 +18,7 @@ const NavDropdown = ({ links, collectionTitle }: { links: string[], collectionTi
       const parsedTitle = formatLink(collectionTitle)
       return (
         <Link
+          onClick={() => {}}
           className={s.link}
           key={`${link.replaceAll(' ', '')}_link`}
           to={`/${parsedTitle}/${parsedLink}`}>
@@ -18,7 +27,11 @@ const NavDropdown = ({ links, collectionTitle }: { links: string[], collectionTi
       )
     })
 
-  return <div className={s.links}>{renderLinks}</div>
+  return (
+    <div className={`${s.links} ${memberId ? s.links__dark : ''}`}>
+      {renderLinks}
+    </div>
+  )
 }
 
 export default NavDropdown
