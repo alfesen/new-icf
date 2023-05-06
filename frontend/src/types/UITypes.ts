@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { Control } from 'react-hook-form'
 
 export type FormReducer = (state: FormState, action: FormAction) => FormState
 
@@ -33,24 +34,25 @@ export type FormAction =
     }
 
 export type InputProps = {
-  initialValue: string
-  element: 'input' | 'textarea' | 'select'
-  name: string
-  placeholder: string
+  control: Control<any>
+  element: string
   rows?: number
-  id: string
-  label?: string
-  onInput: (id: string, value: string | File) => void
-  type?: string,
+  label: string
+  placeholder: string
+  type?: string
   options?: string[]
+  name: string
+  rules?: object
 }
 
 export type ImagePickerProps = {
-  image?: string | File
+  name: string
+  control: Control<any>
   id: string
   label: string
-  onInput: (id: string, value: string | File) => void
+  image: string | undefined
   circle?: boolean
+  rules?: object
 }
 
 export type ButtonProps = {

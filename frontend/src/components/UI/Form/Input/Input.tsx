@@ -1,44 +1,40 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent } from 'react'
+import { useController } from 'react-hook-form'
 import { InputProps } from '../../../../types/UITypes'
 import s from './Input.module.scss'
 
 const Input = ({
-  id,
   element,
   name,
   placeholder,
   rows,
   label,
-  initialValue,
-  onInput,
   type,
   options,
+  control,
+  rules,
 }: InputProps) => {
-  const [value, setValue] = useState<string>('')
-
-  useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  useEffect(() => {
-    onInput(id, value)
-  }, [id, onInput, value])
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name, control, rules })
 
   const changeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setValue(e.target.value)
+  ) => field.onChange(e.target.value)
 
   let el
+
   if (element === 'input') {
     el = (
       <input
         type={type ? type : 'text'}
         data-testid='input'
         onChange={changeHandler}
-        id={id}
+        id={name}
         name={name}
         placeholder={placeholder}
-        value={value}
+        defaultValue={field.value}
       />
     )
   } else if (element === 'textarea') {
@@ -46,18 +42,22 @@ const Input = ({
       <textarea
         data-testid='textarea'
         onChange={changeHandler}
-        id={id}
+        id={name}
         name={name}
         placeholder={placeholder}
         rows={rows}
-        value={value}
+        defaultValue={field.value}
       />
     )
   } else if (element === 'select' && options) {
     el = (
-      <select  onChange={changeHandler}>
+      <select defaultValue={field.value} id={name} onChange={changeHandler}>
         {options.map(o => {
-          return <option key={`${o}__input_key`} value={o}>{o}</option>
+          return (
+            <option key={`${o}__input_key`} value={o}>
+              {o}
+            </option>
+          )
         })}
       </select>
     )
@@ -65,10 +65,11 @@ const Input = ({
 
   return (
     <div className={s.input}>
-      <label className={s.input__label} htmlFor={id}>
+      <label className={s.input__label} htmlFor={name}>
         {label}
       </label>
       {el}
+      <sub>{error?.message}</sub>
     </div>
   )
 }
