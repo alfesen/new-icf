@@ -3,22 +3,11 @@
 
 .links {
   padding: 0.5em 0 0 1.5em;
-  // animation: slide-in 0.3s ease-out;
   position: relative;
   display: block;
-  
+
   .link {
-    padding: .25em 0;
-  }
-}
-
-@keyframes slide-in {
-  from {
-    translate: -50%;
-  }
-
-  to {
-    translate: 0;
+    padding: 0.25em 0;
   }
 }
 
@@ -26,7 +15,12 @@
   .links {
     position: absolute;
     width: max-content;
-    padding: 0.5em 0;
-    @include m.blur(rgba($color-black, 0.6), 100rem);
+    &:not(&__dark) {
+      @include m.blur(rgba($color-black, 0.6), 100rem);
+    }
+    &__dark {
+      padding: 2em;
+      background-color: $color-dark-grey;
+    }
   }
 }

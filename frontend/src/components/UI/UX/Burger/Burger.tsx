@@ -1,17 +1,14 @@
 import { BurgerProps } from '../../../../types/UITypes'
 import s from './Burger.module.scss'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const Burger = ({ onToggle }: BurgerProps) => {
   const [isActive, setIsActive] = useState(false)
 
   const toggleBurger = () => {
     setIsActive(is => !is)
+    onToggle(!isActive)
   }
-
-  useEffect(() => {
-    onToggle(isActive)
-  }, [isActive])
 
   return (
     <button
