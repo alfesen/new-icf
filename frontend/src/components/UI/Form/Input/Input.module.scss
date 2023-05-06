@@ -17,4 +17,29 @@
   label {
     font-size: $font-sm;
   }
+  &__error {
+    color: salmon;
+  }
+  &__subscript {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__invalid {
+    input,
+    textarea,
+    select {
+      border-color: salmon;
+    }
+  }
+  &__rules {
+    input,
+    textarea,
+    select {
+      margin-bottom: 0;
+    }
+    .input__subscript p {
+      margin-top: .2em;
+    }
+  }
 }

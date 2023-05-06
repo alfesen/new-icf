@@ -65,18 +65,18 @@ const Input = ({
   }
 
   return (
-    <div className={s.input}>
+    <div className={`${s.input} ${error ? s.input__invalid : ''} ${rules ? s.input__rules : ''}`}>
       <label className={s.input__label} htmlFor={name}>
         {label}
       </label>
       {el}
-      <sub>
-        <p>{error?.message}</p>
-        <p>
+      {rules && <sub className={s.input__subscript}>
+        <p className={s.input__error}>{error?.message}</p>
+        <p className={error ? s.input__error : ''}>
           {maxLength &&
-            `${field.value && field.value.length}/${maxLength.value}`}
+            `${(field.value && field.value.length) | 0}/${maxLength.value}`}
         </p>
-      </sub>
+      </sub>}
     </div>
   )
 }
