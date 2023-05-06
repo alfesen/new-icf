@@ -18,6 +18,7 @@ const Input = ({
     field,
     fieldState: { error },
   } = useController({ name, control, rules })
+  const maxLength = rules?.maxLength as { value: number; message: string }
 
   const changeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -69,7 +70,13 @@ const Input = ({
         {label}
       </label>
       {el}
-      <sub>{error?.message}</sub>
+      <sub>
+        <p>{error?.message}</p>
+        <p>
+          {maxLength &&
+            `${field.value && field.value.length}/${maxLength.value}`}
+        </p>
+      </sub>
     </div>
   )
 }
