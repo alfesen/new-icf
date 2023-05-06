@@ -1,61 +1,46 @@
-import { useState, useEffect, FormEvent } from 'react'
-import Input from '../../UI/Form/Input/Input'
-import s from './LocationForm.module.scss'
+import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { useForm } from '../../../hooks/useForm'
-import Button from '../../UI/Form/Button/Button'
 import { FormProps } from '../../../types/UITypes'
+import Input from '../../UI/Form/Input/Input'
+import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
+import s from './LocationForm.module.scss'
 
 const LocationForm = ({ onClose, edit }: FormProps) => {
-  const [isData, setIsData] = useState<boolean>(false)
   const { sendRequest } = useFetchData()
 
-  const { inputHandler, formState, setFormData } = useForm({
-    title: { value: '' },
-    address: { value: '' },
-    image: { value: '' },
-    directions: { value: '' },
-    map: { value: '' },
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { defaultValues },
+  } = useForm({
+    defaultValues: async () =>
+      fetch(`http://localhost:5000/api/about/location`)
+        .then(res => res.json())
+        .then(({ location }: any) => location) || {
+        title: '',
+        address: '',
+        image: '',
+        directions: '',
+        map: '',
+      },
   })
 
-  useEffect(() => {
-    const getLocation = async () => {
-      try {
-        const { location } = await sendRequest(
-          `http://localhost:5000/api/about/location`
-        )
-        setIsData(!!location)
-        setFormData({
-          title: { value: location.title },
-          address: { value: location.address },
-          image: { value: location.image },
-          directions: { value: location.directions },
-          map: { value: location.map },
-        })
-      } catch (err) {}
-    }
-    setIsData(false)
-    getLocation()
-  }, [sendRequest])
-
-  const locationFormSubmitHandler = async (e: FormEvent) => {
-    e.preventDefault()
+  const locationFormSubmitHandler = async () => {
     const formData = new FormData()
-    formData.append('title', formState.inputs.title.value)
-    formData.append('address', formState.inputs.address.value)
-    formData.append('image', formState.inputs.image.value)
-    formData.append('directions', formState.inputs.directions.value)
-    formData.append('map', formState.inputs.map.value)
-    console.log(formData)
+    formData.append('title', watch('title'))
+    formData.append('address', watch('address'))
+    formData.append('image', watch('image'))
+    formData.append('directions', watch('directions'))
+    formData.append('map', watch('map'))
 
-    if (isData) {
-     const response = await sendRequest(
+    if (defaultValues) {
+      await sendRequest(
         `http://localhost:5000/api/about/location`,
         'PATCH',
         formData
       )
-      console.log(response)
     } else
       await sendRequest(
         `http://localhost:5000/api/about/location`,
@@ -66,53 +51,42 @@ const LocationForm = ({ onClose, edit }: FormProps) => {
   }
 
   return (
-    <form className={s.form} onSubmit={locationFormSubmitHandler}>
+    <form className={s.form} onSubmit={handleSubmit(locationFormSubmitHandler)}>
       <Input
-        initialValue={(formState.inputs.title.value as string) || ''}
+        control={control}
         element='input'
         label='Page Title'
-        onInput={inputHandler}
         placeholder='Please enter section title'
-        id='title'
         name='title'
       />
       <Input
-        initialValue={(formState.inputs.address.value as string) || ''}
+        control={control}
         element='input'
         label='Address'
-        onInput={inputHandler}
         placeholder='Please enter the church address'
-        id='address'
         name='address'
       />
       <Input
-        initialValue={(formState.inputs.directions.value as string) || ''}
+        control={control}
         element='textarea'
         label='Directions'
-        onInput={inputHandler}
         placeholder='Please enter directions'
-        id='directions'
         name='directions'
       />
       <div className={s.form__images}>
         <ImagePicker
+          control={control}
           label='Pick the photo'
-          image={
-            formState.inputs.image.value
-              ? formState.inputs.image.value
-              : undefined
-          }
-          onInput={inputHandler}
+          image={defaultValues?.image}
+          name='image'
           id='image'
         />
       </div>
       <Input
-        initialValue={(formState.inputs.map.value as string) || ''}
+        control={control}
         element='input'
         label='Map link'
-        onInput={inputHandler}
         placeholder='Please enter map link'
-        id='map'
         name='map'
       />
       <div className={s.form__actions}>

@@ -1,5 +1,4 @@
 import { useLayoutEffect, useState } from 'react'
-import s from './Header.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
@@ -8,6 +7,7 @@ import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import HeaderForm from './HeaderForm/HeaderForm'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
+import s from './Header.module.scss'
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
@@ -19,6 +19,9 @@ const Header = () => {
 
   useLayoutEffect(() => {
     const getHeader = async () => {
+      if (memberId) {
+        return
+      }
       try {
         const { headerData } = await sendRequest(
           `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`

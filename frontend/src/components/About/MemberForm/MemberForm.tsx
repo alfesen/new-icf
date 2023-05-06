@@ -1,6 +1,6 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useForm } from '../../../hooks/useForm'
+import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
@@ -8,76 +8,47 @@ import Button from '../../UI/Form/Button/Button'
 
 const MemberForm = () => {
   const navigate = useNavigate()
-  const [isData, setIsData] = useState<boolean>(false)
   const { memberId } = useParams()
-  const { formState, inputHandler, setFormData } = useForm({
-    name: {
-      value: '',
-    },
-    role: {
-      value: '',
-    },
-    category: {
-      value: '',
-    },
-    image: {
-      value: '',
-    },
-    bio: {
-      value: '',
-    },
-    contact: {
-      value: '',
-    },
-    isAuthor: {
-      value: '',
-    },
-  })
   const { sendRequest } = useFetchData()
+  const {
+    handleSubmit,
+    watch,
+    control,
+    register,
+    setValue,
+    formState: { defaultValues },
+  } = useForm({
+    defaultValues: memberId
+      ? async () =>
+          fetch(`http://localhost:5000/api/members/${memberId}`)
+            .then(res => res.json())
+            .then(({ member }: any) => member)
+      : {
+          name: '',
+          role: '',
+          category: 'pastors',
+          image: '',
+          bio: '',
+          contact: '',
+          isAuthor: '',
+        },
+  })
 
-  useEffect(() => {
-    const getMemberData = async () => {
-      try {
-        const { member } = await sendRequest(
-          `http://localhost:5000/api/members/${memberId}`
-        )
-        setIsData(!!member)
-        if (!!member) {
-          setFormData({
-            name: { value: member.name },
-            role: { value: member.role },
-            category: { value: member.category },
-            image: { value: member.image },
-            bio: { value: member.bio },
-            contact: { value: member.contact },
-            isAuthor: { value: member.isAuthor },
-          })
-        }
-      } catch (err) {}
-    }
-    getMemberData()
-  }, [])
-
-  const handleAuthorCheckbox = () => {
-    inputHandler(
-      'isAuthor',
-      formState.inputs.isAuthor.value === '' ? 'true' : ''
-    )
+  const handleAuthorCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue('isAuthor', watch('isAuthor') === '' ? 'true' : '')
   }
 
-  const memberFormSubmitHandler = async (e: FormEvent) => {
-    e.preventDefault()
-
+  const memberFormSubmitHandler = async () => {
     const formData = new FormData()
-    formData.append('name', formState.inputs.name.value)
-    formData.append('role', formState.inputs.role.value)
-    formData.append('category', formState.inputs.category.value)
-    formData.append('image', formState.inputs.image.value)
-    formData.append('bio', formState.inputs.bio.value)
-    formData.append('contact', formState.inputs.contact.value)
-    formData.append('isAuthor', formState.inputs.isAuthor.value)
+    formData.append('name', watch('name'))
+    formData.append('role', watch('role'))
+    formData.append('category', watch('category'))
+    formData.append('image', watch('image'))
+    formData.append('bio', watch('bio'))
+    formData.append('contact', watch('contact'))
+    formData.append('isAuthor', watch('isAuthor'))
 
-    if (!isData) {
+    if (!defaultValues) {
       try {
         await sendRequest(
           'http://localhost:5000/api/members/',
@@ -99,65 +70,63 @@ const MemberForm = () => {
   }
 
   return (
-    <form onSubmit={memberFormSubmitHandler}>
+    <form onSubmit={handleSubmit(memberFormSubmitHandler)}>
       <Input
         element='input'
         name='name'
         label='Name'
-        id='name'
         placeholder="Enter new member's name"
-        onInput={inputHandler}
-        initialValue={(formState.inputs.name.value as string) || ''}
+        control={control}
       />
       <Input
         element='input'
         name='role'
         label='Role'
-        id='role'
         placeholder="Enter new member's role"
-        onInput={inputHandler}
-        initialValue={(formState.inputs.role.value as string) || ''}
+        control={control}
       />
       <Input
+        control={control}
         element='select'
         name='category'
-        id='category'
         label='Category'
         options={['pastors', 'leadership team', 'ministry leaders']}
         placeholder="Enter new member's category"
-        onInput={inputHandler}
-        initialValue={(formState.inputs.category.value as string) || 'pastors'}
       />
       <div className='center'>
         <ImagePicker
+          control={control}
           circle
           id='image'
-          onInput={inputHandler}
+          name='image'
           label='Pick the image'
-          image={formState.inputs.image.value as string}
+          image={defaultValues?.image}
         />
       </div>
       <Input
+        control={control}
         element='textarea'
         name='bio'
-        id='bio'
         label='Bio'
         placeholder="Enter new member's bio"
-        onInput={inputHandler}
-        initialValue={(formState.inputs.bio.value as string) || ''}
       />
       <Input
         element='textarea'
         name='contact'
-        id='contact'
         label='Contact'
+        control={control}
         placeholder="Enter new member's contact"
-        onInput={inputHandler}
-        initialValue={formState.inputs.contact.value as string}
       />
       <div>
         <label htmlFor='isAuthor'>Author</label>
-        <input id='isAuthor' type='checkbox' onChange={handleAuthorCheckbox} />
+        <input
+          {...register('isAuthor')}
+          id='isAuthor'
+          name='isAuthor'
+          type='checkbox'
+          value={'false' ? 'true' : 'false'}
+          onChange={handleAuthorCheckbox}
+        />
       </div>
       <div>
         <Button type='submit'>Submit</Button>
