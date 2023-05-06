@@ -1,9 +1,9 @@
 import { useState, Fragment } from 'react'
 import s from './SideNavigation.module.scss'
 import { NavLink } from 'react-router-dom'
-import { formatLink } from '../../helpers/formatLink'
+import { formatLink } from '../../../helpers/formatLink'
 import { Fade } from 'react-awesome-reveal'
-import { SideNav } from '../../types/LayoutTypes'
+import { SideNav } from '../../../types/LayoutTypes'
 
 const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
   const [showNav, setShowNav] = useState(false)
