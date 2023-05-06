@@ -4,6 +4,7 @@ import Burger from '../../UI/UX/Burger/Burger'
 import NavItem from './NavItem/NavItem'
 import s from './Navigation.module.scss'
 import { about, churchLife, give } from '../../../db/links.json'
+import Logo from '../../UI/Assets/Logo/Logo'
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
@@ -22,6 +23,9 @@ const Navigation = () => {
 
   return (
     <div className={`${s.nav} ${memberId ? s.nav__dark : ''}`}>
+      <div className={s.nav__logo}>
+        <Logo />
+      </div>
       <div className={s.nav__button}>
         <Burger onToggle={toggleNavigation} />
       </div>

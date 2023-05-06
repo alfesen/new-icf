@@ -48,6 +48,12 @@
     text-align: left;
     list-style: none;
   }
+  &__logo {
+    width: 15rem;
+    background: none;
+    position: absolute;
+    @include m.blur($color-black, 6rem);
+  }
 }
 
 @media (min-width: 700px) {
@@ -91,6 +97,11 @@
     }
     &__button {
       display: none;
+    }
+    &__logo {
+      margin: 2em 4em;
+      width: 20rem;
+      z-index: 41
     }
   }
 }
