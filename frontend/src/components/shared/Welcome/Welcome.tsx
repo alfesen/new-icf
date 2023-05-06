@@ -25,7 +25,6 @@ const Welcome = ({ route, subpage }: { route: string, subpage?: boolean }) => {
   }, [])
 
   const showEditModal = () => {
-    console.log(editMode)
     setEditMode(true)
   }
 
