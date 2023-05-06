@@ -1,0 +1,32 @@
+@use '../../../../sass/mixins' as m;
+@import '../../../../sass/vars';
+
+.links {
+  padding: 0.5em 0 0 1.5em;
+  // animation: slide-in 0.3s ease-out;
+  position: relative;
+  display: block;
+  
+  .link {
+    padding: .25em 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    translate: -50%;
+  }
+
+  to {
+    translate: 0;
+  }
+}
+
+@media (min-width: 700px) {
+  .links {
+    position: absolute;
+    width: max-content;
+    padding: 0.5em 0;
+    @include m.blur(rgba($color-black, 0.6), 100rem);
+  }
+}
