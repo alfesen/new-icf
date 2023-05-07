@@ -1,28 +1,30 @@
 import { NextFunction, Request, Response } from 'express'
-import { validation } from '../../hooks/validation.mjs'
 import Article from '../../models/shared/Article.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { ArticleType } from '../../types.js'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const postPageArticle = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
   const { articleTitle, pagePath, sections } = req.body
 
   const existingArticle = (await findExistingData(Article, next, {
     filter: { pagePath },
   })) as ArticleType
-
-  const newArticle = new Article({
-    articleTitle: articleTitle,
-    pagePath: pagePath,
-    sections: sections,
-  })
 
   if (existingArticle) {
     const error = new HttpError(
@@ -31,6 +33,12 @@ export const postPageArticle = async (
     )
     return next(error)
   }
+
+  const newArticle = new Article({
+    articleTitle: articleTitle,
+    pagePath: pagePath,
+    sections: sections,
+  })
 
   await saveData(newArticle, next)
 
@@ -60,7 +68,15 @@ export const updatePageArticle = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { pagePath } = req.params
   const { articleTitle, sections } = req.body
@@ -92,6 +108,6 @@ export const deletePageArticle = async (
     )
     return next(error)
   }
-  
-  res.status(200).json({message: 'Article deleted successfully'})
+
+  res.status(200).json({ message: 'Article deleted successfully' })
 }

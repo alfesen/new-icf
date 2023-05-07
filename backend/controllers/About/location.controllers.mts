@@ -3,16 +3,24 @@ import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { LocationType } from '../../types.js'
 import Location from '../../models/About/location.model.mjs'
 import fs from 'fs'
-import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const postLocation = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { title, address, directions, map } = req.body
 
@@ -65,7 +73,15 @@ export const updateLocation = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { title, address, directions, map } = req.body
 

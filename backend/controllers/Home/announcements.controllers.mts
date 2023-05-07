@@ -2,16 +2,24 @@ import { Request, Response, NextFunction } from 'express'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Announcement from '../../models/Home/announcement.model.mjs'
 import { AnnouncementType } from '../../types.js'
-import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const postAnnouncement = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { date, time, title, description } = req.body
 
@@ -95,7 +103,15 @@ export const updateAnnouncement = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { announcementId } = req.params
   const { title, date, time, description } = req.body
