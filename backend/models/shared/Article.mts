@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
+import { ArticleType } from '../../types'
 
-const articleSchema = new Schema({
+const articleSchema = new Schema<ArticleType>({
   articleTitle: {
     type: String,
     required: true,
@@ -13,7 +14,7 @@ const articleSchema = new Schema({
     new Schema({
       sectionTitle: {
         type: String,
-        required: true,
+        required: false,
       },
       content: {
         type: String,
@@ -23,4 +24,4 @@ const articleSchema = new Schema({
   ],
 })
 
-export default model('Article', articleSchema)
+export default model<ArticleType>('Article', articleSchema)
