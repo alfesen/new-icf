@@ -49,3 +49,15 @@ export type FindOptions<T> = {
   filter?: any
   array?: boolean
 }
+
+
+export interface ArticleSection extends Document {
+  sectionTitle: string,
+  content: string
+}
+
+export interface ArticleType extends Document {
+  articleTitle: string,
+  pagePath: string,
+  sections: ArticleSection[],
+}
