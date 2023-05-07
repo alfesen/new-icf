@@ -7,6 +7,7 @@ import WelcomeLocation from './pages/About/subpages/WelcomeLocation'
 import Staff from './pages/About/subpages/Staff/Staff'
 import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
+import Expect from './pages/About/subpages/Expect/Expect'
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ function App() {
             },
             { path: 'welcome-location', element: <WelcomeLocation /> },
             { path: 'our-pastors-and-staff', element: <Staff /> },
+            {path: 'what-to-expect', element: <Expect />}
           ],
         },
         { path: 'staff/:memberId', element: <MemberPage /> },
