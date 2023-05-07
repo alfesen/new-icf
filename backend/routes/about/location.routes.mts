@@ -9,30 +9,17 @@ import {
 
 const router = Router()
 
-router.post(
-  '/',
-  fileUpload.single('image'),
-  [
-    check('title').notEmpty().isLength({ min: 5, max: 50 }),
-    check('address').notEmpty(),
-    check('map').notEmpty(),
-    check('directions').notEmpty(),
-  ],
-  postLocation
-)
+const validate = () => [
+  check('title').notEmpty().isLength({ min: 5, max: 50 }),
+  check('address').notEmpty(),
+  check('map').notEmpty(),
+  check('directions').notEmpty(),
+]
+
+router.post('/', fileUpload.single('image'), validate(), postLocation)
 
 router.get('/', getLocation)
 
-router.patch(
-  '/',
-  fileUpload.single('image'),
-  [
-    check('title').notEmpty().isLength({ min: 5, max: 50 }),
-    check('address').notEmpty(),
-    check('map').notEmpty(),
-    check('directions').notEmpty(),
-  ],
-  updateLocation
-)
+router.patch('/', fileUpload.single('image'), validate(), updateLocation)
 
 export default router
