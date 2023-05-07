@@ -5,7 +5,7 @@
   cursor: pointer;
   &__link,
   a {
-    font-size: $font-sm;
+    font-size: $font-md;
     color: $color-basic;
     display: block;
     &--span {
@@ -24,20 +24,10 @@
 
     &__link,
     a {
-      font-size: $font-sm;
       padding: 0.5em 1em;
       &--span {
         display: none;
       }
-    }
-  }
-}
-
-@media (min-width: 900px) {
-  .item {
-    &__link,
-    a {
-      font-size: $font-sm;
     }
   }
 }

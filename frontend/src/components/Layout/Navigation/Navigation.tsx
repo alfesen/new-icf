@@ -22,21 +22,21 @@ const Navigation = () => {
   }
 
   return (
-    <div className={`${s.nav} ${memberId ? s.nav__dark : ''}`}>
-      <div className={s.nav__logo}>
-        <Logo />
-      </div>
-      <div className={s.nav__button}>
-        <Burger onToggle={toggleNavigation} />
-      </div>
-      <nav className={`${s.nav__inner} ${isActive ? s.show : ''} `}>
-        <ul className={s.nav__links}>
+    <nav className={`${s.nav} ${memberId ? s.nav__dark : ''}`}>
+      <div className={s.nav__inner}>
+        <div className={s.nav__logo}>
+          <Logo />
+        </div>
+        <ul className={`${s.nav__links} ${isActive ? s.show : ''}`}>
           <NavItem links={about.links} title={about.title} />
           <NavItem links={churchLife.links} title={churchLife.title} />
           <NavItem links={give.links} title={give.title} />
         </ul>
-      </nav>
-    </div>
+      </div>
+      <div className={s.nav__button}>
+        <Burger onToggle={toggleNavigation} />
+      </div>
+    </nav>
   )
 }
 
