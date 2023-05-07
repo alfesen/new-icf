@@ -1,5 +1,10 @@
 import './App.scss'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+  useParams,
+} from 'react-router-dom'
 import MainLayout from './components/Layout/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/About/AboutPage'
@@ -8,6 +13,7 @@ import Staff from './pages/About/subpages/Staff/Staff'
 import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
 import Expect from './pages/About/subpages/Expect/Expect'
+import ArticleForm from './components/shared/ArticleForm/ArticleForm'
 
 function App() {
   const router = createBrowserRouter([
@@ -27,12 +33,13 @@ function App() {
             },
             { path: 'welcome-location', element: <WelcomeLocation /> },
             { path: 'our-pastors-and-staff', element: <Staff /> },
-            {path: 'what-to-expect', element: <Expect />}
+            { path: 'what-to-expect', element: <Expect /> },
           ],
         },
         { path: 'staff/:memberId', element: <MemberPage /> },
         { path: 'staff/edit-member', element: <EditMember /> },
         { path: 'staff/edit-member/:memberId', element: <EditMember /> },
+        { path: '/edit-page-article/:page', element: <ArticleForm /> },
       ],
     },
   ])
