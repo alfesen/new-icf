@@ -2,106 +2,72 @@
 @import '../../../sass/vars.scss';
 
 .nav {
-  &__dark {
-    background-color: $color-dark-grey;
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: flex-end;
-    .nav__button {
-      position: relative;
-    }
-  }
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 40;
   &__inner {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 1em;
-    height: 100vh;
-    width: 26rem;
-    overflow-y: auto;
-    text-align: left;
-    text-transform: uppercase;
-    text-align: right;
-    color: $color-basic;
-    font-size: 1.6rem;
-    background-color: $color-dark-grey;
-    translate: 100% 0;
-    transition: translate 0.3s;
-    z-index: 40;
-    position: absolute;
-    &.show {
-      translate: 0;
-    }
-  }
-
-  &__button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 1em;
-    z-index: 41;
-  }
-
-  &__links {
-    margin-top: 5rem;
-    text-align: left;
-    list-style: none;
+    display: flex;
   }
   &__logo {
     width: 15rem;
-    background: none;
-    position: absolute;
-    @include m.blur($color-black, 6rem);
+    position: relative;
+  }
+  &__links {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 0;
+    height: 100vh;
+    width: 30rem;
+    padding-top: 10rem;
+    list-style: none;
+    background-color: $color-dark-grey;
+    translate: 100% 0;
+    transition: translate 0.3s;
+    &.show {
+      translate: 0 0;
+    }
+  }
+  &__dark {
+    position: relative;
+    background-color: $color-dark-grey;
+  }
+  &:not(.nav__dark) {
+    .nav__logo {
+      @include m.blur($color-black, 6rem);
+    }
   }
 }
 
 @media (min-width: 700px) {
   .nav {
-    position: absolute;
-    width: 100%;
-    z-index: 20;
-    display: flex;
-    &:not(&__dark) {
+    &__inner {
+      margin: 0 auto;
+      width: 90%;
+      max-width: 120rem;
+      justify-content: space-between;
+    }
+    &__links {
+      position: relative;
+      height: auto;
+      padding-top: 0;
+      translate: 0 0;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      width: max-content;
+      background-color: transparent;
+    }
+    &:not(.nav__dark) {
       .nav__links {
         @include m.blur($color-black, 6rem);
       }
     }
-    &__dark {
-      padding: 1em 0;
-      position: relative;
-      background-color: $color-dark-grey;
-      .nav__inner {
-        height: 3rem;
-      }
-    }
-    &__inner {
-      position: relative;
-      translate: 0;
-      width: 80%;
-      background: none;
-      max-width: 1000px;
-      margin: 0 auto;
-      height: 6rem;
-      display: flex;
-      align-items: center;
-      overflow: visible;
-    }
-    &__links {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      gap: 1em;
-    }
     &__button {
       display: none;
-    }
-    &__logo {
-      margin: 2em 4em;
-      width: 20rem;
-      z-index: 41
     }
   }
 }
