@@ -3,16 +3,24 @@ import Member from '../../models/About/member.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { MemberType } from '../../types.js'
 import fs from 'fs'
-import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const createMember = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
   const { name, role, category, bio, contact, isAuthor } = req.body
 
   const newMember = new Member({
@@ -83,7 +91,15 @@ export const updateMember = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { memberId } = req.params
 

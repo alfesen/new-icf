@@ -3,16 +3,24 @@ import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Header from '../../models/Layout/header.model.mjs'
 import { HeaderData, MulterFiles } from '../../types.js'
 import fs from 'fs'
-import { validation } from '../../hooks/validation.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const postHeaderData = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { pagePath, pageTitle, pageSubtitle } = req.body
   const { desktopImage, mobileImage } = req.files as MulterFiles
@@ -67,7 +75,15 @@ export const updateHeaderData = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { pageTitle, pageSubtitle } = req.body
 

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import { WelcomeType } from '../../types'
-import { validation } from '../../hooks/validation.mjs'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
+import { validationResult } from 'express-validator'
 
 export const postWelcome = async (
   model: typeof Welcome,
@@ -12,7 +12,15 @@ export const postWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const existingWelcomeData = await findExistingData(model, next)
 
@@ -44,7 +52,15 @@ export const updateWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  validation(req, next)
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorField = errors.array()[0].param
+    const error = new HttpError(
+      400,
+      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
+    )
+    return next(error)
+  }
 
   const { title, content } = req.body
 
