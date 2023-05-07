@@ -11,24 +11,21 @@ import fileUpload from '../../middleware/file-upload.mjs'
 
 const router = Router()
 
-router.post(
-  '/',
-  fileUpload.single('image'),
-  [
-    check('name').notEmpty(),
-    check('role').isLength({ max: 50 }),
-    check('category').custom(value => {
-      const categories = ['pastors', 'leadership team', 'ministry leaders']
-      if (!categories.includes(value)) {
-        throw new Error('Unknown category.')
-      }
+const validate = () => [
+  check('name').notEmpty(),
+  check('role').isLength({ max: 50 }),
+  check('category').custom(value => {
+    const categories = ['pastors', 'leadership team', 'ministry leaders']
+    if (!categories.includes(value)) {
+      throw new Error('Unknown category.')
+    }
 
-      return true
-    }),
-    check('bio').notEmpty(),
-  ],
-  createMember
-)
+    return true
+  }),
+  check('bio').notEmpty(),
+]
+
+router.post('/', fileUpload.single('image'), validate(), createMember)
 
 router.get('/', getAllMembers)
 
@@ -40,18 +37,7 @@ router.patch(
   '/:memberId',
   fileUpload.single('image'),
 
-  [
-    check('name').notEmpty(),
-    check('role').isLength({ max: 50 }),
-    check('category').custom(value => {
-      const categories = ['pastors', 'leadership team', 'ministry leaders']
-      if (!categories.includes(value)) {
-        throw new Error('Unknown category.')
-      }
-
-      return true
-    }),
-  ],
+  validate(),
   updateMember
 )
 

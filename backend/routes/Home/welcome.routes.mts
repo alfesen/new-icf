@@ -10,12 +10,14 @@ import { check } from 'express-validator'
 
 const router = Router()
 
+const validate = () => [
+  check('title').notEmpty().isLength({ min: 5, max: 40 }),
+  check('content').notEmpty(),
+]
+
 router.post(
   '/',
-  [
-    check('title').notEmpty().isLength({ min: 5, max: 40 }),
-    check('content').notEmpty(),
-  ],
+  validate(),
   postHomeWelcome
 )
 
@@ -23,10 +25,7 @@ router.get('/', getHomeWelcome)
 
 router.patch(
   '/',
-  [
-    check('title').notEmpty().isLength({ min: 5, max: 40 }),
-    check('content').notEmpty(),
-  ],
+  validate(),
   updateHomeWelcome
 )
 

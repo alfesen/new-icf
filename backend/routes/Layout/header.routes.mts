@@ -9,6 +9,16 @@ import { check } from 'express-validator'
 
 const router = Router()
 
+const validate = () => [
+  check('pageTitle')
+    .notEmpty()
+    .isLength({ min: 3, max: 50 })
+    .withMessage('Page Title is required'),
+  check('pageSubtitle')
+    .isLength({ min: 3 })
+    .withMessage('Page Title is Required'),
+]
+
 router.get('/:pageId/header', getHeaderData)
 
 router.post(
@@ -17,15 +27,7 @@ router.post(
     { name: 'desktopImage', maxCount: 1 },
     { name: 'mobileImage', maxCount: 1 },
   ]),
-  [
-    check('pageTitle')
-      .notEmpty()
-      .isLength({ min: 3, max: 50 })
-      .withMessage('Page Title is required'),
-    check('pageSubtitle')
-      .isLength({ min: 3 })
-      .withMessage('Page Title is Required'),
-  ],
+  validate(),
   postHeaderData
 )
 
@@ -35,15 +37,7 @@ router.patch(
     { name: 'desktopImage', maxCount: 1 },
     { name: 'mobileImage', maxCount: 1 },
   ]),
-  [
-    check('pageTitle')
-      .notEmpty()
-      .isLength({ min: 3, max: 50 })
-      .withMessage('Page Title is required'),
-    check('pageSubtitle')
-      .isLength({ min: 3 })
-      .withMessage('Page Title is Required'),
-  ],
+  validate(),
   updateHeaderData
 )
 

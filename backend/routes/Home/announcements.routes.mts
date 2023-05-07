@@ -10,14 +10,16 @@ import { check } from 'express-validator'
 
 const router = Router()
 
+const validate = () => [
+  check('date').notEmpty(),
+  check('time').notEmpty(),
+  check('title').notEmpty().isLength({ min: 3, max: 40 }),
+  check('description').isLength({ max: 250 }),
+]
+
 router.post(
   '/',
-  [
-    check('date').notEmpty(),
-    check('time').notEmpty(),
-    check('title').notEmpty().isLength({ min: 3, max: 40 }),
-    check('description').isLength({ max: 250 }),
-  ],
+  validate(),
   postAnnouncement
 )
 
@@ -27,11 +29,7 @@ router.get('/:announcementId', getSingleAnnouncement)
 
 router.patch(
   '/:announcementId',
-  [
-    check('date').notEmpty(),
-    check('time').notEmpty(),
-    check('title').notEmpty().isLength({ min: 3, max: 40 }),
-  ],
+  validate(),
   updateAnnouncement
 )
 
