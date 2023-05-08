@@ -1,12 +1,13 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment, lazy, Suspense } from 'react'
 import Modal from '../../UI/Modal/Modal'
-import LocationForm from '../LocationForm/LocationForm'
 import Button from '../../UI/Form/Button/Button'
 import s from './Location.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { LocationData } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import { convertString } from '../../../helpers/convertString'
+
+const LocationForm = lazy(() => import('../LocationForm/LocationForm'))
 
 const Location = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -25,11 +26,14 @@ const Location = () => {
     getLocation()
   }, [])
 
-  const showEditModal = () => {
-    setShowModal(true)
-  }
+  const showEditModal = () => setShowModal(true)
 
   const closeEditModal = () => setShowModal(false)
+
+  const submitHandler = (data: LocationData) => {
+    setLocationData(data)
+    closeEditModal()
+  }
 
   return (
     <Fragment>
@@ -38,7 +42,9 @@ const Location = () => {
           show={showModal}
           onDetach={closeEditModal}
           heading='Edit location'>
-          <LocationForm onClose={closeEditModal} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <LocationForm onClose={closeEditModal} onSubmit={submitHandler} />
+          </Suspense>
         </Modal>
       )}
       {loading && <LoadingSpinner />}
@@ -50,14 +56,18 @@ const Location = () => {
             </Button>
           </div>
           <h2 className={s.location__title}>{locationData.title}</h2>
-          <address className={s.location__address}>{convertString(locationData.address)}</address>
+          <address className={s.location__address}>
+            {convertString(locationData.address)}
+          </address>
           <div className={s.location__image}>
             <img
               src={`http://localhost:5000/${locationData.image}`}
               alt='Church building'
             />
           </div>
-          <div className={s.location__directions}>{convertString(locationData.directions)}</div>
+          <div className={s.location__directions}>
+            {convertString(locationData.directions)}
+          </div>
           <iframe
             src={locationData.map}
             width='600'
@@ -65,7 +75,11 @@ const Location = () => {
             loading='lazy'></iframe>
         </section>
       )}
-      {!loading && !locationData && <Button type="button" onClick={showEditModal}>Add location</Button>}
+      {!loading && !locationData && (
+        <Button type='button' onClick={showEditModal}>
+          Add location
+        </Button>
+      )}
     </Fragment>
   )
 }

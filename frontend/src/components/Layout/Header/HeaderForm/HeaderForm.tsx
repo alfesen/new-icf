@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 
 import s from './HeaderForm.module.scss'
 
-const HeaderForm = ({ onClose, edit }: FormProps) => {
+const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
   const { pathname } = useLocation()
   const { sendRequest } = useFetchData()
 
@@ -23,7 +23,7 @@ const HeaderForm = ({ onClose, edit }: FormProps) => {
         .then(res => res.json())
         .then(({ headerData }: any) => headerData),
   })
-
+  
   const headerFormSubmitHandler = async () => {
     const formData = new FormData()
     formData.append('pageTitle', watch('pageTitle'))
@@ -31,19 +31,22 @@ const HeaderForm = ({ onClose, edit }: FormProps) => {
     formData.append('desktopImage', watch('desktopImage'))
     formData.append('mobileImage', watch('mobileImage'))
     formData.append('pagePath', pathname)
-    if (defaultValues) {
-      await sendRequest(
+
+    if (defaultValues?.id) {
+      const { headerData } = await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'PATCH',
         formData
       )
-    } else
-      await sendRequest(
+      onSubmit(headerData)
+    } else {
+      const { headerData } = await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'POST',
         formData
       )
-    location.reload()
+      onSubmit(headerData)
+    }
   }
 
   return (

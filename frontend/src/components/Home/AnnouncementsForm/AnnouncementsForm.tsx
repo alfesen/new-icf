@@ -4,23 +4,26 @@ import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import s from './AnnouncementsForm.module.scss'
 
-const AnnouncementsForm = ({ id }: { id?: string }) => {
+const AnnouncementsForm = ({
+  id,
+  onSubmit,
+}: {
+  id?: string
+  onSubmit: () => void
+}) => {
   const { sendRequest } = useFetchData()
-  const {
-    handleSubmit,
-    watch,
-    control,
-    formState: { defaultValues },
-  } = useForm({
-    defaultValues: id ? async () =>
-      fetch(`http://localhost:5000/api/home/announcements/${id}`)
-        .then(res => res.json())
-        .then(({ announcement }: any) => announcement) : {
+  const { handleSubmit, watch, control } = useForm({
+    defaultValues: id
+      ? async () =>
+          fetch(`http://localhost:5000/api/home/announcements/${id}`)
+            .then(res => res.json())
+            .then(({ announcement }: any) => announcement)
+      : {
           title: '',
           description: '',
           date: '',
-          time: ''
-        }
+          time: '',
+        },
   })
 
   const announcementSubmitHandler = async () => {
@@ -30,7 +33,7 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
       date: new Date(watch('date')).toISOString(),
       time: watch('time'),
     }
-    if (!defaultValues) {
+    if (!id) {
       try {
         await sendRequest(
           'http://localhost:5000/api/home/announcements',
@@ -38,6 +41,7 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
           JSON.stringify(newAnnouncement),
           { 'Content-Type': 'application/json' }
         )
+        onSubmit()
       } catch (err) {}
     } else {
       try {
@@ -47,10 +51,9 @@ const AnnouncementsForm = ({ id }: { id?: string }) => {
           JSON.stringify(newAnnouncement),
           { 'Content-Type': 'application/json' }
         )
+        onSubmit()
       } catch (err) {}
     }
-
-    location.reload()
   }
 
   const deleteAnnouncement = async () => {

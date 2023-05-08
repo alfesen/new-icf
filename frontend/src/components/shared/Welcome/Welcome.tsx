@@ -1,15 +1,16 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { convertString } from '../../../helpers/convertString'
-import { HomeData } from '../../../types/HomeTypes'
+import { WelcomeData } from '../../../types/SharedTypes'
 import s from './Welcome.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
-import WelcomeForm from '../WelcomeForm/WelcomeForm'
 
-const Welcome = ({ route, subpage }: { route: string, subpage?: boolean }) => {
+const WelcomeForm = lazy(() => import('../WelcomeForm/WelcomeForm'))
+
+const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [welcome, setWelcome] = useState<HomeData>(null)
+  const [welcome, setWelcome] = useState<WelcomeData>(null)
   const { sendRequest } = useFetchData()
 
   useEffect(() => {
@@ -24,19 +25,21 @@ const Welcome = ({ route, subpage }: { route: string, subpage?: boolean }) => {
     getWelcome()
   }, [])
 
-  const showEditModal = () => {
-    setEditMode(true)
-  }
+  const showEditModal = () => setEditMode(true)
 
-  const closeEditModal = () => {
-    setEditMode(false)
-  }
+  const closeEditModal = () => setEditMode(false)
 
   const removeWelcomeSection = async () => {
     try {
       await sendRequest(`http://localhost:5000/api/${route}`, 'DELETE')
+      setWelcome(null)
+      closeEditModal()
     } catch (err) {}
-    location.reload()
+  }
+
+  const submitWelcome = (data: WelcomeData) => {
+    setWelcome(data)
+    closeEditModal()
   }
 
   return (
@@ -56,7 +59,13 @@ const Welcome = ({ route, subpage }: { route: string, subpage?: boolean }) => {
           }
           onDetach={closeEditModal}
           heading='Editing Welcome'>
-          <WelcomeForm route={route} onCancel={closeEditModal} />
+          <Suspense>
+            <WelcomeForm
+              route={route}
+              onCancel={closeEditModal}
+              onSubmit={submitWelcome}
+            />
+          </Suspense>
         </Modal>
       )}
       {welcome && (

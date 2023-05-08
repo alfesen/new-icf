@@ -3,7 +3,6 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-  useParams,
 } from 'react-router-dom'
 import MainLayout from './components/Layout/MainLayout'
 import HomePage from './pages/HomePage'
