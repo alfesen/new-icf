@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
-import Card from '../../UI/Card/Card'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { Announcement as AnnouncementType } from '../../../types/HomeTypes'
+import Card from '../../UI/Card/Card'
 import Announcement from './Announcement/Announcement'
-import s from './Announcements.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
-import AnnouncementsForm from '../AnnouncementsForm/AnnouncementsForm'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
+import s from './Announcements.module.scss'
+
+const AnnouncementsForm = lazy(
+  () => import('../AnnouncementsForm/AnnouncementsForm')
+)
 
 const Announcements = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -27,6 +30,21 @@ const Announcements = () => {
     getAnnouncements()
   }, [sendRequest])
 
+  const showEditModal = () => setShowModal(true)
+
+  const closeEditModal = () => setShowModal(false)
+
+  const submitAnnouncement = async () => {
+    try {
+      const { announcements } = await sendRequest(
+        'http://localhost:5000/api/home/announcements'
+      )
+
+      setAnnouncements(announcements)
+      closeEditModal()
+    } catch (err) {}
+  }
+
   const renderAnnouncements = announcements.map(
     ({ id, title, description, date, time }: AnnouncementType) => {
       const renderDate = new Date(date).toLocaleDateString('en-US', {
@@ -37,6 +55,7 @@ const Announcements = () => {
 
       return (
         <Announcement
+          onUpdate={submitAnnouncement}
           key={`${id}_announcement_type`}
           id={id}
           title={title}
@@ -48,14 +67,6 @@ const Announcements = () => {
     }
   )
 
-  const showEditModal = () => {
-    setShowModal(true)
-  }
-
-  const closeEditModal = () => {
-    setShowModal(false)
-  }
-
   return (
     <section>
       {!announcements && loading && <LoadingSpinner />}
@@ -64,7 +75,9 @@ const Announcements = () => {
           show={showModal}
           onDetach={closeEditModal}
           heading='Edit Announcements'>
-          <AnnouncementsForm />
+          <Suspense fallback={<LoadingSpinner />}>
+            <AnnouncementsForm onSubmit={submitAnnouncement} />
+          </Suspense>
         </Modal>
       )}
       <Card>

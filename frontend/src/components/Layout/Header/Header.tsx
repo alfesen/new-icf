@@ -1,13 +1,14 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
 import { HeaderData } from '../../../types/LayoutTypes'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
-import HeaderForm from './HeaderForm/HeaderForm'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import s from './Header.module.scss'
+
+const HeaderForm = lazy(() => import('./HeaderForm/HeaderForm'))
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
@@ -17,7 +18,7 @@ const Header = () => {
   const { width } = useClientWidth()
   const { memberId } = useParams()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const getHeader = async () => {
       try {
         const { headerData } = await sendRequest(
@@ -31,53 +32,51 @@ const Header = () => {
     }
   }, [sendRequest, pathname])
 
-  const showModal = () => {
-    setShowEditModal(true)
-  }
-  const closeModal = () => {
-    setShowEditModal(false)
+  const showModal = () => setShowEditModal(true)
+
+  const closeModal = () => setShowEditModal(false)
+
+  const submitHeader = (data: HeaderData) => {
+    setHeaderData(data)
+    closeModal()
   }
 
-  if (memberId) {
-    return <></>
-  }
-  
-  if (!headerData) {
-    return (
-      <div className={`center ${s.header__fallback}`}>
-        <Button onClick={showModal}>Add header</Button>
-        {showEditModal && (
-          <Modal
-            show={showEditModal}
-            heading='Edit header'
-            onDetach={closeModal}>
-            <HeaderForm edit={showEditModal && true} onClose={closeModal} />
-          </Modal>
-        )}
-      </div>
-    )
-  }
+  if (memberId) return <></>
 
   return (
     <header className={s.header}>
       {showEditModal && (
         <Modal show={showEditModal} heading='Edit header' onDetach={closeModal}>
-          <HeaderForm edit={showEditModal && true} onClose={closeModal} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <HeaderForm
+              edit={showEditModal && true}
+              onClose={closeModal}
+              onSubmit={submitHeader}
+            />
+          </Suspense>
         </Modal>
       )}
       {loading && <LoadingSpinner />}
-      {!loading && headerData && (
+      {!loading && (
         <>
           <img
             className={s.header__background}
             src={`http://localhost:5000/${
-              width > 700 ? headerData.desktopImage : headerData.mobileImage
+              headerData
+                ? width > 700
+                  ? headerData.desktopImage
+                  : headerData.mobileImage
+                : ''
             }`}
             alt='Welcome to ICF'
           />
           <div className={s.header__info}>
-            <h1 className={s.header__title}>{headerData.pageTitle}</h1>
-            {headerData.pageSubtitle && (
+            <h1 className={s.header__title}>
+              {headerData
+                ? headerData.pageTitle
+                : 'International Christian Fellowship of Warsaw'}
+            </h1>
+            {headerData && headerData.pageSubtitle && (
               <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
             )}
           </div>

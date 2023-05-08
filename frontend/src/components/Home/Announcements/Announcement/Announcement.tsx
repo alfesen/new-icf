@@ -12,15 +12,17 @@ const Announcement = ({
   description,
   date,
   time,
+  onUpdate,
 }: AnnouncementType) => {
   const [editModal, setEditModal] = useState<boolean>(false)
 
-  const showEditModal = () => {
-    setEditModal(true)
-  }
+  const showEditModal = () => setEditModal(true)
 
-  const closeEditModal = () => {
-    setEditModal(false)
+  const closeEditModal = () => setEditModal(false)
+
+  const updateHandler = () => {
+    onUpdate()
+    closeEditModal()
   }
 
   return (
@@ -30,7 +32,7 @@ const Announcement = ({
           heading='Edit announcement'
           onDetach={closeEditModal}
           show={editModal}>
-          <AnnouncementsForm id={id} />
+          <AnnouncementsForm id={id} onSubmit={updateHandler} />
         </Modal>
       )}
       <li className={s.announcement}>

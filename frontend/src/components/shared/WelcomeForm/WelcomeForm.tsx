@@ -1,10 +1,10 @@
-import Button from '../../UI/Form/Button/Button'
-import Input from '../../UI/Form/Input/Input'
+import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { WelcomeFormProps } from '../../../types/UITypes'
-import { useForm } from 'react-hook-form'
+import Button from '../../UI/Form/Button/Button'
+import Input from '../../UI/Form/Input/Input'
 
-const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
+const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
   const { sendRequest } = useFetchData()
   const {
     control,
@@ -25,20 +25,21 @@ const WelcomeForm = ({ onCancel, route }: WelcomeFormProps) => {
     }
 
     if (defaultValues) {
-      await sendRequest(
+      const { welcomeData } = await sendRequest(
         `http://localhost:5000/api/${route}`,
         'PATCH',
         JSON.stringify(newWelcomeData),
         { 'Content-Type': 'application/json' }
       )
+      onSubmit(welcomeData)
     }
-    await sendRequest(
+    const { welcomeData } = await sendRequest(
       `http://localhost:5000/api/${route}`,
       'POST',
       JSON.stringify(newWelcomeData),
       { 'Content-Type': 'application/json' }
     )
-    location.reload()
+    onSubmit(welcomeData)
   }
 
   return (

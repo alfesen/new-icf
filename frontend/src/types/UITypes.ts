@@ -42,7 +42,10 @@ export type InputProps = {
   type?: string
   options?: string[]
   name: string
-  rules?: Pick<RegisterOptions<FieldValues>, 'maxLength' | 'minLength' | 'validate' | 'required'>
+  rules?: Pick<
+    RegisterOptions<FieldValues>,
+    'maxLength' | 'minLength' | 'validate' | 'required'
+  >
 }
 
 export type ImagePickerProps = {
@@ -67,7 +70,8 @@ export type ButtonProps = {
 }
 
 export type FormProps = {
-  onClose: () => void
+  onClose?: () => void
+  onSubmit: (data: any) => void
   edit?: boolean
 }
 
@@ -106,8 +110,12 @@ export type IconLinkProps = {
   icon: IconDefinition
 }
 
-export type CircleLinkProps = {image: string, name: string, id: string}
+export type CircleLinkProps = { image: string; name: string; id: string }
 
 export type BurgerProps = { onToggle: (isActive: boolean) => void }
 
-export type WelcomeFormProps = { onCancel: () => void; route: string }
+export type WelcomeFormProps = {
+  onCancel: () => void
+  route: string
+  onSubmit: (data: any) => void
+}

@@ -6,7 +6,7 @@ import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import s from './LocationForm.module.scss'
 
-const LocationForm = ({ onClose, edit }: FormProps) => {
+const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
   const { sendRequest } = useFetchData()
 
   const {
@@ -36,18 +36,20 @@ const LocationForm = ({ onClose, edit }: FormProps) => {
     formData.append('map', watch('map'))
 
     if (defaultValues) {
-      await sendRequest(
+      const { location } = await sendRequest(
         `http://localhost:5000/api/about/location`,
         'PATCH',
         formData
       )
-    } else
-      await sendRequest(
+      onSubmit(location)
+    } else {
+      const { location } = await sendRequest(
         `http://localhost:5000/api/about/location`,
         'POST',
         formData
       )
-    location.reload()
+      onSubmit(location)
+    }
   }
 
   return (
