@@ -58,13 +58,15 @@ const Header = () => {
         <>
           <img
             className={s.header__background}
-            src={`http://localhost:5000/${
+            src={
               headerData
-                ? width > 700
-                  ? headerData.desktopImage
-                  : headerData.mobileImage
+                ? `http://localhost:5000/${
+                    width > 700
+                      ? headerData.desktopImage
+                      : headerData.mobileImage
+                  }`
                 : ''
-            }`}
+            }
             alt='Welcome to ICF'
           />
           <div className={s.header__info}>
