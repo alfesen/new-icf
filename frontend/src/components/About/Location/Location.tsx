@@ -6,7 +6,7 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import { LocationData } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import { convertString } from '../../../helpers/convertString'
-import useModal from '../../../hooks/useModal'
+import { useModal } from '../../../hooks/useModal'
 
 const LocationForm = lazy(() => import('../LocationForm/LocationForm'))
 
