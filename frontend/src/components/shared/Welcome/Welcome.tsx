@@ -1,17 +1,18 @@
 import { useState, useEffect, Fragment, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
+import { useModal } from '../../../hooks/useModal'
 import { convertString } from '../../../helpers/convertString'
 import { WelcomeData } from '../../../types/SharedTypes'
-import s from './Welcome.module.scss'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
+import s from './Welcome.module.scss'
 
 const WelcomeForm = lazy(() => import('../WelcomeForm/WelcomeForm'))
 
 const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
-  const [editMode, setEditMode] = useState<boolean>(false)
   const [welcome, setWelcome] = useState<WelcomeData>(null)
   const { sendRequest } = useFetchData()
+  const { openModal, closeModal, show } = useModal()
 
   useEffect(() => {
     const getWelcome = async () => {
@@ -25,44 +26,40 @@ const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
     getWelcome()
   }, [])
 
-  const showEditModal = () => setEditMode(true)
-
-  const closeEditModal = () => setEditMode(false)
-
   const removeWelcomeSection = async () => {
     try {
       await sendRequest(`http://localhost:5000/api/${route}`, 'DELETE')
       setWelcome(null)
-      closeEditModal()
+      closeModal()
     } catch (err) {}
   }
 
   const submitWelcome = (data: WelcomeData) => {
     setWelcome(data)
-    closeEditModal()
+    closeModal()
   }
 
   return (
     <Fragment>
       {!welcome && (
-        <Button type='button' onClick={showEditModal}>
+        <Button type='button' onClick={openModal}>
           Add Welcome section
         </Button>
       )}
-      {editMode && (
+      {show && (
         <Modal
-          show={true}
+          show={show}
           actions={
             <Button type='button' onClick={removeWelcomeSection}>
               Remove section
             </Button>
           }
-          onDetach={closeEditModal}
+          onDetach={closeModal}
           heading='Editing Welcome'>
           <Suspense>
             <WelcomeForm
               route={route}
-              onCancel={closeEditModal}
+              onCancel={closeModal}
               onSubmit={submitWelcome}
             />
           </Suspense>
@@ -74,7 +71,7 @@ const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
           <div className={s.welcome__content}>
             {convertString(welcome.content)}
           </div>
-          <Button edit onClick={showEditModal}>
+          <Button edit onClick={openModal}>
             Edit
           </Button>
         </section>

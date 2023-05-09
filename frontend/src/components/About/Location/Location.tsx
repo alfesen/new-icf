@@ -6,11 +6,12 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import { LocationData } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import { convertString } from '../../../helpers/convertString'
+import useModal from '../../../hooks/useModal'
 
 const LocationForm = lazy(() => import('../LocationForm/LocationForm'))
 
 const Location = () => {
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const { openModal, closeModal, show } = useModal()
   const [locationData, setLocationData] = useState<LocationData>(null)
   const { loading, sendRequest } = useFetchData()
 
@@ -26,24 +27,17 @@ const Location = () => {
     getLocation()
   }, [])
 
-  const showEditModal = () => setShowModal(true)
-
-  const closeEditModal = () => setShowModal(false)
-
   const submitHandler = (data: LocationData) => {
     setLocationData(data)
-    closeEditModal()
+    closeModal()
   }
 
   return (
     <Fragment>
-      {showModal && (
-        <Modal
-          show={showModal}
-          onDetach={closeEditModal}
-          heading='Edit location'>
+      {show && (
+        <Modal show={show} onDetach={closeModal} heading='Edit location'>
           <Suspense fallback={<LoadingSpinner />}>
-            <LocationForm onClose={closeEditModal} onSubmit={submitHandler} />
+            <LocationForm onClose={closeModal} onSubmit={submitHandler} />
           </Suspense>
         </Modal>
       )}
@@ -51,7 +45,7 @@ const Location = () => {
       {!loading && locationData && (
         <section className={s.location}>
           <div className={s.location__actions}>
-            <Button edit reverse type='button' onClick={showEditModal}>
+            <Button edit reverse type='button' onClick={openModal}>
               Edit
             </Button>
           </div>
@@ -76,7 +70,7 @@ const Location = () => {
         </section>
       )}
       {!loading && !locationData && (
-        <Button type='button' onClick={showEditModal}>
+        <Button type='button' onClick={openModal}>
           Add location
         </Button>
       )}

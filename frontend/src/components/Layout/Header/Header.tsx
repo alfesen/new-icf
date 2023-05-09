@@ -3,6 +3,7 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
 import { HeaderData } from '../../../types/LayoutTypes'
+import { useModal } from '../../../hooks/useModal'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
@@ -12,7 +13,7 @@ const HeaderForm = lazy(() => import('./HeaderForm/HeaderForm'))
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)
-  const [showEditModal, setShowEditModal] = useState<boolean>(false)
+  const { openModal, closeModal, show } = useModal()
   const { loading, sendRequest } = useFetchData()
   const { pathname } = useLocation()
   const { width } = useClientWidth()
@@ -32,10 +33,6 @@ const Header = () => {
     }
   }, [sendRequest, pathname])
 
-  const showModal = () => setShowEditModal(true)
-
-  const closeModal = () => setShowEditModal(false)
-
   const submitHeader = (data: HeaderData) => {
     setHeaderData(data)
     closeModal()
@@ -45,11 +42,11 @@ const Header = () => {
 
   return (
     <header className={s.header}>
-      {showEditModal && (
-        <Modal show={showEditModal} heading='Edit header' onDetach={closeModal}>
+      {show && (
+        <Modal show={show} heading='Edit header' onDetach={closeModal}>
           <Suspense fallback={<LoadingSpinner />}>
             <HeaderForm
-              edit={showEditModal && true}
+              edit={show && true}
               onClose={closeModal}
               onSubmit={submitHeader}
             />
@@ -83,7 +80,7 @@ const Header = () => {
         </>
       )}
       {!loading && (
-        <Button side onClick={showModal} edit type='button'>
+        <Button side onClick={openModal} edit type='button'>
           Edit
         </Button>
       )}

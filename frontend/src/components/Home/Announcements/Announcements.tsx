@@ -7,13 +7,14 @@ import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import s from './Announcements.module.scss'
+import { useModal } from '../../../hooks/useModal'
 
 const AnnouncementsForm = lazy(
   () => import('../AnnouncementsForm/AnnouncementsForm')
 )
 
 const Announcements = () => {
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const { openModal, closeModal, show } = useModal()
   const [announcements, setAnnouncements] = useState<AnnouncementType[]>([])
   const { loading, sendRequest } = useFetchData()
 
@@ -30,10 +31,6 @@ const Announcements = () => {
     getAnnouncements()
   }, [sendRequest])
 
-  const showEditModal = () => setShowModal(true)
-
-  const closeEditModal = () => setShowModal(false)
-
   const submitAnnouncement = async () => {
     try {
       const { announcements } = await sendRequest(
@@ -41,7 +38,7 @@ const Announcements = () => {
       )
 
       setAnnouncements(announcements)
-      closeEditModal()
+      closeModal()
     } catch (err) {}
   }
 
@@ -70,11 +67,8 @@ const Announcements = () => {
   return (
     <section>
       {!announcements && loading && <LoadingSpinner />}
-      {showModal && (
-        <Modal
-          show={showModal}
-          onDetach={closeEditModal}
-          heading='Edit Announcements'>
+      {show && (
+        <Modal show={show} onDetach={closeModal} heading='Edit Announcements'>
           <Suspense fallback={<LoadingSpinner />}>
             <AnnouncementsForm onSubmit={submitAnnouncement} />
           </Suspense>
@@ -83,7 +77,7 @@ const Announcements = () => {
       <Card>
         <ul className={s.list}>{renderAnnouncements}</ul>
         <div className={s.list__actions}>
-          <Button reverse type='button' onClick={showEditModal}>
+          <Button reverse type='button' onClick={openModal}>
             Add
           </Button>
         </div>
