@@ -30,13 +30,15 @@ const MemberForm = () => {
           image: '',
           bio: '',
           contact: '',
-          isAuthor: '',
+          isAuthor: false,
         },
   })
 
   const handleAuthorCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue('isAuthor', watch('isAuthor') === '' ? 'true' : '')
+    setValue('isAuthor', e.target.checked)
   }
+
+  console.log(defaultValues)
 
   const memberFormSubmitHandler = async () => {
     const formData = new FormData()
@@ -124,7 +126,6 @@ const MemberForm = () => {
           id='isAuthor'
           name='isAuthor'
           type='checkbox'
-          value={'false' ? 'true' : 'false'}
           onChange={handleAuthorCheckbox}
         />
       </div>
