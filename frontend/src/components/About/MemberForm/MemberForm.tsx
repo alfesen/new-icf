@@ -37,9 +37,7 @@ const MemberForm = () => {
   const handleAuthorCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
     setValue('isAuthor', e.target.checked)
   }
-
-  console.log(defaultValues)
-
+  
   const memberFormSubmitHandler = async () => {
     const formData = new FormData()
     formData.append('name', watch('name'))
