@@ -9,7 +9,7 @@ import Modal from '../../UI/Modal/Modal'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import s from './Header.module.scss'
 
-const HeaderForm = lazy(() => import('./HeaderForm/HeaderForm'))
+const HeaderForm = lazy(() => import('../../Forms/HeaderForm/HeaderForm'))
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<HeaderData>(null)

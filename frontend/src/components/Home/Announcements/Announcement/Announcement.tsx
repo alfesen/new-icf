@@ -4,7 +4,7 @@ import { Announcement as AnnouncementType } from '../../../../types/HomeTypes'
 import Button from '../../../UI/Form/Button/Button'
 import s from './Announcement.module.scss'
 import Modal from '../../../UI/Modal/Modal'
-import AnnouncementsForm from '../../AnnouncementsForm/AnnouncementsForm'
+import AnnouncementsForm from '../../../Forms/AnnouncementsForm/AnnouncementsForm'
 
 const Announcement = ({
   id,

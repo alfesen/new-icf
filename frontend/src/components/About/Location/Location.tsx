@@ -8,7 +8,7 @@ import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import { convertString } from '../../../helpers/convertString'
 import { useModal } from '../../../hooks/useModal'
 
-const LocationForm = lazy(() => import('../LocationForm/LocationForm'))
+const LocationForm = lazy(() => import('../../Forms/LocationForm/LocationForm'))
 
 const Location = () => {
   const { openModal, closeModal, show } = useModal()

@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import { useFetchData } from '../../../../hooks/useFetchData'
-import { FormProps } from '../../../../types/UITypes'
-import Button from '../../../UI/Form/Button/Button'
-import ImagePicker from '../../../UI/Form/ImagePicker/ImagePicker'
-import Input from '../../../UI/Form/Input/Input'
+import { useFetchData } from '../../../hooks/useFetchData'
+import { FormProps } from '../../../types/UITypes'
+import Button from '../../UI/Form/Button/Button'
+import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
+import Input from '../../UI/Form/Input/Input'
 import { useForm } from 'react-hook-form'
 
 import s from './HeaderForm.module.scss'
@@ -23,7 +23,7 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
         .then(res => res.json())
         .then(({ headerData }: any) => headerData),
   })
-  
+
   const headerFormSubmitHandler = async () => {
     const formData = new FormData()
     formData.append('pageTitle', watch('pageTitle'))

@@ -12,7 +12,7 @@ import Staff from './pages/About/subpages/Staff/Staff'
 import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
 import Expect from './pages/About/subpages/Expect/Expect'
-import ArticleForm from './components/shared/ArticleForm/ArticleForm'
+import ArticleForm from './components/Forms/ArticleForm/ArticleForm'
 
 function App() {
   const router = createBrowserRouter([

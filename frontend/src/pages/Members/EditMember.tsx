@@ -1,4 +1,4 @@
-import MemberForm from '../../components/About/MemberForm/MemberForm'
+import MemberForm from '../../components/Forms/MemberForm/MemberForm'
 import s from './EditMember.module.scss'
 
 const EditMember = () => {
