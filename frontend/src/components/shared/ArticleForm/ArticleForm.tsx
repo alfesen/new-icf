@@ -2,6 +2,7 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
+import s from './ArticleForm.module.scss'
 
 const ArticleForm = () => {
   const { page } = useParams()
@@ -25,12 +26,14 @@ const ArticleForm = () => {
         ),
   })
 
-  
   const { fields, append, remove } = useFieldArray({
     name: 'sections',
     control,
   })
+
   return (
+    <section>
+
     <form>
       <Input
         element='input'
@@ -38,27 +41,33 @@ const ArticleForm = () => {
         name='pageTitle'
         control={control}
         placeholder='Enter page title '
-      />
+        />
       {fields &&
         fields.map((field, index) => {
           return (
-            <div key={field.id}>
-              <Input
-                element='input'
-                label='Section Title'
-                name={`sections.${index}.sectionTitle`}
-                control={control}
-                placeholder='Enter section title '
-              />
-              <Input
-                element='textarea'
-                label='Content'
-                name={`sections.${index}.content`}
-                control={control}
-                placeholder='Enter content '
-              />
+            <div key={field.id} className={s.form__controls}>
+              <div className={s.form__control}>
+                <Input
+                  element='input'
+                  label='Section Title'
+                  name={`sections.${index}.sectionTitle`}
+                  control={control}
+                  placeholder='Enter section title '
+                  />
+                <Input
+                  element='textarea'
+                  label='Content'
+                  name={`sections.${index}.content`}
+                  control={control}
+                  placeholder='Enter content '
+                  />
+              </div>
               {index > 0 && (
-                <Button onClick={() => remove(index)}>Remove section</Button>
+                <div className={s.form__button}>
+                  <Button reverse onClick={() => remove(index)}>
+                    X
+                  </Button>
+                </div>
               )}
             </div>
           )
@@ -76,6 +85,7 @@ const ArticleForm = () => {
         </Button>
       </div>
     </form>
+            </section>
   )
 }
 

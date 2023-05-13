@@ -1,0 +1,54 @@
+.form {
+  &__controls {
+    padding: 1em;
+    border: 1px dotted #666;
+    margin: 1em;
+    &:hover {
+      background-color: #eee;
+    }
+    text-align: center;
+  }
+  &__control {
+    width: 100%;
+  }
+  &__button {
+    padding-top: 2em 0;
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin: 0;
+      width: 100%;
+      padding: 1em;
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .form {
+    &__controls {
+      display: flex;
+      justify-content: space-between;
+      text-align: justify;
+      &:hover {
+        background-color: #eee;
+      }
+    }
+    &__control {
+      width: 100%;
+      padding: 2em;
+    }
+    &__button {
+      padding: 2em 0;
+      display: flex;
+      align-items: center;
+      button {
+        padding: 1em;
+        height: 100%;
+        aspect-ratio: 1/1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
