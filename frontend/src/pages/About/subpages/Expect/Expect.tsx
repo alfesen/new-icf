@@ -5,7 +5,7 @@ const Expect = () => {
   return (
     <section className={s.expect}>
       <div className={s.expect__actions}>
-        <Button link to='/edit-page-article/expect'>
+        <Button link to='/edit-article/expect'>
           Edit
         </Button>
       </div>

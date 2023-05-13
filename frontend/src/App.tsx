@@ -13,6 +13,7 @@ import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
 import Expect from './pages/About/subpages/Expect/Expect'
 import ArticleForm from './components/Forms/ArticleForm/ArticleForm'
+import EditArticle from './pages/shared/EditArticle/EditArticle'
 
 function App() {
   const router = createBrowserRouter([
@@ -38,7 +39,7 @@ function App() {
         { path: 'staff/:memberId', element: <MemberPage /> },
         { path: 'staff/edit-member', element: <EditMember /> },
         { path: 'staff/edit-member/:memberId', element: <EditMember /> },
-        { path: '/edit-page-article/:page', element: <ArticleForm /> },
+        { path: '/edit-article/:page', element: <EditArticle /> },
       ],
     },
   ])
