@@ -7,7 +7,7 @@ import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import s from './Welcome.module.scss'
 
-const WelcomeForm = lazy(() => import('../WelcomeForm/WelcomeForm'))
+const WelcomeForm = lazy(() => import('../../Forms/WelcomeForm/WelcomeForm'))
 
 const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
   const [welcome, setWelcome] = useState<WelcomeData>(null)

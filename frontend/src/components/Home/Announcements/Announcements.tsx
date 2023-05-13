@@ -10,7 +10,7 @@ import s from './Announcements.module.scss'
 import { useModal } from '../../../hooks/useModal'
 
 const AnnouncementsForm = lazy(
-  () => import('../AnnouncementsForm/AnnouncementsForm')
+  () => import('../../Forms/AnnouncementsForm/AnnouncementsForm')
 )
 
 const Announcements = () => {
