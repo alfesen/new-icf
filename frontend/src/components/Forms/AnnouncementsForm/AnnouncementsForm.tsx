@@ -11,7 +11,7 @@ const AnnouncementsForm = ({
   id?: string
   onSubmit: () => void
 }) => {
-  const { sendRequest } = useFetchData()
+  const { sendRequest, error } = useFetchData()
   const { handleSubmit, watch, control } = useForm({
     defaultValues: id
       ? async () =>
@@ -41,7 +41,8 @@ const AnnouncementsForm = ({
           JSON.stringify(newAnnouncement),
           { 'Content-Type': 'application/json' }
         )
-        onSubmit()
+
+        !error && onSubmit()
       } catch (err) {}
     } else {
       try {
@@ -51,7 +52,7 @@ const AnnouncementsForm = ({
           JSON.stringify(newAnnouncement),
           { 'Content-Type': 'application/json' }
         )
-        onSubmit()
+        !error && onSubmit()
       } catch (err) {}
     }
   }
@@ -65,7 +66,7 @@ const AnnouncementsForm = ({
         )
       } catch (err) {}
     }
-    location.reload()
+    !error && onSubmit()
   }
 
   return (

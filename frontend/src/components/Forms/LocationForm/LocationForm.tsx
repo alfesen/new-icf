@@ -7,7 +7,7 @@ import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import s from './LocationForm.module.scss'
 
 const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
-  const { sendRequest } = useFetchData()
+  const { sendRequest, error } = useFetchData()
 
   const {
     handleSubmit,
@@ -41,14 +41,14 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
         'PATCH',
         formData
       )
-      onSubmit(location)
+      !error && onSubmit(location)
     } else {
       const { location } = await sendRequest(
         `http://localhost:5000/api/about/location`,
         'POST',
         formData
       )
-      onSubmit(location)
+      !error && onSubmit(location)
     }
   }
 

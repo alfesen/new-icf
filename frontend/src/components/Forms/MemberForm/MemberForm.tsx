@@ -9,7 +9,7 @@ import Button from '../../UI/Form/Button/Button'
 const MemberForm = () => {
   const navigate = useNavigate()
   const { memberId } = useParams()
-  const { sendRequest } = useFetchData()
+  const { sendRequest, error } = useFetchData()
   const {
     handleSubmit,
     watch,
@@ -37,7 +37,7 @@ const MemberForm = () => {
   const handleAuthorCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
     setValue('isAuthor', e.target.checked)
   }
-  
+
   const memberFormSubmitHandler = async () => {
     const formData = new FormData()
     formData.append('name', watch('name'))
@@ -55,7 +55,7 @@ const MemberForm = () => {
           'POST',
           formData
         )
-        navigate('/about/our-pastors-and-staff')
+        !error && navigate('/about/our-pastors-and-staff')
       } catch (err) {}
     } else {
       try {
@@ -64,7 +64,7 @@ const MemberForm = () => {
           'PATCH',
           formData
         )
-        navigate('/about/our-pastors-and-staff')
+        !error && navigate('/about/our-pastors-and-staff')
       } catch (err) {}
     }
   }
