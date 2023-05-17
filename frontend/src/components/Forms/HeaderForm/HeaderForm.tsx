@@ -10,7 +10,7 @@ import s from './HeaderForm.module.scss'
 
 const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
   const { pathname } = useLocation()
-  const { sendRequest } = useFetchData()
+  const { sendRequest, error } = useFetchData()
 
   const {
     handleSubmit,
@@ -38,14 +38,14 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
         'PATCH',
         formData
       )
-      onSubmit(headerData)
+      !error && onSubmit(headerData)
     } else {
       const { headerData } = await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'POST',
         formData
       )
-      onSubmit(headerData)
+      !error && onSubmit(headerData)
     }
   }
 

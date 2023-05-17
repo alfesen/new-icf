@@ -5,7 +5,7 @@ import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 
 const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
-  const { sendRequest } = useFetchData()
+  const { sendRequest, error } = useFetchData()
   const {
     control,
     watch,
@@ -31,7 +31,7 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
         JSON.stringify(newWelcomeData),
         { 'Content-Type': 'application/json' }
       )
-      onSubmit(welcomeData)
+      !error && onSubmit(welcomeData)
     }
     const { welcomeData } = await sendRequest(
       `http://localhost:5000/api/${route}`,
@@ -39,7 +39,7 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
       JSON.stringify(newWelcomeData),
       { 'Content-Type': 'application/json' }
     )
-    onSubmit(welcomeData)
+    !error && onSubmit(welcomeData)
   }
 
   return (
