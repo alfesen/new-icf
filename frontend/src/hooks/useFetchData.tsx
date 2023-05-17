@@ -1,22 +1,24 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { HttpMethod, ResponseData, UseHttpClientResponse } from '../types/HookTypes'
 
-export const useFetchData = () => {
-  const [error, setError] = useState<null | string>(null)
-  const [loading, setLoading] = useState(false)
+
+
+export const useFetchData = (): UseHttpClientResponse => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const activeHttpRequests = useRef<AbortController[]>([])
 
   const sendRequest = useCallback(
-    async (
+    async <T extends ResponseData>(
       url: string,
-      method: string = 'GET',
-      body: string | FormData | null = null,
-      headers = {}
-    ) => {
+      method: HttpMethod = 'GET',
+      body: BodyInit | null = null,
+      headers: HeadersInit = {}
+    ): Promise<T> => {
       setLoading(true)
       const httpAbort = new AbortController()
       activeHttpRequests.current.push(httpAbort)
-      let responseData: any
       try {
         const response = await fetch(url, {
           method,
@@ -24,35 +26,33 @@ export const useFetchData = () => {
           headers,
           signal: httpAbort.signal,
         })
-        
-        responseData = await response.json()
+
+        const responseData = (await response.json()) as T
 
         activeHttpRequests.current = activeHttpRequests.current.filter(
-          (req: AbortController) => req !== httpAbort
+          reqCtrl => reqCtrl !== httpAbort
         )
-      } catch (err: any) {
-        const errorText =
-          method === 'GET' ? 'Failed to fetch data' : err.message
-        setError(errorText)
-      }
 
-      setLoading(false)
-      return responseData
+        if (!response.ok) {
+          throw new Error(responseData.message || 'Something went wrong')
+        }
+
+        setLoading(false)
+        return responseData
+      } catch (err: any) {
+        setError(err.message)
+        setLoading(false)
+        throw err
+      }
     },
     []
   )
 
-  const detachError = () => {
-    setError(null)
-  }
-
   useEffect(() => {
     return () => {
-      activeHttpRequests.current.forEach((ctrl: AbortController) =>
-        ctrl.abort()
-      )
+      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort())
     }
   }, [])
 
-  return { sendRequest, loading, error, detachError }
+  return { loading, error, sendRequest }
 }
