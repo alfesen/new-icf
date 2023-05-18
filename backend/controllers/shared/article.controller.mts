@@ -20,12 +20,12 @@ export const postPageArticle = async (
     )
     return next(error)
   }
-  const { articleTitle, pagePath, sections } = req.body
+  const { articleTitle, sections } = req.body
+  const { page } = req.params
 
   const existingArticle = (await findExistingData(Article, next, {
-    filter: { pagePath },
+    filter: { pagePath: page },
   })) as ArticleType
-
   if (existingArticle) {
     const error = new HttpError(
       400,
@@ -33,13 +33,11 @@ export const postPageArticle = async (
     )
     return next(error)
   }
-
   const newArticle = new Article({
+    pagePath: page,
     articleTitle: articleTitle,
-    pagePath: pagePath,
     sections: sections,
   })
-
   await saveData(newArticle, next)
 
   res.status(200).json({ article: newArticle.toObject({ getters: true }) })
@@ -50,9 +48,9 @@ export const getPageArticle = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { pagePath } = req.params
+  const { page } = req.params
   const article = (await findExistingData(Article, next, {
-    filter: { pagePath },
+    filter: { pagePath: page },
   })) as ArticleType
 
   if (!article) {
@@ -97,10 +95,19 @@ export const deletePageArticle = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { articleId } = req.params
+  const { page } = req.params
+
+  const existingArticle = (await findExistingData(Article, next, {
+    filter: { pagePath: page },
+  })) as ArticleType
+
+  if (!existingArticle) {
+    const error = new HttpError(404, 'Article not found')
+    return next(error)
+  }
 
   try {
-    await Article.findByIdAndDelete(articleId)
+    await existingArticle.deleteOne()
   } catch (err) {
     const error = new HttpError(
       500,
