@@ -76,11 +76,12 @@ export const updatePageArticle = async (
     return next(error)
   }
 
-  const { pagePath } = req.params
+  const { page } = req.params
   const { articleTitle, sections } = req.body
   const article = (await findExistingData(Article, next, {
-    filter: { pagePath },
+    filter: { pagePath: page },
   })) as ArticleType
+  console.log(sections[0].sectionTitle)
 
   article.articleTitle = articleTitle
   article.sections = sections
