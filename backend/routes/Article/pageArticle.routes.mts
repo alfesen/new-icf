@@ -3,22 +3,21 @@ import {
   getPageArticle,
   postPageArticle,
   updatePageArticle,
+  deletePageArticle,
 } from '../../controllers/shared/article.controller.mjs'
 import { check } from 'express-validator'
-import { deletePageArticle } from '../../controllers/shared/article.controller.mjs'
 
 const router = Router()
 
 const validate = () => [
   check('articleTitle').notEmpty().isLength({ max: 50 }),
-  check('pagePath').notEmpty(),
   check('sections.*.sectionTitle').notEmpty().isLength({ max: 50 }),
   check('sections.*.content').notEmpty(),
 ]
 
-router.post('/', validate(), postPageArticle)
-router.get('/:pagePath', getPageArticle)
-router.patch('/:pagePath', validate(), updatePageArticle)
-router.delete('/:articleId', deletePageArticle)
+router.post('/:page', validate(), postPageArticle)
+router.get('/:page', getPageArticle)
+router.patch('/:page', validate(), updatePageArticle)
+router.delete('/:page', deletePageArticle)
 
 export default router
