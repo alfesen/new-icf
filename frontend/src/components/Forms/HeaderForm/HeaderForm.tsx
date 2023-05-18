@@ -18,7 +18,7 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
     control,
     watch,
   } = useForm({
-    defaultValues: async () =>
+    defaultValues: () =>
       fetch(`http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`)
         .then(res => res.json())
         .then(({ headerData }: any) => headerData),

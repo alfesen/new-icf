@@ -27,6 +27,8 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
       },
   })
 
+  const method = defaultValues?.id ? 'PATCH' : 'POST'
+
   const locationFormSubmitHandler = async () => {
     const formData = new FormData()
     formData.append('title', watch('title'))
@@ -35,21 +37,14 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
     formData.append('directions', watch('directions'))
     formData.append('map', watch('map'))
 
-    if (defaultValues) {
+    try {
       const { location } = await sendRequest(
         `http://localhost:5000/api/about/location`,
-        'PATCH',
+        method,
         formData
       )
       !error && onSubmit(location)
-    } else {
-      const { location } = await sendRequest(
-        `http://localhost:5000/api/about/location`,
-        'POST',
-        formData
-      )
-      !error && onSubmit(location)
-    }
+    } catch (err) {}
   }
 
   return (

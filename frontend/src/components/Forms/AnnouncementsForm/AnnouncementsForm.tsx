@@ -12,10 +12,14 @@ const AnnouncementsForm = ({
   onSubmit: () => void
 }) => {
   const { sendRequest, error } = useFetchData()
+  const url = id
+    ? `http://localhost:5000/api/home/announcements/${id}`
+    : `http://localhost:5000/api/home/announcements`
+  const method = id ? 'PATCH' : 'POST'
   const { handleSubmit, watch, control } = useForm({
     defaultValues: id
-      ? async () =>
-          fetch(`http://localhost:5000/api/home/announcements/${id}`)
+      ? () =>
+          fetch(url)
             .then(res => res.json())
             .then(({ announcement }: any) => announcement)
       : {
@@ -33,39 +37,25 @@ const AnnouncementsForm = ({
       date: new Date(watch('date')).toISOString(),
       time: watch('time'),
     }
-    if (!id) {
-      try {
-        await sendRequest(
-          'http://localhost:5000/api/home/announcements',
-          'POST',
-          JSON.stringify(newAnnouncement),
-          { 'Content-Type': 'application/json' }
-        )
+    try {
+      await sendRequest(
+        'http://localhost:5000/api/home/announcements',
+        method,
+        JSON.stringify(newAnnouncement),
+        { 'Content-Type': 'application/json' }
+      )
 
-        !error && onSubmit()
-      } catch (err) {}
-    } else {
-      try {
-        await sendRequest(
-          `http://localhost:5000/api/home/announcements/${id}`,
-          'PATCH',
-          JSON.stringify(newAnnouncement),
-          { 'Content-Type': 'application/json' }
-        )
-        !error && onSubmit()
-      } catch (err) {}
-    }
+      !error && onSubmit()
+    } catch (err) {}
   }
 
   const deleteAnnouncement = async () => {
-    if (id) {
-      try {
-        await sendRequest(
-          `http://localhost:5000/api/home/announcements/${id}`,
-          'DELETE'
-        )
-      } catch (err) {}
-    }
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/home/announcements/${id}`,
+        'DELETE'
+      )
+    } catch (err) {}
     !error && onSubmit()
   }
 

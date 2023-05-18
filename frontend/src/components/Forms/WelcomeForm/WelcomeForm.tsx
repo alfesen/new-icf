@@ -18,6 +18,8 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
         .then(({ welcomeData }: any) => welcomeData),
   })
 
+  const method = defaultValues?.id ? 'PATCH' : 'POST'
+
   const welcomeSubmitHandler = async () => {
     const newWelcomeData = {
       title: watch('title'),
@@ -27,19 +29,12 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
     if (defaultValues) {
       const { welcomeData } = await sendRequest(
         `http://localhost:5000/api/${route}`,
-        'PATCH',
+        method,
         JSON.stringify(newWelcomeData),
         { 'Content-Type': 'application/json' }
       )
       !error && onSubmit(welcomeData)
     }
-    const { welcomeData } = await sendRequest(
-      `http://localhost:5000/api/${route}`,
-      'POST',
-      JSON.stringify(newWelcomeData),
-      { 'Content-Type': 'application/json' }
-    )
-    !error && onSubmit(welcomeData)
   }
 
   return (

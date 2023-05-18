@@ -34,6 +34,11 @@ const MemberForm = () => {
         },
   })
 
+  const url = memberId
+    ? `http://localhost:5000/api/members/${memberId}`
+    : `http://localhost:5000/api/members`
+  const method = memberId ? 'PATCH' : 'POST'
+
   const handleAuthorCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
     setValue('isAuthor', e.target.checked)
   }
@@ -48,25 +53,10 @@ const MemberForm = () => {
     formData.append('contact', watch('contact'))
     formData.append('isAuthor', watch('isAuthor'))
 
-    if (!defaultValues) {
-      try {
-        await sendRequest(
-          'http://localhost:5000/api/members/',
-          'POST',
-          formData
-        )
-        !error && navigate('/about/our-pastors-and-staff')
-      } catch (err) {}
-    } else {
-      try {
-        await sendRequest(
-          `http://localhost:5000/api/members/${memberId}`,
-          'PATCH',
-          formData
-        )
-        !error && navigate('/about/our-pastors-and-staff')
-      } catch (err) {}
-    }
+    try {
+      await sendRequest(url, method, formData)
+      !error && navigate('/about/our-pastors-and-staff')
+    } catch (err) {}
   }
 
   return (
