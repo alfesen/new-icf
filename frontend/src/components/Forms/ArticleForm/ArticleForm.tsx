@@ -96,8 +96,8 @@ const ArticleForm = () => {
             </div>
           )
         })}
-      <div>
-        <Button
+      <div className={s.form__actions}>
+        <Button reverse
           onClick={() =>
             append({
               sectionTitle: '',
@@ -107,8 +107,9 @@ const ArticleForm = () => {
           type='button'>
           Add section
         </Button>
+        <hr />
+        <Button type='submit'>Submit</Button>
       </div>
-      <Button type='submit'>Submit</Button>
     </form>
   )
 }
