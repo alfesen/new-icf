@@ -9,6 +9,11 @@ export type TMember = {
   isAuthor: boolean
 }
 
+export type TMemberCategory = {
+  category: string
+  items: TMember[]
+}
+
 export type StaffReducer = (state: StaffState, action: StaffAction) => StaffState
 
 export type StaffState = {
