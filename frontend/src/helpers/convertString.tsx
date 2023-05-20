@@ -2,14 +2,17 @@ import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
 
 export const convertString = (
   initialContent: any,
-  restrict: boolean = false
+  restrict: boolean = false,
+  className?: string
 ) => {
   let content: string | string[] = ''
   if (initialContent.includes('\n')) {
     const splitContent = initialContent.split('\n')
     content = splitContent.map((p: string) => {
       return (
-        <div key={p.length + Math.random()}>
+        <div
+          className={className ? className : undefined}
+          key={p.length + Math.random()}>
           {boldAndHighlightedString(p.trim())}
         </div>
       )
@@ -20,13 +23,21 @@ export const convertString = (
   if (Array.isArray(content)) {
     return content.map((text: string | JSX.Element, index: number) => {
       if (typeof text === 'string') {
-        return <div key={index}>{boldAndHighlightedString(text, restrict)}</div>
+        return (
+          <div className={className ? className : undefined} key={index}>
+            {boldAndHighlightedString(text, restrict)}
+          </div>
+        )
       } else {
         return text
       }
     })
   } else {
-    return <div>{boldAndHighlightedString(content)}</div>
+    return (
+      <div className={className ? className : undefined}>
+        {boldAndHighlightedString(content)}
+      </div>
+    )
   }
 }
 
