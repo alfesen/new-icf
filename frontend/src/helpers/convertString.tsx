@@ -1,4 +1,9 @@
+import { CSSProperties } from 'react'
 import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
+
+const style = {
+  marginBottom: '1em',
+} as CSSProperties
 
 export const convertString = (
   initialContent: any,
@@ -8,9 +13,14 @@ export const convertString = (
   let content: string | string[] = ''
   if (initialContent.includes('\n')) {
     const splitContent = initialContent.split('\n')
-    content = splitContent.map((p: string) => {
+    content = splitContent.map((p: string, index: number) => {
       return (
         <div
+          style={
+            index !== splitContent.indexOf(splitContent.at(-1))
+              ? style
+              : undefined
+          }
           className={className ? className : undefined}
           key={p.length + Math.random()}>
           {boldAndHighlightedString(p.trim())}
@@ -24,7 +34,9 @@ export const convertString = (
     return content.map((text: string | JSX.Element, index: number) => {
       if (typeof text === 'string') {
         return (
-          <div className={className ? className : undefined} key={index}>
+          <div
+            className={className ? className : undefined}
+            key={index}>
             {boldAndHighlightedString(text, restrict)}
           </div>
         )
