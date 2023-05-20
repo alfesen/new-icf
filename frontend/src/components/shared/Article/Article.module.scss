@@ -1,0 +1,12 @@
+@import '../../../sass/vars.scss';
+
+.article {
+  &__title {
+    font-size: $font-secondary-header-sm;
+    text-transform: uppercase;
+  }
+  &__actions {
+    display: block;
+    text-align: right;
+  }
+}

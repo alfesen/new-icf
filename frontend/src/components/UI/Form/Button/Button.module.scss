@@ -1,6 +1,7 @@
 @import '../../../../sass/vars.scss';
 
 .button {
+  display: inline-block;
   appearance: none;
   background-image: linear-gradient(
     30deg,
