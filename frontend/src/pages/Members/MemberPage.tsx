@@ -5,7 +5,7 @@ import { useFetchData } from '../../hooks/useFetchData'
 import { convertString } from '../../helpers/convertString'
 import s from './MemberPage.module.scss'
 import Button from '../../components/UI/Form/Button/Button'
-import Avatar from '../../components/UI/UX/Avatar/Avatar'
+import MemberHeader from '../../components/Layout/MemberHeader/MemberHeader'
 
 const MemberPage = () => {
   const [member, setMember] = useState<TMember>()
@@ -32,13 +32,7 @@ const MemberPage = () => {
 
   return (
     <section className={s.member}>
-      <header className={s.member__header}>
-        <Avatar image={image} name={name} />
-        <div className={s.member__info}>
-          <h2>{name}</h2>
-          <h3>{role}</h3>
-        </div>
-      </header>
+      <MemberHeader image={image} name={name} role={role}/>
       <div className={s.member__bio}>
         <h3>Bio:</h3>
         {convertString(bio)}
