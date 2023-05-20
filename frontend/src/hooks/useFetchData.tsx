@@ -1,7 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { HttpMethod, ResponseData, UseHttpClientResponse } from '../types/HookTypes'
-
-
+import {
+  HttpMethod,
+  ResponseData,
+  UseHttpClientResponse,
+} from '../types/HookTypes'
 
 export const useFetchData = (): UseHttpClientResponse => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -32,15 +34,17 @@ export const useFetchData = (): UseHttpClientResponse => {
         activeHttpRequests.current = activeHttpRequests.current.filter(
           reqCtrl => reqCtrl !== httpAbort
         )
-
         if (!response.ok) {
-          throw new Error(responseData.message || 'Something went wrong')
+          const error = new Error(
+            responseData.message || 'Something went wrong'
+          )
+          setError(error.message)
+          throw error
         }
 
         setLoading(false)
         return responseData
       } catch (err: any) {
-        setError(err.message)
         setLoading(false)
         throw err
       }
