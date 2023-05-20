@@ -13,6 +13,7 @@ import EditMember from './pages/Members/EditMember'
 import MemberPage from './pages/Members/MemberPage'
 import Expect from './pages/About/subpages/Expect/Expect'
 import EditArticle from './pages/shared/EditArticle/EditArticle'
+import Beliefs from './pages/About/subpages/Beliefs/Beliefs'
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +34,7 @@ function App() {
             { path: 'welcome-location', element: <WelcomeLocation /> },
             { path: 'our-pastors-and-staff', element: <Staff /> },
             { path: 'what-to-expect', element: <Expect /> },
+            { path: 'what-we-believe', element: <Beliefs /> },
           ],
         },
         { path: 'staff/:memberId', element: <MemberPage /> },

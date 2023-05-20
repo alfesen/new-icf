@@ -56,11 +56,11 @@ export const getHeaderData = async (
   res: Response,
   next: NextFunction
 ) => {
-  const headerData = await findExistingData(Header, next, {
+  const headerData = (await findExistingData(Header, next, {
     filter: {
       pagePath: req.params.pageId,
     },
-  })  as IHeader
+  })) as IHeader
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
