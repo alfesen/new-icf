@@ -47,7 +47,7 @@ const Article = ({ route }: { route: string }) => {
       )}
       <div className={s.article__actions}>
         <Button link to='/edit-article/expect'>
-          Edit
+          {!error && !loading && !article ? 'Add article' : 'Edit article'}
         </Button>
       </div>
     </Fragment>
