@@ -53,7 +53,6 @@ const ArticleForm = () => {
       await sendRequest(url, method, JSON.stringify(newArticle), {
         'Content-Type': 'application/json',
       })
-      console.log(error)
       if (!error) {
         navigate(-1)
       }

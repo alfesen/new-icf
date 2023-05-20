@@ -49,7 +49,7 @@ const Article = ({ route }: { route: string }) => {
       )}
       <div className={s.article__actions}>
         <Button link to={`/edit-article/${route}`}>
-          {!error && !loading && !article
+          {!loading && !article
             ? 'Add article'
             : !error && !loading && article && 'Edit article'}
         </Button>

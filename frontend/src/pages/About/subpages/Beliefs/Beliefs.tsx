@@ -1,11 +1,11 @@
 import Article from '../../../../components/shared/Article/Article'
 
-const Expect = () => {
+const Beliefs = () => {
   return (
     <section className='page-article'>
-      <Article route='expect' />
+      <Article route='beliefs' />
     </section>
   )
 }
 
-export default Expect
+export default Beliefs

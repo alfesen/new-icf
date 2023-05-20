@@ -82,7 +82,6 @@ export const updatePageArticle = async (
   const article = (await findExistingData(Article, next, {
     filter: { pagePath: page },
   })) as IArticle
-  console.log(sections[0].sectionTitle)
 
   article.articleTitle = articleTitle
   article.lead = lead
