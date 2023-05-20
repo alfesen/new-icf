@@ -5,6 +5,7 @@ import { useFetchData } from '../../hooks/useFetchData'
 import { convertString } from '../../helpers/convertString'
 import s from './MemberPage.module.scss'
 import Button from '../../components/UI/Form/Button/Button'
+import Avatar from '../../components/UI/UX/Avatar/Avatar'
 
 const MemberPage = () => {
   const [member, setMember] = useState<TMember>()
@@ -27,14 +28,12 @@ const MemberPage = () => {
     return <h2>No staff member with provided ID </h2>
   }
 
-  const {id, image, name, role, bio, contact } = member
+  const { id, image, name, role, bio, contact } = member
 
   return (
     <section className={s.member}>
       <header className={s.member__header}>
-        <div className={s.member__avatar}>
-          <img src={`http://localhost:5000/${image}`} alt={`${name} avatar`} />
-        </div>
+        <Avatar image={image} name={name} />
         <div className={s.member__info}>
           <h2>{name}</h2>
           <h3>{role}</h3>
@@ -51,7 +50,9 @@ const MemberPage = () => {
         </div>
       )}
       <div className={s.member__actions}>
-        <Button link to={`/staff/edit-member/${id}`}>Edit</Button>
+        <Button link to={`/staff/edit-member/${id}`}>
+          Edit
+        </Button>
       </div>
     </section>
   )
