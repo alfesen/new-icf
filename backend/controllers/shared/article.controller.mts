@@ -20,7 +20,7 @@ export const postPageArticle = async (
     )
     return next(error)
   }
-  const { articleTitle, sections } = req.body
+  const { articleTitle, sections, lead } = req.body
   const { page } = req.params
 
   const existingArticle = (await findExistingData(Article, next, {
@@ -36,6 +36,7 @@ export const postPageArticle = async (
   const newArticle = new Article({
     pagePath: page,
     articleTitle: articleTitle,
+    lead: lead,
     sections: sections,
   })
   await saveData(newArticle, next)
@@ -77,13 +78,14 @@ export const updatePageArticle = async (
   }
 
   const { page } = req.params
-  const { articleTitle, sections } = req.body
+  const { articleTitle, sections, lead } = req.body
   const article = (await findExistingData(Article, next, {
     filter: { pagePath: page },
   })) as IArticle
   console.log(sections[0].sectionTitle)
 
   article.articleTitle = articleTitle
+  article.lead = lead
   article.sections = sections
 
   await saveData(article, next)
