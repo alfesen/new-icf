@@ -1,0 +1,15 @@
+@import '../../../sass/vars.scss';
+
+.section {
+  text-align: justify;
+  padding: 1em 1em 1em 0;
+  &__title {
+    font-size: $font-tertiary-header-sm;
+    text-align: left;
+    margin: 0.5em 0;
+  }
+  &__content {
+    font-size: $font-sm;
+    color: $color-dark-grey;
+  }
+}
