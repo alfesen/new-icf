@@ -10,3 +10,9 @@ export type SideNav = {
   collectionTitle: string
   title?: string
 }
+
+export type TMemberHeader = {
+  name: string
+  image: string
+  role: string
+}
