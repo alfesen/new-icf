@@ -50,14 +50,14 @@ export type FindOptions<T> = {
   array?: boolean
 }
 
-
 export interface IArticleSection extends Document {
-  sectionTitle: string,
+  sectionTitle: string
   content: string
 }
 
 export interface IArticle extends Document {
-  articleTitle: string,
-  pagePath: string,
-  sections: IArticleSection[],
+  articleTitle: string
+  pagePath: string
+  lead: string
+  sections: IArticleSection[]
 }

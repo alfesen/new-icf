@@ -6,6 +6,10 @@ const articleSchema = new Schema<IArticle>({
     type: String,
     required: true,
   },
+  lead: {
+    type: String,
+    required: true,
+  },
   pagePath: {
     type: String,
     required: true,
