@@ -1,12 +1,29 @@
 @import '../../../sass/vars.scss';
 
 .article {
+  text-align: justify;
   &__title {
-    font-size: $font-secondary-header-sm;
-    text-transform: uppercase;
+    font-family: $font-quirky;
+    text-align: right;
+    font-size: $font-secondary-header-lg;
+    text-transform: lowercase;
+    margin-bottom: 1em;
+  }
+  &__lead {
+    font-weight: bold;
+    font-size: $font-sm;
   }
   &__actions {
     display: block;
     text-align: right;
+  }
+}
+
+@media (min-width: 700px) {
+  .article {
+    &__title {
+      margin-top: 0;
+      
+    }
   }
 }

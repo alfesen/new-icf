@@ -5,6 +5,7 @@ import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import Button from '../../UI/Form/Button/Button'
 import ArticleSection from './ArticleSection'
 import s from './Article.module.scss'
+import { convertString } from '../../../helpers/convertString'
 
 const Article = ({ route }: { route: string }) => {
   const [article, setArticle] = useState<TArticle | null>(null)
@@ -42,6 +43,7 @@ const Article = ({ route }: { route: string }) => {
       {!loading && !error && article && (
         <div className={s.article}>
           <h2 className={s.article__title}>{article.articleTitle}</h2>
+          <div className={s.article__lead}>{convertString(article.lead)}</div>
           {renderSections}
         </div>
       )}

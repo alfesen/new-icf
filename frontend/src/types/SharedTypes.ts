@@ -13,5 +13,6 @@ export type TArticle = {
   articleTitle: string
   id?: string
   pagePath?: string
+  lead: string
   sections: TArticleSection[]
 }
