@@ -1,22 +1,21 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation, useParams } from 'react-router-dom'
-import { useClientWidth } from '../../../hooks/useClientWidth'
 import { THeader } from '../../../types/LayoutTypes'
 import { useModal } from '../../../hooks/useModal'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import s from './Header.module.scss'
+import HeaderContent from './HeaderContent'
 
 const HeaderForm = lazy(() => import('../../Forms/HeaderForm/HeaderForm'))
 
 const Header = () => {
   const [headerData, setHeaderData] = useState<THeader>(null)
   const { openModal, closeModal, show } = useModal()
-  const { loading, sendRequest } = useFetchData()
+  const { loading, sendRequest, error } = useFetchData()
   const { pathname } = useLocation()
-  const { width } = useClientWidth()
   const { memberId } = useParams()
 
   useEffect(() => {
@@ -54,33 +53,7 @@ const Header = () => {
         </Modal>
       )}
       {loading && <LoadingSpinner />}
-      {!loading && (
-        <>
-          <img
-            className={s.header__background}
-            src={
-              headerData
-                ? `http://localhost:5000/${
-                    width > 700
-                      ? headerData.desktopImage
-                      : headerData.mobileImage
-                  }`
-                : ''
-            }
-            alt='Welcome to ICF'
-          />
-          <div className={s.header__info}>
-            <h1 className={s.header__title}>
-              {headerData
-                ? headerData.pageTitle
-                : 'International Christian Fellowship of Warsaw'}
-            </h1>
-            {headerData && headerData.pageSubtitle && (
-              <h3 className={s.header__subtitle}>{headerData.pageSubtitle}</h3>
-            )}
-          </div>
-        </>
-      )}
+      {!loading && !error && <HeaderContent headerData={headerData} />}
       {!loading && (
         <Button side onClick={openModal} edit type='button'>
           Edit
