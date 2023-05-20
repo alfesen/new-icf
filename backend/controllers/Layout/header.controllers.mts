@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Header from '../../models/Layout/header.model.mjs'
-import { HeaderData, MulterFiles } from '../../types.js'
+import { IHeader, MulterFiles } from '../../types.js'
 import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
@@ -60,7 +60,7 @@ export const getHeaderData = async (
     filter: {
       pagePath: req.params.pageId,
     },
-  })  as HeaderData
+  })  as IHeader
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')
@@ -91,7 +91,7 @@ export const updateHeaderData = async (
     filter: {
       pagePath: req.params.pageId,
     },
-  })) as HeaderData
+  })) as IHeader
 
   if (!headerData) {
     const error = new HttpError(404, 'Header data not found on the server')

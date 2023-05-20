@@ -2,7 +2,7 @@ import { useEffect, useState, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useClientWidth } from '../../../hooks/useClientWidth'
-import { HeaderData } from '../../../types/LayoutTypes'
+import { THeader } from '../../../types/LayoutTypes'
 import { useModal } from '../../../hooks/useModal'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
@@ -12,7 +12,7 @@ import s from './Header.module.scss'
 const HeaderForm = lazy(() => import('../../Forms/HeaderForm/HeaderForm'))
 
 const Header = () => {
-  const [headerData, setHeaderData] = useState<HeaderData>(null)
+  const [headerData, setHeaderData] = useState<THeader>(null)
   const { openModal, closeModal, show } = useModal()
   const { loading, sendRequest } = useFetchData()
   const { pathname } = useLocation()
@@ -33,7 +33,7 @@ const Header = () => {
     }
   }, [sendRequest, pathname])
 
-  const submitHeader = (data: HeaderData) => {
+  const submitHeader = (data: THeader) => {
     setHeaderData(data)
     closeModal()
   }

@@ -1,4 +1,4 @@
-export type HeaderData = {
+export type THeader = {
   pageTitle: string
   pageSubtitle: string
   desktopImage: string

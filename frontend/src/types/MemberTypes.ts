@@ -1,4 +1,4 @@
-export type Member = {
+export type TMember = {
   id: string
   name: string
   role: string
@@ -12,11 +12,11 @@ export type Member = {
 export type StaffReducer = (state: StaffState, action: StaffAction) => StaffState
 
 export type StaffState = {
-  pastors: Member[],
-  leadership: Member[],
-  ministryLeaders: Member[],
+  pastors: TMember[],
+  leadership: TMember[],
+  ministryLeaders: TMember[],
 }
 
 export type StaffAction = {
-  type: 'SET_PASTORS', value: Member[]
-} | {type: 'SET_LEADERSHIP', value: Member[]} | {type: 'SET_MINISTERS', value: Member[]}
+  type: 'SET_PASTORS', value: TMember[]
+} | {type: 'SET_LEADERSHIP', value: TMember[]} | {type: 'SET_MINISTERS', value: TMember[]}

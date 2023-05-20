@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
-import { LocationType } from '../../types.js'
+import { ILocation } from '../../types.js'
 import Location from '../../models/About/location.model.mjs'
 import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
@@ -27,7 +27,7 @@ export const postLocation = async (
   const existingLocation = (await findExistingData(
     Location,
     next
-  )) as LocationType
+  )) as ILocation
 
   if (existingLocation) {
     const error = new HttpError(
@@ -55,7 +55,7 @@ export const getLocation = async (
   res: Response,
   next: NextFunction
 ) => {
-  const location = (await findExistingData(Location, next)) as LocationType
+  const location = (await findExistingData(Location, next)) as ILocation
 
   if (!location) {
     const error = new HttpError(
@@ -85,7 +85,7 @@ export const updateLocation = async (
 
   const { title, address, directions, map } = req.body
 
-  const location = (await findExistingData(Location, next)) as LocationType
+  const location = (await findExistingData(Location, next)) as ILocation
 
   if (!location) {
     const error = new HttpError(404, 'Location is not found in the database')

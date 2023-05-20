@@ -1,4 +1,4 @@
-export type Announcement = {
+export type TAnnouncement = {
   id: string
   title: string
   description: string
