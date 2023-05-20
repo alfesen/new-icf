@@ -1,4 +1,4 @@
-export type LocationData = {
+export type TLocation = {
   title: string
   address: string
   directions: string

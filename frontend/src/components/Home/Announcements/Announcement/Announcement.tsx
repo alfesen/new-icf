@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 import { convertString } from '../../../../helpers/convertString'
-import { Announcement as AnnouncementType } from '../../../../types/HomeTypes'
+import { TAnnouncement  } from '../../../../types/HomeTypes'
 import Button from '../../../UI/Form/Button/Button'
 import s from './Announcement.module.scss'
 import Modal from '../../../UI/Modal/Modal'
@@ -13,7 +13,7 @@ const Announcement = ({
   date,
   time,
   onUpdate,
-}: AnnouncementType) => {
+}: TAnnouncement) => {
   const [editModal, setEditModal] = useState<boolean>(false)
 
   const showEditModal = () => setEditModal(true)

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { MemberType } from '../../types'
+import { IMember } from '../../types'
 
-const memberSchema = new Schema<MemberType>({
+const memberSchema = new Schema<IMember>({
   name: { type: String, required: true },
   role: { type: String, required: true },
   category: { type: String, required: true },
@@ -11,4 +11,4 @@ const memberSchema = new Schema<MemberType>({
   isAuthor: { type: Boolean, required: true, default: false },
 })
 
-export default model('Member', memberSchema)
+export default model<IMember>('Member', memberSchema)

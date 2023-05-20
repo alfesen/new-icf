@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { WelcomeType } from '../../types'
+import { IWelcome } from '../../types'
 import Welcome from '../../models/Home/welcome.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
@@ -64,7 +64,7 @@ export const updateWelcome = async (
 
   const { title, content } = req.body
 
-  const welcomeData = (await findExistingData(model, next)) as WelcomeType
+  const welcomeData = (await findExistingData(model, next)) as IWelcome
 
   if (!welcomeData) {
     const error = new HttpError(
@@ -88,7 +88,7 @@ export const getWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  const welcomeData = (await findExistingData(model, next)) as WelcomeType
+  const welcomeData = (await findExistingData(model, next)) as IWelcome
 
   if (!welcomeData) {
     const error = new HttpError(404, 'Data was not found on the server')
@@ -104,7 +104,7 @@ export const deleteWelcome = async (
   res: Response,
   next: NextFunction
 ) => {
-  const welcomeData = (await findExistingData(model, next)) as WelcomeType
+  const welcomeData = (await findExistingData(model, next)) as IWelcome
 
   if (!welcomeData) {
     const error = new HttpError(404, 'Data was not found on the server')

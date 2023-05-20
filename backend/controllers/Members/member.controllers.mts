@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import Member from '../../models/About/member.model.mjs'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
-import { MemberType } from '../../types.js'
+import { IMember } from '../../types.js'
 import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
@@ -45,7 +45,7 @@ export const getAllMembers = async (
 ) => {
   const members = (await findExistingData(Member, next, {
     array: true,
-  })) as MemberType[]
+  })) as IMember[]
 
   if (!members) {
     const error = new HttpError(404, 'No staff found in the database')
@@ -76,7 +76,7 @@ export const getSingleMember = async (
 
   const existingMember = (await findExistingData(Member, next, {
     id: memberId,
-  })) as MemberType
+  })) as IMember
 
   if (!existingMember) {
     const error = new HttpError(404, 'No member with this id found')
@@ -105,7 +105,7 @@ export const updateMember = async (
 
   const member = (await findExistingData(Member, next, {
     id: memberId,
-  })) as MemberType
+  })) as IMember
 
   if (!member) {
     const error = new HttpError(404, 'No member with this id found')

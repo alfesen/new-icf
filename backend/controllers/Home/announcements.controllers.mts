@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import Announcement from '../../models/Home/announcement.model.mjs'
-import { AnnouncementType } from '../../types.js'
+import { IAnnouncement } from '../../types.js'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
@@ -28,13 +28,13 @@ export const postAnnouncement = async (
     time,
     title,
     description,
-  }) as AnnouncementType
+  }) as IAnnouncement
 
   await saveData(newAnnouncement, next)
 
   const existingAnnouncements = (await findExistingData(Announcement, next, {
     array: true,
-  })) as AnnouncementType[]
+  })) as IAnnouncement[]
 
   if (existingAnnouncements && existingAnnouncements.length > 30) {
     const sortedAnnouncement = existingAnnouncements.sort((an1, an2) => {
@@ -64,7 +64,7 @@ export const getAnnouncements = async (
 ) => {
   const announcements = (await findExistingData(Announcement, next, {
     array: true,
-  })) as AnnouncementType[]
+  })) as IAnnouncement[]
 
   if (!announcements) {
     const error = new HttpError(404, 'No announcements found')
@@ -91,7 +91,7 @@ export const getSingleAnnouncement = async (
   const { announcementId } = req.params
   const announcement = (await findExistingData(Announcement, next, {
     id: announcementId,
-  })) as AnnouncementType
+  })) as IAnnouncement
 
   res
     .status(200)
@@ -118,7 +118,7 @@ export const updateAnnouncement = async (
 
   const announcement = (await findExistingData(Announcement, next, {
     id: announcementId,
-  })) as AnnouncementType
+  })) as IAnnouncement
 
   announcement.title = title
   announcement.date = date
@@ -139,12 +139,12 @@ export const deleteAnnouncement = async (
 ) => {
   const { announcementId } = req.params
 
-  let existingAnnouncement: AnnouncementType
+  let existingAnnouncement: IAnnouncement
 
   try {
     existingAnnouncement = (await Announcement.findByIdAndRemove(
       announcementId
-    )) as AnnouncementType
+    )) as IAnnouncement
   } catch (err) {
     const error = new HttpError(
       404,

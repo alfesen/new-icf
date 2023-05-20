@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { WelcomeType } from '../../types'
+import { IWelcome } from '../../types'
 
-const welcomeSchema = new Schema<WelcomeType>({
+const welcomeSchema = new Schema<IWelcome>({
   title: {
     type: String,
     required: true,
@@ -12,4 +12,4 @@ const welcomeSchema = new Schema<WelcomeType>({
   },
 })
 
-export default model<WelcomeType>('AboutWelcome', welcomeSchema)
+export default model<IWelcome>('AboutWelcome', welcomeSchema)

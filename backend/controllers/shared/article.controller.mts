@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import Article from '../../models/shared/Article.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
-import { ArticleType } from '../../types.js'
+import { IArticle } from '../../types.js'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
@@ -25,7 +25,7 @@ export const postPageArticle = async (
 
   const existingArticle = (await findExistingData(Article, next, {
     filter: { pagePath: page },
-  })) as ArticleType
+  })) as IArticle
   if (existingArticle) {
     const error = new HttpError(
       400,
@@ -51,7 +51,7 @@ export const getPageArticle = async (
   const { page } = req.params
   const article = (await findExistingData(Article, next, {
     filter: { pagePath: page },
-  })) as ArticleType
+  })) as IArticle
 
   if (!article) {
     const error = new HttpError(404, 'No article found for this page')
@@ -80,7 +80,7 @@ export const updatePageArticle = async (
   const { articleTitle, sections } = req.body
   const article = (await findExistingData(Article, next, {
     filter: { pagePath: page },
-  })) as ArticleType
+  })) as IArticle
   console.log(sections[0].sectionTitle)
 
   article.articleTitle = articleTitle
@@ -100,7 +100,7 @@ export const deletePageArticle = async (
 
   const existingArticle = (await findExistingData(Article, next, {
     filter: { pagePath: page },
-  })) as ArticleType
+  })) as IArticle
 
   if (!existingArticle) {
     const error = new HttpError(404, 'Article not found')

@@ -3,7 +3,7 @@ import Modal from '../../UI/Modal/Modal'
 import Button from '../../UI/Form/Button/Button'
 import s from './Location.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { LocationData } from '../../../types/AboutTypes'
+import { TLocation } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import { convertString } from '../../../helpers/convertString'
 import { useModal } from '../../../hooks/useModal'
@@ -12,7 +12,7 @@ const LocationForm = lazy(() => import('../../Forms/LocationForm/LocationForm'))
 
 const Location = () => {
   const { openModal, closeModal, show } = useModal()
-  const [locationData, setLocationData] = useState<LocationData>(null)
+  const [locationData, setLocationData] = useState<TLocation>(null)
   const { loading, sendRequest } = useFetchData()
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Location = () => {
     getLocation()
   }, [])
 
-  const submitHandler = (data: LocationData) => {
+  const submitHandler = (data: TLocation) => {
     setLocationData(data)
     closeModal()
   }

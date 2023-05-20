@@ -4,7 +4,7 @@ export type MulterFiles = {
   [fieldname: string]: Express.Multer.File[]
 }
 
-export interface HeaderData extends Document {
+export interface IHeader extends Document {
   pagePath: string
   pageTitle: string
   pageSubtitle: string
@@ -12,19 +12,19 @@ export interface HeaderData extends Document {
   mobileImage: string
 }
 
-export interface WelcomeType extends Document {
+export interface IWelcome extends Document {
   title: string
   content: string
 }
 
-export interface AnnouncementType extends Document {
+export interface IAnnouncement extends Document {
   date: string
   time: string
   title: string
   description?: string
 }
 
-export interface LocationType extends Document {
+export interface ILocation extends Document {
   title: string
   address: string
   location: string
@@ -33,7 +33,7 @@ export interface LocationType extends Document {
   map: string
 }
 
-export interface MemberType extends Document {
+export interface IMember extends Document {
   name: String
   role: String
   category: 'pastors' | 'leadership team' | 'ministry leaders'
@@ -51,13 +51,13 @@ export type FindOptions<T> = {
 }
 
 
-export interface ArticleSection extends Document {
+export interface IArticleSection extends Document {
   sectionTitle: string,
   content: string
 }
 
-export interface ArticleType extends Document {
+export interface IArticle extends Document {
   articleTitle: string,
   pagePath: string,
-  sections: ArticleSection[],
+  sections: IArticleSection[],
 }

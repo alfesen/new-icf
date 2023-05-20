@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Member } from '../../types/MemberTypes'
+import { TMember } from '../../types/MemberTypes'
 import { useFetchData } from '../../hooks/useFetchData'
 import { convertString } from '../../helpers/convertString'
 import s from './MemberPage.module.scss'
 import Button from '../../components/UI/Form/Button/Button'
 
 const MemberPage = () => {
-  const [member, setMember] = useState<Member>()
+  const [member, setMember] = useState<TMember>()
   const { memberId } = useParams()
   const { sendRequest } = useFetchData()
 
