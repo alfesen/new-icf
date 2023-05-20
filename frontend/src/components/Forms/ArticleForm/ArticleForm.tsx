@@ -26,6 +26,7 @@ const ArticleForm = () => {
             ? article
             : {
                 articleTitle: '',
+                lead: '',
                 sections: [
                   {
                     sectionTitle: '',
@@ -44,6 +45,7 @@ const ArticleForm = () => {
   const submitArticle = async () => {
     const newArticle = {
       articleTitle: watch('articleTitle'),
+      lead: watch('lead'),
       sections: watch('sections'),
     }
 
@@ -51,6 +53,7 @@ const ArticleForm = () => {
       await sendRequest(url, method, JSON.stringify(newArticle), {
         'Content-Type': 'application/json',
       })
+      console.log(error)
       if (!error) {
         navigate(-1)
       }
@@ -65,6 +68,13 @@ const ArticleForm = () => {
         name='articleTitle'
         control={control}
         placeholder='Enter article title '
+      />
+      <Input
+        element='textarea'
+        label='Article Lead'
+        name='lead'
+        control={control}
+        placeholder='Provide the lead for your article'
       />
       {fields &&
         fields.map((field, index) => {
@@ -97,7 +107,8 @@ const ArticleForm = () => {
           )
         })}
       <div className={s.form__actions}>
-        <Button reverse
+        <Button
+          reverse
           onClick={() =>
             append({
               sectionTitle: '',
