@@ -55,6 +55,13 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
         label='Page Title'
         placeholder='Please enter section title'
         name='title'
+        rules={{
+          required: 'Page title is required',
+          maxLength: {
+            value: 50,
+            message: 'Maximum length is 50 characters',
+          },
+        }}
       />
       <Input
         control={control}
@@ -62,6 +69,13 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
         label='Address'
         placeholder='Please enter the church address'
         name='address'
+        rules={{
+          required: 'Address is required',
+          maxLength: {
+            value: 100,
+            message: 'Maximum length is 100 characters',
+          },
+        }}
       />
       <Input
         control={control}
@@ -69,6 +83,13 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
         label='Directions'
         placeholder='Please enter directions'
         name='directions'
+        rules={{
+          required: 'Directions is required',
+          maxLength: {
+            value: 200,
+            message: 'Maximum length is 200 characters'
+          }
+        }}
       />
       <div className={s.form__images}>
         <ImagePicker
@@ -77,14 +98,31 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
           image={defaultValues?.image}
           name='image'
           id='image'
+          rules={{
+            validate:
+              defaultValues?.image.length === 0 &&
+              defaultValues?.image === watch('image')
+                ? {
+                    lessThan10MB: (file: File) =>
+                      file.size < 1000000 || 'Maximum 10 MB',
+                    acceptedFormats: (file: File) =>
+                      ['image/jpeg', 'image/png', 'image/jpg'].includes(
+                        file.type
+                      ) || 'Only PNG, JPEG or JPG',
+                  }
+                : undefined,
+          }}
         />
       </div>
       <Input
         control={control}
         element='input'
         label='Map link'
-        placeholder='Please enter map link'
+        placeholder='Please enter Google iframes source'
         name='map'
+        rules={{
+          required: 'Map link is required',
+        }}
       />
       <div className={s.form__actions}>
         {edit && (

@@ -10,10 +10,10 @@ import {
 const router = Router()
 
 const validate = () => [
-  check('title').notEmpty().isLength({ min: 5, max: 50 }),
-  check('address').notEmpty(),
+  check('title').notEmpty().isLength({ max: 50 }),
+  check('address').notEmpty().isLength({max: 100}),
   check('map').notEmpty(),
-  check('directions').notEmpty(),
+  check('directions').notEmpty().isLength({max: 200}),
 ]
 
 router.post('/', fileUpload.single('image'), validate(), postLocation)
