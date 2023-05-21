@@ -67,6 +67,9 @@ const MemberForm = () => {
         label='Name'
         placeholder="Enter new member's name"
         control={control}
+        rules={{
+          required: "Member's name is required",
+        }}
       />
       <Input
         element='input'
@@ -74,6 +77,13 @@ const MemberForm = () => {
         label='Role'
         placeholder="Enter new member's role"
         control={control}
+        rules={{
+          required: "Member's role is required",
+          maxLength: {
+            value: 50,
+            message: "Maximum length is 50 characters'",
+          },
+        }}
       />
       <Input
         control={control}
@@ -82,6 +92,9 @@ const MemberForm = () => {
         label='Category'
         options={['pastors', 'leadership team', 'ministry leaders']}
         placeholder="Enter new member's category"
+        rules={{
+          required: "Member's category is required",
+        }}
       />
       <div className='center'>
         <ImagePicker
@@ -91,6 +104,21 @@ const MemberForm = () => {
           name='image'
           label='Pick the image'
           image={defaultValues?.image}
+          rules={{
+            required: "Member's avatar is required",
+            validate:
+              defaultValues?.mobileImage.length === 0 &&
+              defaultValues?.mobileImage === watch('mobileImage')
+                ? {
+                    lessThan6MB: (file: File) =>
+                      file.size < 600000 || 'Maximum 6 MB',
+                    acceptedFormats: (file: File) =>
+                      ['image/jpeg', 'image/png', 'image/gif'].includes(
+                        file.type
+                      ) || 'Only PNG, JPEG e GIF',
+                  }
+                : undefined,
+          }}
         />
       </div>
       <Input
@@ -99,6 +127,9 @@ const MemberForm = () => {
         name='bio'
         label='Bio'
         placeholder="Enter new member's bio"
+        rules={{
+          required: "Member's bio is required",
+        }}
       />
       <Input
         element='textarea'

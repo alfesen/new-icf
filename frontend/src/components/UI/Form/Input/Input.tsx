@@ -52,7 +52,11 @@ const Input = ({
     )
   } else if (element === 'select' && options) {
     el = (
-      <select defaultValue={field.value} id={name} onChange={changeHandler}>
+      <select
+        defaultValue={field.value}
+        value={field.value}
+        id={name}
+        onChange={changeHandler}>
         {options.map(o => {
           return (
             <option key={`${o}__input_key`} value={o}>
@@ -65,18 +69,23 @@ const Input = ({
   }
 
   return (
-    <div className={`${s.input} ${error ? s.input__invalid : ''} ${rules ? s.input__rules : ''}`}>
+    <div
+      className={`${s.input} ${error ? s.input__invalid : ''} ${
+        rules ? s.input__rules : ''
+      }`}>
       <label className={s.input__label} htmlFor={name}>
         {label}
       </label>
       {el}
-      {rules && <sub className={s.input__subscript}>
-        <p className={s.input__error}>{error?.message}</p>
-        <p className={error ? s.input__error : ''}>
-          {maxLength &&
-            `${(field.value && field.value.length) | 0}/${maxLength.value}`}
-        </p>
-      </sub>}
+      {rules && (
+        <sub className={s.input__subscript}>
+          <p className={s.input__error}>{error?.message}</p>
+          <p className={error ? s.input__error : ''}>
+            {maxLength &&
+              `${(field.value && field.value.length) | 0}/${maxLength.value}`}
+          </p>
+        </sub>
+      )}
     </div>
   )
 }
