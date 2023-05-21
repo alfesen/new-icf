@@ -27,12 +27,7 @@ const ArticleForm = () => {
             : {
                 articleTitle: '',
                 lead: '',
-                sections: [
-                  {
-                    sectionTitle: '',
-                    content: '',
-                  },
-                ],
+                sections: [],
               }
         ),
   })
@@ -63,10 +58,17 @@ const ArticleForm = () => {
     <form onSubmit={handleSubmit(submitArticle)}>
       <Input
         element='input'
-        label='Page Title'
+        label='Article Title'
         name='articleTitle'
         control={control}
         placeholder='Enter article title '
+        rules={{
+          required: 'Article title is required',
+          maxLength: {
+            value: 50,
+            message: 'Maximum length is 50 characters',
+          },
+        }}
       />
       <Input
         element='textarea'
@@ -74,6 +76,13 @@ const ArticleForm = () => {
         name='lead'
         control={control}
         placeholder='Provide the lead for your article'
+        rules={{
+          required: 'Article lead is required',
+          maxLength: {
+            value: 250,
+            message: 'Maximum length is 250 characters',
+          },
+        }}
       />
       {fields &&
         fields.map((field, index) => {
@@ -85,7 +94,14 @@ const ArticleForm = () => {
                   label='Section Title'
                   name={`sections.${index}.sectionTitle`}
                   control={control}
-                  placeholder='Enter section title '
+                  placeholder='Enter section title'
+                  rules={{
+                    required: 'Section title is required',
+                    maxLength: {
+                      value: 50,
+                      message: 'Maximum length is 50 characters',
+                    },
+                  }}
                 />
                 <Input
                   element='textarea'
@@ -93,15 +109,18 @@ const ArticleForm = () => {
                   name={`sections.${index}.content`}
                   control={control}
                   placeholder='Enter content '
+                  rules={{
+                    required: 'Section content is required',
+                  }}
                 />
               </div>
-              {index > 0 && (
+              {
                 <div className={s.form__button}>
                   <Button reverse onClick={() => remove(index)}>
                     X
                   </Button>
                 </div>
-              )}
+              }
             </div>
           )
         })}
