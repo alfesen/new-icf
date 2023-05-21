@@ -48,7 +48,7 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
       !error && onSubmit(headerData)
     }
   }
-
+  
   return (
     <form className={s.form} onSubmit={handleSubmit(headerFormSubmitHandler)}>
       <Input
@@ -79,13 +79,18 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
         <ImagePicker
           rules={{
             required: 'Desktop Hero Image is required',
-            validate: {
-              lessThan10MB: (file: File) =>
-                file.size < 1000000 || 'Maximum 10 MB',
-              acceptedFormats: (file: File) =>
-                ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type) ||
-                'Only PNG, JPEG or JPG',
-            },
+            validate:
+              defaultValues?.desktopImage.length === 0 &&
+              defaultValues?.desktopImage === watch('desktopImage')
+                ? {
+                    lessThan10MB: (file: File) =>
+                      file.size < 1000000 || 'Maximum 10 MB',
+                    acceptedFormats: (file: File) =>
+                      ['image/jpeg', 'image/png', 'image/jpg'].includes(
+                        file.type
+                      ) || 'Only PNG, JPEG or JPG',
+                  }
+                : undefined,
           }}
           label='Pick desktop hero image'
           image={defaultValues?.desktopImage}
@@ -96,12 +101,18 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
         <ImagePicker
           rules={{
             required: 'Mobile Hero Image is required',
-            validate: {
-              lessThan6MB: (file: File) => file.size < 600000 || 'Maximum 6 MB',
-              acceptedFormats: (file: File) =>
-                ['image/jpeg', 'image/png', 'image/gif'].includes(file.type) ||
-                'Only PNG, JPEG e GIF',
-            },
+            validate:
+              defaultValues?.mobileImage.length === 0 &&
+              defaultValues?.mobileImage === watch('mobileImage')
+                ? {
+                    lessThan6MB: (file: File) =>
+                      file.size < 600000 || 'Maximum 6 MB',
+                    acceptedFormats: (file: File) =>
+                      ['image/jpeg', 'image/png', 'image/gif'].includes(
+                        file.type
+                      ) || 'Only PNG, JPEG e GIF',
+                  }
+                : undefined,
           }}
           label='Pick mobile hero image'
           image={defaultValues?.mobileImage}
