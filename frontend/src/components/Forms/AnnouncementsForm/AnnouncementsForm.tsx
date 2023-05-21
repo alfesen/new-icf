@@ -24,7 +24,7 @@ const AnnouncementsForm = ({
             .then(({ announcement }: any) => announcement)
       : {
           title: '',
-          description: '',
+          description: undefined,
           date: '',
           time: '',
         },
@@ -38,12 +38,9 @@ const AnnouncementsForm = ({
       time: watch('time'),
     }
     try {
-      await sendRequest(
-        'http://localhost:5000/api/home/announcements',
-        method,
-        JSON.stringify(newAnnouncement),
-        { 'Content-Type': 'application/json' }
-      )
+      await sendRequest(url, method, JSON.stringify(newAnnouncement), {
+        'Content-Type': 'application/json',
+      })
 
       !error && onSubmit()
     } catch (err) {}
@@ -51,10 +48,7 @@ const AnnouncementsForm = ({
 
   const deleteAnnouncement = async () => {
     try {
-      await sendRequest(
-        `http://localhost:5000/api/home/announcements/${id}`,
-        'DELETE'
-      )
+      await sendRequest(url, 'DELETE')
     } catch (err) {}
     !error && onSubmit()
   }
@@ -65,15 +59,28 @@ const AnnouncementsForm = ({
         element='input'
         label='Title'
         name='title'
-        control={control}
         placeholder='Provide announcement title'
+        control={control}
+        rules={{
+          required: 'Announcement title field is required',
+          minLength: { value: 3, message: 'Minimum length is 3' },
+          maxLength: { value: 40, message: 'Maximum length is 40' },
+        }}
       />
       <Input
         element='textarea'
         name='description'
         label='Description'
-        control={control}
         placeholder='Provide announcement description'
+        control={control}
+        rules={{
+          required: {
+            value: false,
+            message: '"No description provided" will be displayed',
+          },
+          minLength: { value: 3, message: 'Minimum length is 3' },
+          maxLength: { value: 250, message: 'Maximum length is 250' },
+        }}
       />
       <Input
         name='date'
@@ -82,6 +89,9 @@ const AnnouncementsForm = ({
         label='Date'
         placeholder='Event date'
         control={control}
+        rules={{
+          required: 'Date is required',
+        }}
       />
       <Input
         name='time'
@@ -90,6 +100,9 @@ const AnnouncementsForm = ({
         label='Time'
         placeholder='Event time'
         control={control}
+        rules={{
+          required: 'Time is required',
+        }}
       />
       <div className={s.form__actions}>
         {id && (
