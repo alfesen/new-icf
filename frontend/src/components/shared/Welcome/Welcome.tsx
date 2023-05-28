@@ -1,11 +1,11 @@
 import { useState, useEffect, Fragment, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { useModal } from '../../../hooks/useModal'
-import { convertString } from '../../../helpers/convertString'
 import { WelcomeData } from '../../../types/SharedTypes'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import s from './Welcome.module.scss'
+import { useTransform } from '../../../helpers/useTransform'
 
 const WelcomeForm = lazy(() => import('../../Forms/WelcomeForm/WelcomeForm'))
 
@@ -13,6 +13,7 @@ const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
   const [welcome, setWelcome] = useState<WelcomeData>(null)
   const { sendRequest } = useFetchData()
   const { openModal, closeModal, show } = useModal()
+  const { transform } = useTransform()
 
   useEffect(() => {
     const getWelcome = async () => {
@@ -68,9 +69,7 @@ const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
       {welcome && (
         <section className={`${s.welcome} ${subpage ? s.subpage : ''}`}>
           <h2 className={s.welcome__title}>{welcome.title}</h2>
-          <div className={s.welcome__content}>
-            {convertString(welcome.content)}
-          </div>
+          <div className={s.welcome__content}>{transform(welcome.content)}</div>
           <Button edit onClick={openModal}>
             Edit
           </Button>
