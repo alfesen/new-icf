@@ -3,7 +3,7 @@ import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
 import parse from 'html-react-parser'
 import DOMPurify from 'dompurify'
 
-export const useTransform = (html?: string) => {
+export const useTransform = () => {
   const transform = (node: any) => {
     let parsedNode: any = node
     if (typeof node === 'string') {
@@ -13,26 +13,43 @@ export const useTransform = (html?: string) => {
       parsedNode = parse(cleanNode)
     }
     let result: ReactNode[] = []
-    for (let child of parsedNode.props.children) {
-      if (typeof child === 'string' && child.includes('^')) {
-        const fragments = child.split('^') as any
-        const transformedFragments = fragments.map(
-          (fragment: string, index: number) => {
-            if (index % 2 === 1) {
-              return (
-                <BibleVerse
-                  key={fragment + Math.random()}
-                  reference={fragment}
-                />
-              )
+    if (Array.isArray(parsedNode.props.children)) {
+      for (let child of parsedNode.props.children) {
+        if (typeof child === 'string') {
+          const fragments = child.split('^') as string[]
+          const transformedFragments = fragments.map(
+            (fragment: string, i: number) => {
+              if (i % 2 === 1) {
+                return (
+                  <BibleVerse
+                    key={fragment + Math.random()}
+                    reference={fragment}
+                  />
+                )
+              }
+              return fragment
             }
-            return fragment
-          }
-        )
-        result = result.concat(transformedFragments)
-      } else {
-        result.push(child)
+          )
+          result = result.concat(transformedFragments)
+        } else {
+          result.push(child)
+        }
       }
+    } else if (typeof parsedNode.props.children === 'string') {
+      const fragments = parsedNode.props.children.split('^') as string[]
+      const transformedFragments = fragments.map(
+        (fragment: string, i: number) => {
+          if (i % 2 === 1) {
+            return (
+              <BibleVerse key={fragment + Math.random()} reference={fragment} />
+            )
+          }
+          return fragment
+        }
+      )
+      result = transformedFragments
+    } else {
+      result.push(parsedNode.props.children)
     }
     return result
   }
