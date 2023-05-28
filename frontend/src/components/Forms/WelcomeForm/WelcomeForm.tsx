@@ -58,13 +58,11 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
         placeholder='Provide title for the section'
       />
       <Input
-        rules={{ required: 'This field is required' }}
         label='Content'
         name='content'
-        element='textarea'
-        rows={6}
         control={control}
-        placeholder='Provide content for the section'
+        element='editor'
+        placeholder='Provide the content for the section'
       />
       <div>
         <Button type='button' onClick={onCancel} reverse>

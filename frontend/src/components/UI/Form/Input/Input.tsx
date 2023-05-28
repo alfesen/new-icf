@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react'
 import { useController } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import { InputProps } from '../../../../types/UITypes'
 import s from './Input.module.scss'
 
@@ -24,6 +26,9 @@ const Input = ({
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => field.onChange(e.target.value)
 
+  const editorChangeHandler = (state: string) => {
+    field.onChange(state)
+  }
   let el
 
   if (element === 'input') {
@@ -66,6 +71,8 @@ const Input = ({
         })}
       </select>
     )
+  } else if (element === 'editor') {
+   el = <ReactQuill id={name} theme='snow' value={field.value} onChange={editorChangeHandler} placeholder={placeholder} />
   }
 
   return (
