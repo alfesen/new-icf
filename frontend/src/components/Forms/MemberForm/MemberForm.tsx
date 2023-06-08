@@ -107,8 +107,8 @@ const MemberForm = () => {
           rules={{
             required: "Member's avatar is required",
             validate:
-              defaultValues?.mobileImage.length === 0 &&
-              defaultValues?.mobileImage === watch('mobileImage')
+              defaultValues?.image.length === 0 &&
+              defaultValues?.image === watch('image')
                 ? {
                     lessThan6MB: (file: File) =>
                       file.size < 600000 || 'Maximum 6 MB',
