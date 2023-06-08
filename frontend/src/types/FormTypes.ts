@@ -2,7 +2,7 @@ import { Control, FieldValues, RegisterOptions } from 'react-hook-form'
 
 export type FormProps = {
   onClose?: () => void
-  onSubmit: (data: any) => void
+  onSubmit: () => void
   edit?: boolean
 }
 
