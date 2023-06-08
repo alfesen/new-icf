@@ -1,4 +1,6 @@
-export type WelcomeData = {
+export type TWelcome = { route: string; subpage?: boolean }
+
+export type TWelcomeData = {
   title: string
   content: string
 } | null

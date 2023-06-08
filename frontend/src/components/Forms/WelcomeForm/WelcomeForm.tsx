@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { WelcomeFormProps } from '../../../types/UITypes'
+import { WelcomeFormProps } from '../../../types/FormTypes'
 import Button from '../../UI/Form/Button/Button'
 import Input from '../../UI/Form/Input/Input'
 

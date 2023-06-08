@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react'
 import { useController } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { InputProps } from '../../../../types/UITypes'
+import { InputProps } from '../../../../types/FormTypes'
 import s from './Input.module.scss'
 
 const Input = ({

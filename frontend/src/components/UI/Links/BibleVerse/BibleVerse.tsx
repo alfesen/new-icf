@@ -17,16 +17,16 @@ const BibleVerse = ({ reference, className }: BibleVerseProps) => {
   const { sendRequest } = useFetchData()
 
   const handleMouseEnter = useCallback(async (): Promise<void> => {
-    const response = await sendRequest(
+    const { passages } = await sendRequest(
       `${process.env.ESV_URI}${encodeURIComponent(reference)}`,
       'GET',
-      null,
+      undefined,
       {
         Authorization: `Token ${process.env.ESV_TOKEN}`,
       }
     )
 
-    setPassageHTML(response.passages[0])
+    setPassageHTML(passages[0])
     setTooltipVisible(true)
   }, [sendRequest, reference])
 

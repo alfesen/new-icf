@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { FormProps } from '../../../types/UITypes'
+import { FormProps } from '../../../types/FormTypes'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
@@ -87,8 +87,8 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
           required: 'Directions is required',
           maxLength: {
             value: 200,
-            message: 'Maximum length is 200 characters'
-          }
+            message: 'Maximum length is 200 characters',
+          },
         }}
       />
       <div className={s.form__images}>

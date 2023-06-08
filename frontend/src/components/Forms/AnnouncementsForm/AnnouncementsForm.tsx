@@ -3,14 +3,9 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import s from './AnnouncementsForm.module.scss'
+import { AnnouncementsFormProps } from '../../../types/FormTypes'
 
-const AnnouncementsForm = ({
-  id,
-  onSubmit,
-}: {
-  id?: string
-  onSubmit: () => void
-}) => {
+const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
   const { sendRequest, error } = useFetchData()
   const url = id
     ? `http://localhost:5000/api/home/announcements/${id}`
