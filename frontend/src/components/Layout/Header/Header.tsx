@@ -32,9 +32,14 @@ const Header = () => {
     }
   }, [sendRequest, pathname])
 
-  const submitHeader = (data: THeader) => {
-    setHeaderData(data)
-    closeModal()
+  const submitHeader = async () => {
+    try {
+      const { headerData } = await sendRequest(
+        `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`
+      )
+      setHeaderData(headerData)
+      closeModal()
+    } catch (err) {}
   }
 
   if (memberId) return <></>
@@ -47,7 +52,7 @@ const Header = () => {
             <HeaderForm
               edit={show && true}
               onClose={closeModal}
-              onSubmit={submitHeader}
+              onSubmit={() => setTimeout(submitHeader, 500)}
             />
           </Suspense>
         </Modal>

@@ -9,6 +9,7 @@ const Logo = ({ className }: { className?: string }) => {
       to='/home'
       title='To the home page'>
       <img
+        loading='lazy'
         className={s['logo--img']}
         src={logo}
         alt='International Christian Fellowship logo'

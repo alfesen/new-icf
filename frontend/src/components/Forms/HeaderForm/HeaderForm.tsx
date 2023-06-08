@@ -21,7 +21,13 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
     defaultValues: () =>
       fetch(`http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`)
         .then(res => res.json())
-        .then(({ headerData }: any) => headerData),
+        .then(({ headerData }: any) => headerData || {
+          pageTitle: '',
+          pageSubtitle: '',
+          desktopImage: '',
+          mobileImage: '',
+          pagePath: ''
+        }),
   })
 
   const headerFormSubmitHandler = async () => {
@@ -33,19 +39,19 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
     formData.append('pagePath', pathname)
 
     if (defaultValues?.id) {
-      const { headerData } = await sendRequest(
+      await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'PATCH',
         formData
       )
-      !error && onSubmit(headerData)
+      !error && onSubmit()
     } else {
-      const { headerData } = await sendRequest(
+      await sendRequest(
         `http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`,
         'POST',
         formData
       )
-      !error && onSubmit(headerData)
+      !error && onSubmit()
     }
   }
   

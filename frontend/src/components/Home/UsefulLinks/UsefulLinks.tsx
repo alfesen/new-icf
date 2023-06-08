@@ -1,6 +1,6 @@
 import s from './UsefulLinks.module.scss'
-import donate from '../../../assets/images/links/donate-sm.jpg'
-import map from '../../../assets/images/links/map-sm.jpg'
+import donate from '../../../assets/images/links/donate-sm.webp'
+import map from '../../../assets/images/links/map-sm.webp'
 import UsefulLink from '../../UI/Links/UsefulLink/UsefulLink'
 
 const UsefulLinks = () => {

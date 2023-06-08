@@ -7,7 +7,7 @@ const UsefulLink = ({ image, text, url }: UsefulLinkProps) => {
     <div className={s.link}>
       <div className={s.link__text}>{text}</div>
       <Link to={url}>
-        <img className={s.link__img} src={image} alt={`${text} image link`} />
+        <img loading='lazy' className={s.link__img} src={image} alt={`${text} image link`} />
       </Link>
     </div>
   )
