@@ -3,7 +3,7 @@ import Button from '../Button/Button'
 import s from './ImagePicker.module.scss'
 
 import { useController } from 'react-hook-form'
-import { ImagePickerProps } from '../../../../types/UITypes'
+import { ImagePickerProps } from '../../../../types/FormTypes'
 
 const ImagePicker = ({
   name,

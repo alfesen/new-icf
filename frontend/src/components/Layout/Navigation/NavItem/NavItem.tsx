@@ -4,13 +4,9 @@ import { useOutsideClick } from '../../../../hooks/useOutsideClick'
 import { useFormatText } from '../../../../hooks/useFormatText'
 import NavDropdown from '../NavDropdown/NavDropdown'
 import s from './NavItem.module.scss'
+import { NavItemProps } from '../../../../types/UITypes'
 
-type Props = {
-  title: string
-  links?: string[]
-}
-
-const NavItem = ({ title, links }: Props) => {
+const NavItem = ({ title, links }: NavItemProps) => {
   const { formatLink } = useFormatText()
   const { width } = useClientWidth()
 

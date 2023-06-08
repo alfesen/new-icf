@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { FormProps } from '../../../types/UITypes'
+import { FormProps } from '../../../types/FormTypes'
 import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import Input from '../../UI/Form/Input/Input'

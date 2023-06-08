@@ -1,14 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
 import { useFormatText } from '../../../../hooks/useFormatText'
 import s from './NavDropdown.module.scss'
+import { NavDropdownProps } from '../../../../types/UITypes'
 
 const NavDropdown = ({
   links,
   collectionTitle,
-}: {
-  links: string[]
-  collectionTitle: string
-}) => {
+}: NavDropdownProps) => {
   const { formatLink } = useFormatText()
   const { memberId } = useParams()
 
