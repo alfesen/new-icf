@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from 'react'
 import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
 import parse from 'html-react-parser'
 import DOMPurify from 'dompurify'
+import { nanoid } from 'nanoid'
 
 export const useFormatText = () => {
   const transform = (node: any) => {
@@ -22,7 +23,7 @@ export const useFormatText = () => {
               if (i % 2 === 1) {
                 return (
                   <BibleVerse
-                    key={fragment + Math.random()}
+                    key={fragment.length + nanoid()}
                     reference={fragment}
                   />
                 )
@@ -41,7 +42,10 @@ export const useFormatText = () => {
         (fragment: string, i: number) => {
           if (i % 2 === 1) {
             return (
-              <BibleVerse key={fragment + Math.random()} reference={fragment} />
+              <BibleVerse
+                key={fragment.length + nanoid()}
+                reference={fragment}
+              />
             )
           }
           return fragment
@@ -57,7 +61,7 @@ export const useFormatText = () => {
   const style = {
     marginBottom: '1em',
   } as CSSProperties
-  
+
   const highlight = (
     initialContent: any,
     restrict: boolean = false,
@@ -75,7 +79,7 @@ export const useFormatText = () => {
                 : undefined
             }
             className={className ? className : undefined}
-            key={p.length + Math.random()}>
+            key={p.length + nanoid()}>
             {boldAndHighlightedString(p.trim())}
           </div>
         )
@@ -87,9 +91,7 @@ export const useFormatText = () => {
       return content.map((text: string | JSX.Element, index: number) => {
         if (typeof text === 'string') {
           return (
-            <div
-              className={className ? className : undefined}
-              key={index}>
+            <div className={className ? className : undefined} key={index}>
               {boldAndHighlightedString(text, restrict)}
             </div>
           )
@@ -105,7 +107,7 @@ export const useFormatText = () => {
       )
     }
   }
-  
+
   const boldAndHighlightedString = (
     string: string,
     restrict: boolean = false
@@ -127,7 +129,9 @@ export const useFormatText = () => {
             }
             return highlightedSplitString.map((text: string, index: number) => {
               if (index % 2 === 1) {
-                return <BibleVerse key={Math.random()} reference={text} />
+                return (
+                  <BibleVerse key={text.length + nanoid()} reference={text} />
+                )
               } else {
                 return text
               }
@@ -150,7 +154,6 @@ export const useFormatText = () => {
       .replaceAll(' ', '-')
       .toLowerCase()
   }
-  
 
   return { transform, highlight, formatLink }
 }
