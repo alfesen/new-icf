@@ -79,7 +79,7 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
       />
       <Input
         control={control}
-        element='editor'
+        element='textarea'
         label='Directions'
         placeholder='Please enter directions'
         name='directions'

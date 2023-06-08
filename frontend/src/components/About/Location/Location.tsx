@@ -5,8 +5,8 @@ import s from './Location.module.scss'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { TLocation } from '../../../types/AboutTypes'
 import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
-import { convertString } from '../../../helpers/convertString'
 import { useModal } from '../../../hooks/useModal'
+import { useFormatText } from '../../../hooks/useFormatText'
 
 const LocationForm = lazy(() => import('../../Forms/LocationForm/LocationForm'))
 
@@ -14,6 +14,7 @@ const Location = () => {
   const { openModal, closeModal, show } = useModal()
   const [locationData, setLocationData] = useState<TLocation>(null)
   const { loading, sendRequest } = useFetchData()
+  const { highlight } = useFormatText()
 
   useEffect(() => {
     const getLocation = async () => {
@@ -51,7 +52,7 @@ const Location = () => {
           </div>
           <h2 className={s.location__title}>{locationData.title}</h2>
           <address className={s.location__address}>
-            {convertString(locationData.address)}
+            {highlight(locationData.address)}
           </address>
           <div className={s.location__image}>
             <img
@@ -60,7 +61,7 @@ const Location = () => {
             />
           </div>
           <div className={s.location__directions}>
-            {convertString(locationData.directions)}
+            {highlight(locationData.directions)}
           </div>
           <iframe
             src={locationData.map}

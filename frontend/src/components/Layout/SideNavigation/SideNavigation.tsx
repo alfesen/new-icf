@@ -1,12 +1,14 @@
 import { useState, Fragment } from 'react'
+import { useFormatText } from '../../../hooks/useFormatText'
 import s from './SideNavigation.module.scss'
 import { NavLink } from 'react-router-dom'
-import { formatLink } from '../../../helpers/formatLink'
 import { Fade } from 'react-awesome-reveal'
 import { SideNav } from '../../../types/LayoutTypes'
 
 const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
   const [showNav, setShowNav] = useState(false)
+
+  const { formatLink } = useFormatText()
 
   const renderLinks = links.map(link => {
     const formattedLink = formatLink(link)

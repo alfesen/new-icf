@@ -104,11 +104,11 @@ const ArticleForm = () => {
                   }}
                 />
                 <Input
-                  element='textarea'
+                  element='editor'
                   label='Content'
                   name={`sections.${index}.content`}
                   control={control}
-                  placeholder='Enter content '
+                  placeholder='Enter content'
                   rules={{
                     required: 'Section content is required',
                   }}
