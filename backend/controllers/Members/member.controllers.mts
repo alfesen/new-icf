@@ -6,6 +6,7 @@ import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 
 export const createMember = async (
   req: Request,
@@ -23,11 +24,13 @@ export const createMember = async (
   }
   const { name, role, category, bio, contact, isAuthor } = req.body
 
+  const imageWebpPath = await convertAndSaveImage(req.file!.path, 400)
+
   const newMember = new Member({
     name,
     role,
     category,
-    image: req.file?.path,
+    image: imageWebpPath,
     bio,
     contact,
     isAuthor: !!isAuthor,
@@ -118,8 +121,8 @@ export const updateMember = async (
     fs.unlink(member.image, err => {
       console.log(err)
     })
-
-    member.image = req.file.path
+    const imageWebpPath = await convertAndSaveImage(req.file.path, 400)
+    member.image = imageWebpPath
   }
 
   member.name = name

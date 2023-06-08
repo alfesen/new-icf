@@ -17,7 +17,7 @@ export const postHeaderData = async (
   if (!errors.isEmpty()) {
     const errorField = errors.array()[0].param
     const error = new HttpError(
-      400,
+      600,
       `Invalid input in "${errorField}"-field passed, please check your data and try again"`
     )
     return next(error)
@@ -37,8 +37,14 @@ export const postHeaderData = async (
     return next(error)
   }
 
-  const desktopImageWebpPath = await convertAndSaveImage(desktopImage[0].path)
-  const mobileImageWebpPath = await convertAndSaveImage(mobileImage[0].path)
+  const desktopImageWebpPath = await convertAndSaveImage(
+    desktopImage[0].path,
+    1200
+  )
+  const mobileImageWebpPath = await convertAndSaveImage(
+    mobileImage[0].path,
+    700
+  )
 
   const createdHeaderData = new Header({
     pagePath: pagePath.replaceAll('/', ''),
@@ -109,7 +115,8 @@ export const updateHeaderData = async (
     const files = req.files as MulterFiles
     if (files.desktopImage) {
       const desktopImageWebpPath = await convertAndSaveImage(
-        files.desktopImage[0].path
+        files.desktopImage[0].path,
+        1200
       )
       fs.unlink(headerData.desktopImage, err => {
         console.log(err)
@@ -118,7 +125,8 @@ export const updateHeaderData = async (
     }
     if (files.mobileImage) {
       const mobileImageWebpPath = await convertAndSaveImage(
-        files.mobileImage[0].path
+        files.mobileImage[0].path,
+        600
       )
       fs.unlink(headerData.mobileImage, err => {
         console.log(err)
