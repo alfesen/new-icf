@@ -6,6 +6,7 @@ import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 
 export const postHeaderData = async (
   req: Request,
@@ -36,12 +37,15 @@ export const postHeaderData = async (
     return next(error)
   }
 
+  const desktopImageWebpPath = await convertAndSaveImage(desktopImage[0].path)
+  const mobileImageWebpPath = await convertAndSaveImage(mobileImage[0].path)
+
   const createdHeaderData = new Header({
     pagePath: pagePath.replaceAll('/', ''),
     pageTitle,
     pageSubtitle,
-    desktopImage: desktopImage[0].path,
-    mobileImage: mobileImage[0].path,
+    desktopImage: desktopImageWebpPath,
+    mobileImage: mobileImageWebpPath,
   })
 
   await saveData(createdHeaderData, next)
@@ -104,16 +108,22 @@ export const updateHeaderData = async (
   if (req.files) {
     const files = req.files as MulterFiles
     if (files.desktopImage) {
+      const desktopImageWebpPath = await convertAndSaveImage(
+        files.desktopImage[0].path
+      )
       fs.unlink(headerData.desktopImage, err => {
         console.log(err)
       })
-      headerData.desktopImage = files.desktopImage[0].path
+      headerData.desktopImage = desktopImageWebpPath
     }
     if (files.mobileImage) {
+      const mobileImageWebpPath = await convertAndSaveImage(
+        files.mobileImage[0].path
+      )
       fs.unlink(headerData.mobileImage, err => {
         console.log(err)
       })
-      headerData.mobileImage = files.mobileImage[0].path
+      headerData.mobileImage = mobileImageWebpPath
     }
   }
 
