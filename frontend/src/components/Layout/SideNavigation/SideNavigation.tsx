@@ -4,6 +4,7 @@ import s from './SideNavigation.module.scss'
 import { NavLink } from 'react-router-dom'
 import { Fade } from 'react-awesome-reveal'
 import { SideNav } from '../../../types/LayoutTypes'
+import { nanoid } from 'nanoid'
 
 const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
   const [showNav, setShowNav] = useState(false)
@@ -19,7 +20,7 @@ const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
         : `${s.link} ${showNav ? s.show : ''}`
     return (
       <NavLink
-        key={`${formattedLink}_key_${Math.random()}`}
+        key={`${formattedLink}_key_${nanoid()}`}
         className={active}
         to={`/${formattedTitle}/${formattedLink}`}>
         {link}
