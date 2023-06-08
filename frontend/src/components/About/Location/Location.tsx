@@ -28,8 +28,11 @@ const Location = () => {
     getLocation()
   }, [])
 
-  const submitHandler = (data: TLocation) => {
-    setLocationData(data)
+  const submitHandler = async () => {
+    const { location } = await sendRequest(
+      'http://localhost:5000/api/about/location'
+    )
+    setLocationData(location)
     closeModal()
   }
 
@@ -56,6 +59,7 @@ const Location = () => {
           </address>
           <div className={s.location__image}>
             <img
+              loading='lazy'
               src={`http://localhost:5000/${locationData.image}`}
               alt='Church building'
             />

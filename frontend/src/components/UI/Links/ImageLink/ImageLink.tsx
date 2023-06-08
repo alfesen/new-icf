@@ -10,7 +10,7 @@ const ImageLink = ({ className, image, link }: ImageLinkProps) => {
   return (
     <Link to={`/${formatLink(link)}`} className={`${s.link} ${className}`}>
       <div className={s.link__img}>
-        <img src={image} alt={`Go to ${link}`} />
+        <img loading='lazy' src={image} alt={`Go to ${link}`} />
         <div className={s.link__overlay}>
           <h3 className={s.link__text}>{link}</h3>
         </div>
