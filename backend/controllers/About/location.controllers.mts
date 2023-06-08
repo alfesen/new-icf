@@ -25,10 +25,7 @@ export const postLocation = async (
 
   const { title, address, directions, map } = req.body
 
-  const existingLocation = (await findExistingData(
-    Location,
-    next
-  )) as ILocation
+  const existingLocation = (await findExistingData(Location, next)) as ILocation
 
   if (existingLocation) {
     const error = new HttpError(
@@ -38,11 +35,13 @@ export const postLocation = async (
     return next(error)
   }
 
+  const locationWebpPath = await convertAndSaveImage(req.file!.path, 840)
+
   const location = new Location({
     title,
     address,
     directions,
-    image: req.file?.path,
+    image: locationWebpPath,
     map,
   })
 
@@ -97,7 +96,7 @@ export const updateLocation = async (
     fs.unlink(location.image, err => {
       console.log(err)
     })
-    const locationWebpPath = await convertAndSaveImage(req.file.path)
+    const locationWebpPath = await convertAndSaveImage(req.file.path, 840)
     location.image = locationWebpPath
   }
 
