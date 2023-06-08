@@ -6,6 +6,7 @@ import fs from 'fs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 
 export const postLocation = async (
   req: Request,
@@ -96,7 +97,8 @@ export const updateLocation = async (
     fs.unlink(location.image, err => {
       console.log(err)
     })
-    location.image = req.file.path
+    const locationWebpPath = await convertAndSaveImage(req.file.path)
+    location.image = locationWebpPath
   }
 
   location.title = title
