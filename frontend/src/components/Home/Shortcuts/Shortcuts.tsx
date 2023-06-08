@@ -1,7 +1,6 @@
 import ImageLink from '../../../components/UI/Links/ImageLink/ImageLink'
 import s from './Shortcuts.module.scss'
-import {nanoid} from 'nanoid'
-
+import { nanoid } from 'nanoid'
 import events from '../../../assets/images/links/events-sm.jpg'
 import group from '../../../assets/images/links/group-sm.jpg'
 import sermon from '../../../assets/images/links/sermon-sm.jpg'

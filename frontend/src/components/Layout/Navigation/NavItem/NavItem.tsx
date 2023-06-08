@@ -1,9 +1,9 @@
 import { Fragment } from 'react'
 import { useClientWidth } from '../../../../hooks/useClientWidth'
-import { formatLink } from '../../../../helpers/formatLink'
+import { useOutsideClick } from '../../../../hooks/useOutsideClick'
+import { useFormatText } from '../../../../hooks/useFormatText'
 import NavDropdown from '../NavDropdown/NavDropdown'
 import s from './NavItem.module.scss'
-import { useOutsideClick } from '../../../../hooks/useOutsideClick'
 
 type Props = {
   title: string
@@ -11,18 +11,19 @@ type Props = {
 }
 
 const NavItem = ({ title, links }: Props) => {
+  const { formatLink } = useFormatText()
   const { width } = useClientWidth()
 
-  const desktop = width > 700
   let drop = false
-
   const { ref, visible, setVisible } = useOutsideClick(drop)
+
   const isDropped = drop ? '-' : `+`
   const parsedLink = formatLink(title)
   const dropdownLinks = visible && links && (
     <NavDropdown links={links} collectionTitle={title} />
   )
 
+  const desktop = width > 700
   const handleDrop = () => {
     setVisible(drop => !drop)
   }

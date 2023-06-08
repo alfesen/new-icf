@@ -1,6 +1,6 @@
-import s from './NavDropdown.module.scss'
-import { formatLink } from '../../../../helpers/formatLink'
 import { Link, useParams } from 'react-router-dom'
+import { useFormatText } from '../../../../hooks/useFormatText'
+import s from './NavDropdown.module.scss'
 
 const NavDropdown = ({
   links,
@@ -9,8 +9,9 @@ const NavDropdown = ({
   links: string[]
   collectionTitle: string
 }) => {
-  
+  const { formatLink } = useFormatText()
   const { memberId } = useParams()
+
   const renderLinks =
     links &&
     links.map(link => {

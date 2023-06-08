@@ -1,11 +1,11 @@
 import { useState, useEffect, Fragment, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
+import { useFormatText } from '../../../hooks/useFormatText'
 import { useModal } from '../../../hooks/useModal'
 import { WelcomeData } from '../../../types/SharedTypes'
 import Button from '../../UI/Form/Button/Button'
 import Modal from '../../UI/Modal/Modal'
 import s from './Welcome.module.scss'
-import { useTransform } from '../../../helpers/useTransform'
 
 const WelcomeForm = lazy(() => import('../../Forms/WelcomeForm/WelcomeForm'))
 
@@ -13,7 +13,7 @@ const Welcome = ({ route, subpage }: { route: string; subpage?: boolean }) => {
   const [welcome, setWelcome] = useState<WelcomeData>(null)
   const { sendRequest } = useFetchData()
   const { openModal, closeModal, show } = useModal()
-  const { transform } = useTransform()
+  const { transform } = useFormatText()
 
   useEffect(() => {
     const getWelcome = async () => {

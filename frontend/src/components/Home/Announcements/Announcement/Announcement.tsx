@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
-import { convertString } from '../../../../helpers/convertString'
-import { TAnnouncement  } from '../../../../types/HomeTypes'
+import { useFormatText } from '../../../../hooks/useFormatText'
+import { TAnnouncement } from '../../../../types/HomeTypes'
 import Button from '../../../UI/Form/Button/Button'
 import s from './Announcement.module.scss'
 import Modal from '../../../UI/Modal/Modal'
@@ -15,6 +15,8 @@ const Announcement = ({
   onUpdate,
 }: TAnnouncement) => {
   const [editModal, setEditModal] = useState<boolean>(false)
+
+  const { highlight } = useFormatText()
 
   const showEditModal = () => setEditModal(true)
 
@@ -42,7 +44,7 @@ const Announcement = ({
         </div>
         <div className={s.announcement__content}>
           <h3 className={s['announcement__content--title']}>{title}</h3>
-          <div>{convertString(description)}</div>
+          <div>{highlight(description)}</div>
         </div>
         <div className={s.announcement__actions}>
           <Button onClick={showEditModal} type='button'>

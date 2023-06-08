@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TMember } from '../../types/MemberTypes'
 import { useFetchData } from '../../hooks/useFetchData'
-import { convertString } from '../../helpers/convertString'
+import { useFormatText } from '../../hooks/useFormatText'
 import s from './MemberPage.module.scss'
 import Button from '../../components/UI/Form/Button/Button'
 import MemberHeader from '../../components/Layout/MemberHeader/MemberHeader'
@@ -11,6 +11,8 @@ const MemberPage = () => {
   const [member, setMember] = useState<TMember>()
   const { memberId } = useParams()
   const { sendRequest } = useFetchData()
+
+  const { highlight } = useFormatText()
 
   useEffect(() => {
     const getMember = async () => {
@@ -32,15 +34,15 @@ const MemberPage = () => {
 
   return (
     <section className={s.member}>
-      <MemberHeader image={image} name={name} role={role}/>
+      <MemberHeader image={image} name={name} role={role} />
       <div className={s.member__bio}>
         <h3>Bio:</h3>
-        {convertString(bio)}
+        {highlight(bio)}
       </div>
       {contact && (
         <div className={s.member__contact}>
           <h3>Contact me:</h3>
-          <address>{convertString(contact, true)}</address>
+          <address>{highlight(contact, true)}</address>
         </div>
       )}
       <div className={s.member__actions}>
