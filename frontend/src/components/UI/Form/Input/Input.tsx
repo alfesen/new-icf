@@ -72,7 +72,24 @@ const Input = ({
       </select>
     )
   } else if (element === 'editor') {
-   el = <ReactQuill id={name} theme='snow' value={field.value} onChange={editorChangeHandler} placeholder={placeholder} />
+    const module = {
+      toolbar: [
+        ['bold', 'italic', 'strike', 'underline', 'link'],
+        ['blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['clean'],
+      ],
+    }
+    el = (
+      <ReactQuill
+        id={name}
+        theme='snow'
+        modules={module}
+        value={field.value}
+        onChange={editorChangeHandler}
+        placeholder={placeholder}
+      />
+    )
   }
 
   return (
