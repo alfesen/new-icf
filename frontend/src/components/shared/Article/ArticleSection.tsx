@@ -7,7 +7,7 @@ const ArticleSection = ({ sectionTitle, content }: TArticleSection) => {
   return (
     <div className={s.section}>
       <h3 className={s.section__title}>{sectionTitle}</h3>
-      {transform(content)}
+      <div className={s.section__content}>{transform(content)}</div>
     </div>
   )
 }
