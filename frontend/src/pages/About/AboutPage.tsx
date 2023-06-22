@@ -7,7 +7,6 @@ const AboutPage = () => {
     <section className='page'>
       <SideNavigation
         title={about.title}
-        collectionTitle='About'
         links={about.links}
       />
       <div className='subpage'>
