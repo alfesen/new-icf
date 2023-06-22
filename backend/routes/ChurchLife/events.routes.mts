@@ -4,6 +4,7 @@ import {
   getAllEvents,
   getEvent,
   postEvent,
+  updateEvent,
 } from '../../controllers/ChurchLife/events.controller.mjs'
 import fileUpload from '../../middleware/file-upload.mjs'
 
@@ -21,5 +22,7 @@ router.post('/', fileUpload.single('image'), validate(), postEvent)
 router.get('/', getAllEvents)
 
 router.get('/:eventId', getEvent)
+
+router.patch('/:eventId', updateEvent)
 
 export default router

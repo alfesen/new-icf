@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 import Event from '../../models/ChurchLife/event.model.mjs'
+import fs from 'fs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { IEvent } from '../../types'
@@ -70,6 +71,37 @@ export const getEvent = async (
     const error = new HttpError(404, "Event wasn't found")
     return next(error)
   }
+
+  res.status(200).json({ event: event.toObject({ getters: true }) })
+}
+
+export const updateEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { eventId } = req.params
+
+  const { title, content, date, time } = req.body
+
+  const event = (await findExistingData(Event, next, { id: eventId })) as IEvent
+  if (!event) {
+    const error = new HttpError(404, "Event wasn't found")
+    return next(error)
+  }
+
+  if (req.file) {
+    fs.unlink(event.image, err => console.log(err))
+    const imageWebpPath = await convertAndSaveImage(req.file.path, 400)
+    event.image = imageWebpPath
+  }
+
+  event.title = title
+  event.content = content
+  event.date = date
+  event.time = time
+
+  await saveData(event, next)
 
   res.status(200).json({ event: event.toObject({ getters: true }) })
 }
