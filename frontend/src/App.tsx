@@ -1,9 +1,5 @@
 import './App.scss'
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import MainLayout from './components/Layout/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/About/AboutPage'
@@ -14,6 +10,7 @@ import MemberPage from './pages/Members/MemberPage'
 import Expect from './pages/About/subpages/Expect/Expect'
 import EditArticle from './pages/shared/EditArticle/EditArticle'
 import Beliefs from './pages/About/subpages/Beliefs/Beliefs'
+import ChurchLife from './pages/ChurchLife/ChurchLife'
 
 function App() {
   const router = createBrowserRouter([
@@ -41,6 +38,7 @@ function App() {
         { path: 'staff/edit-member', element: <EditMember /> },
         { path: 'staff/edit-member/:memberId', element: <EditMember /> },
         { path: '/edit-article/:page', element: <EditArticle /> },
+        { path: '/church-life', element: <ChurchLife />, children: [] },
       ],
     },
   ])
