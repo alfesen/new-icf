@@ -8,6 +8,7 @@ import homeRoutes from './routes/Home/home.routes.mjs'
 import aboutRoutes from './routes/About/about.routes.mjs'
 import membersRoutes from './routes/Members/members.routes.mjs'
 import articlesRoutes from './routes/Article/article.routes.mjs'
+import churchLifeRoutes from './routes/ChurchLife/churchLife.routes.mjs'
 import path from 'path'
 import { MulterFiles } from './types.js'
 
@@ -31,6 +32,7 @@ app.use('/api/home', homeRoutes)
 app.use('/api/about', aboutRoutes)
 app.use('/api/members', membersRoutes)
 app.use('/api/articles', articlesRoutes)
+app.use('/api/church-life', churchLifeRoutes)
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
