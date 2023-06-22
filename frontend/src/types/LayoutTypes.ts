@@ -7,8 +7,8 @@ export type THeader = {
 
 export type SideNav = {
   links: string[]
-  collectionTitle: string
-  title?: string
+  collectionTitle?: string
+  title: string
 }
 
 export type TMemberHeader = {

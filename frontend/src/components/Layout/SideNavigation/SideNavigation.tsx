@@ -6,14 +6,14 @@ import { Fade } from 'react-awesome-reveal'
 import { SideNav } from '../../../types/LayoutTypes'
 import { nanoid } from 'nanoid'
 
-const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
+const SideNavigation = ({ links, title }: SideNav) => {
   const [showNav, setShowNav] = useState(false)
 
   const { formatLink } = useFormatText()
 
   const renderLinks = links.map(link => {
     const formattedLink = formatLink(link)
-    const formattedTitle = formatLink(collectionTitle)
+    const formattedTitle = formatLink(title)
     const active = ({ isActive }: { isActive: boolean }) =>
       isActive
         ? `${s.active} ${s.link} ${showNav ? s.show : ''}`
@@ -42,7 +42,7 @@ const SideNavigation = ({ links, collectionTitle, title }: SideNav) => {
           <span>{buttonSymbol}</span> {buttonText} navigation
         </button>
         <Fragment>
-          <h3 className={s.aside__title}>{title ? title : collectionTitle}</h3>
+          <h3 className={s.aside__title}>{title}</h3>
           {renderLinks}
         </Fragment>
       </div>
