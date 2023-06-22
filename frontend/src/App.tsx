@@ -11,6 +11,7 @@ import Expect from './pages/About/subpages/Expect/Expect'
 import EditArticle from './pages/shared/EditArticle/EditArticle'
 import Beliefs from './pages/About/subpages/Beliefs/Beliefs'
 import ChurchLife from './pages/ChurchLife/ChurchLife'
+import Events from './pages/ChurchLife/subpages/Events/Events'
 
 function App() {
   const router = createBrowserRouter([
@@ -38,7 +39,11 @@ function App() {
         { path: 'staff/edit-member', element: <EditMember /> },
         { path: 'staff/edit-member/:memberId', element: <EditMember /> },
         { path: '/edit-article/:page', element: <EditArticle /> },
-        { path: '/church-life', element: <ChurchLife />, children: [] },
+        {
+          path: '/church-life',
+          element: <ChurchLife />,
+          children: [{ path: 'upcoming-events', element: <Events /> }],
+        },
       ],
     },
   ])
