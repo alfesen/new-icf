@@ -61,3 +61,11 @@ export interface IArticle extends Document {
   lead: string
   sections: IArticleSection[]
 }
+
+export interface IEvent extends Document {
+  title: string
+  content: string
+  image: string
+  date: string
+  time: string
+}
