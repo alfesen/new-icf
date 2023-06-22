@@ -57,3 +57,19 @@ export const getAllEvents = async (
     .status(200)
     .json({ events: events.map(e => e.toObject({ getters: true })) })
 }
+
+export const getEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { eventId } = req.params
+  const event = (await findExistingData(Event, next, { id: eventId })) as IEvent
+
+  if (!event) {
+    const error = new HttpError(404, "Event wasn't found")
+    return next(error)
+  }
+
+  res.status(200).json({ event: event.toObject({ getters: true }) })
+}

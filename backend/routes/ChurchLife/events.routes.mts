@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 import {
   getAllEvents,
+  getEvent,
   postEvent,
 } from '../../controllers/ChurchLife/events.controller.mjs'
 import fileUpload from '../../middleware/file-upload.mjs'
@@ -18,5 +19,7 @@ const validate = () => [
 router.post('/', fileUpload.single('image'), validate(), postEvent)
 
 router.get('/', getAllEvents)
+
+router.get('/:eventId', getEvent)
 
 export default router
