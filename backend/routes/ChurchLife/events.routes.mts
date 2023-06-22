@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
 import {
+  deleteEvent,
   getAllEvents,
   getEvent,
   postEvent,
@@ -24,5 +25,7 @@ router.get('/', getAllEvents)
 router.get('/:eventId', getEvent)
 
 router.patch('/:eventId', updateEvent)
+
+router.delete('/:eventId', deleteEvent)
 
 export default router

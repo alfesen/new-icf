@@ -105,3 +105,19 @@ export const updateEvent = async (
 
   res.status(200).json({ event: event.toObject({ getters: true }) })
 }
+
+export const deleteEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { eventId } = req.params
+  const event = await Event.findByIdAndDelete(eventId)
+
+  if (!event) {
+    const error = new HttpError(404, "Event wasn't found")
+    return next(error)
+  }
+
+  res.status(200).json({ message: 'Event successfully removed' })
+}
