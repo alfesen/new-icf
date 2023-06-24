@@ -8,7 +8,7 @@ import Logo from '../../UI/Assets/Logo/Logo'
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
-  const { memberId } = useParams()
+  const { memberId, eventId } = useParams()
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -22,7 +22,10 @@ const Navigation = () => {
   }
 
   return (
-    <nav className={`${s.nav} ${memberId ? s.nav__dark : ''}`}>
+    <nav
+      className={`${s.nav} ${
+        memberId || eventId || pathname.includes('edit') ? s.nav__dark : ''
+      }`}>
       <div className={s.nav__inner}>
         <div className={s.nav__logo}>
           <Logo />
