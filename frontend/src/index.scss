@@ -74,6 +74,10 @@ h3 {
   justify-content: flex-end;
 }
 
+.form-page {
+  max-width: 60rem;
+}
+
 @media (min-width: 700px) {
   h1 {
     font-size: $font-main-header-md;

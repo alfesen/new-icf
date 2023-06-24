@@ -50,7 +50,6 @@ const Header = () => {
         <Modal show={show} heading='Edit header' onDetach={closeModal}>
           <Suspense fallback={<LoadingSpinner />}>
             <HeaderForm
-              edit={show && true}
               onClose={closeModal}
               onSubmit={() => setTimeout(submitHeader, 500)}
             />
