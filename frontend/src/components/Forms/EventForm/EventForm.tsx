@@ -26,7 +26,7 @@ const EventForm = () => {
   })
 
   return (
-    <form>
+    <form className='container'>
       <Input
         element='input'
         name='title'
