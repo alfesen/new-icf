@@ -12,7 +12,7 @@ import EditArticle from './pages/shared/EditArticle/EditArticle'
 import Beliefs from './pages/About/subpages/Beliefs/Beliefs'
 import ChurchLife from './pages/ChurchLife/ChurchLife'
 import Events from './pages/ChurchLife/subpages/Events/Events'
-import EventForm from './components/Forms/EventForm/EventForm'
+import EditEvent from './pages/Events/EditEvent/EditEvent'
 
 function App() {
   const router = createBrowserRouter([
@@ -45,7 +45,7 @@ function App() {
           element: <ChurchLife />,
           children: [{ path: 'upcoming-events', element: <Events /> }],
         },
-        { path: 'events/edit-event', element: <EventForm /> },
+        { path: 'events/edit-event', element: <EditEvent /> },
       ],
     },
   ])
