@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 
 import s from './HeaderForm.module.scss'
 
-const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
+const HeaderForm = ({ onClose, onSubmit }: FormProps) => {
   const { pathname } = useLocation()
   const { sendRequest, error } = useFetchData()
 
@@ -21,13 +21,16 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
     defaultValues: () =>
       fetch(`http://localhost:5000/api/${pathname.replaceAll('/', '')}/header`)
         .then(res => res.json())
-        .then(({ headerData }: any) => headerData || {
-          pageTitle: '',
-          pageSubtitle: '',
-          desktopImage: '',
-          mobileImage: '',
-          pagePath: ''
-        }),
+        .then(
+          ({ headerData }: any) =>
+            headerData || {
+              pageTitle: '',
+              pageSubtitle: '',
+              desktopImage: '',
+              mobileImage: '',
+              pagePath: '',
+            }
+        ),
   })
 
   const headerFormSubmitHandler = async () => {
@@ -54,7 +57,7 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
       !error && onSubmit()
     }
   }
-  
+
   return (
     <form className={s.form} onSubmit={handleSubmit(headerFormSubmitHandler)}>
       <Input
@@ -128,11 +131,10 @@ const HeaderForm = ({ onClose, edit, onSubmit }: FormProps) => {
         />
       </div>
       <div className={s.form__actions}>
-        {edit && (
-          <Button onClick={onClose} type='button' reverse>
-            Cancel
-          </Button>
-        )}
+        <Button onClick={onClose} type='button' reverse>
+          Cancel
+        </Button>
+
         <Button type='submit'>Submit</Button>
       </div>
     </form>

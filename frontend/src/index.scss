@@ -69,6 +69,10 @@ h3 {
   display: flex;
   justify-content: center;
 }
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
 
 @media (min-width: 700px) {
   h1 {
