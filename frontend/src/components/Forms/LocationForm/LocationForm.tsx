@@ -6,7 +6,7 @@ import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import s from './LocationForm.module.scss'
 
-const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
+const LocationForm = ({ onClose, onSubmit }: FormProps) => {
   const { sendRequest, error } = useFetchData()
 
   const {
@@ -38,12 +38,12 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
     formData.append('map', watch('map'))
 
     try {
-      const { location } = await sendRequest(
+      await sendRequest(
         `http://localhost:5000/api/about/location`,
         method,
         formData
       )
-      !error && onSubmit(location)
+      !error && onSubmit()
     } catch (err) {}
   }
 
@@ -124,12 +124,10 @@ const LocationForm = ({ onClose, edit, onSubmit }: FormProps) => {
           required: 'Map link is required',
         }}
       />
-      <div className={s.form__actions}>
-        {edit && (
-          <Button onClick={onClose} type='button' reverse>
-            Cancel
-          </Button>
-        )}
+      <div className='align-right'>
+        <Button onClick={onClose} type='button' reverse>
+          Cancel
+        </Button>
         <Button type='submit'>Submit</Button>
       </div>
     </form>

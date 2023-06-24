@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
-import s from './AnnouncementsForm.module.scss'
 import { AnnouncementsFormProps } from '../../../types/FormTypes'
 
 const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
@@ -99,7 +98,7 @@ const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
           required: 'Time is required',
         }}
       />
-      <div className={s.form__actions}>
+      <div className='align-right'>
         {id && (
           <Button reverse onClick={deleteAnnouncement} type='button'>
             Delete

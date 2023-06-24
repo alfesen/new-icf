@@ -113,9 +113,9 @@ const MemberForm = () => {
                     lessThan6MB: (file: File) =>
                       file.size < 600000 || 'Maximum 6 MB',
                     acceptedFormats: (file: File) =>
-                      ['image/jpeg', 'image/png', 'image/gif'].includes(
+                      ['image/jpeg', 'image/png', 'image/jpg'].includes(
                         file.type
-                      ) || 'Only PNG, JPEG e GIF',
+                      ) || 'Only PNG, JPEG, JPG',
                   }
                 : undefined,
           }}
