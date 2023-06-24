@@ -16,7 +16,7 @@ const Header = () => {
   const { openModal, closeModal, show } = useModal()
   const { loading, sendRequest, error } = useFetchData()
   const { pathname } = useLocation()
-  const { memberId } = useParams()
+  const { memberId, eventId } = useParams()
 
   useEffect(() => {
     const getHeader = async () => {
@@ -27,10 +27,10 @@ const Header = () => {
         setHeaderData(headerData)
       } catch (err) {}
     }
-    if (!memberId) {
+    if (!memberId && !eventId && !pathname.includes('edit')) {
       getHeader()
     }
-  }, [sendRequest, pathname])
+  }, [pathname])
 
   const submitHeader = async () => {
     try {
@@ -42,7 +42,7 @@ const Header = () => {
     } catch (err) {}
   }
 
-  if (memberId) return <></>
+  if (memberId || eventId || pathname.includes('edit')) return <></>
 
   return (
     <header className={s.header}>
