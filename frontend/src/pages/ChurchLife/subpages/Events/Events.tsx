@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFetchData } from '../../../../hooks/useFetchData'
+import Button from '../../../../components/UI/Form/Button/Button'
+import FallbackSection from '../../../../components/UI/FallbackSection/FallbackSection'
 
 const Events = () => {
   const [events, setEvents] = useState([])
@@ -17,7 +19,13 @@ const Events = () => {
   }, [])
 
   if (!events || !events.length) {
-    return <p>No events announced</p>
+    return (
+      <FallbackSection
+        heading='No events announced'
+        link='/events/edit-event'
+        linkText='Add event'
+      />
+    )
   }
 
   return <section></section>

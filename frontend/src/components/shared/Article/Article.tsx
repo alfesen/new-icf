@@ -6,6 +6,7 @@ import LoadingSpinner from '../../UI/UX/LoadingSpinner/LoadingSpinner'
 import Button from '../../UI/Form/Button/Button'
 import ArticleSection from './ArticleSection'
 import s from './Article.module.scss'
+import FallbackSection from '../../UI/FallbackSection/FallbackSection'
 
 const Article = ({ route }: { route: string }) => {
   const [article, setArticle] = useState<TArticle | null>(null)
@@ -37,6 +38,16 @@ const Article = ({ route }: { route: string }) => {
     }
   )
 
+  if (!loading && !article) {
+    return (
+      <FallbackSection
+        heading='Article coming soon'
+        link={`/edit-article/${route}`}
+        linkText='Add article'
+      />
+    )
+  }
+
   return (
     <Fragment>
       {loading && <LoadingSpinner />}
@@ -49,11 +60,11 @@ const Article = ({ route }: { route: string }) => {
         </div>
       )}
       <div className={s.article__actions}>
-        <Button link to={`/edit-article/${route}`}>
-          {!loading && !article
-            ? 'Add article'
-            : !error && !loading && article && 'Edit article'}
-        </Button>
+        {!error && !loading && article && (
+          <Button link to={`/edit-article/${route}`}>
+            Add article
+          </Button>
+        )}
       </div>
     </Fragment>
   )
