@@ -112,10 +112,25 @@ export const deleteEvent = async (
   next: NextFunction
 ) => {
   const { eventId } = req.params
-  const event = await Event.findByIdAndDelete(eventId)
+  const event = (await findExistingData(Event, next, {
+    id: eventId,
+  })) as IEvent
 
   if (!event) {
-    const error = new HttpError(404, "Event wasn't found")
+    const error = new HttpError(404, 'No event with this id found')
+    return next(error)
+  }
+
+  try {
+    fs.unlink(event.image, err => {
+      console.log(err)
+    })
+    await event.deleteOne()
+  } catch {
+    const error = new HttpError(
+      400,
+      'Event deletion failed, please try again later'
+    )
     return next(error)
   }
 
