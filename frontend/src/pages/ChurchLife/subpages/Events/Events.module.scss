@@ -1,0 +1,16 @@
+.events {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  &__link {
+    width: 45%;
+  }
+}
+
+@media (max-width: 70rem) {
+  .events {
+    &__link {
+      width: 90%;
+    }
+  }
+}

@@ -43,6 +43,7 @@ export type ImageLinkProps = {
   className?: string
   image: string
   link: string
+  to?: string
 }
 
 export type UsefulLinkProps = {
