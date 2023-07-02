@@ -144,9 +144,21 @@ export const deleteMember = async (
 ) => {
   const { memberId } = req.params
 
+  const member = (await findExistingData(Member, next, {
+    id: memberId,
+  })) as IMember
+
+  if (!member) {
+    const error = new HttpError(404, 'No member with this id found')
+    return next(error)
+  }
+
   try {
-    await Member.findByIdAndDelete(memberId)
-  } catch (err) {
+    fs.unlink(member.image, err => {
+      console.log(err)
+    })
+    await member.deleteOne()
+  } catch {
     const error = new HttpError(
       400,
       'Member deletion failed, please try again later'
