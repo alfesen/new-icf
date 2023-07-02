@@ -1,12 +1,15 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Input from '../../UI/Form/Input/Input'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import Button from '../../UI/Form/Button/Button'
+import { useFetchData } from '../../../hooks/useFetchData'
 
 const EventForm = () => {
   const { eventId } = useParams()
+  const { sendRequest, error } = useFetchData()
   const {
+    handleSubmit,
     watch,
     control,
     formState: { defaultValues },
@@ -25,8 +28,31 @@ const EventForm = () => {
         },
   })
 
+  const navigate = useNavigate()
+
+  const url = eventId
+    ? `http://localhost:5000/api/church-life/events/${eventId}`
+    : `http://localhost:5000/api/church-life/events`
+  const method = eventId ? 'PATCH' : 'POST'
+
+  const eventFormSubmitHandler = async () => {
+    const date = new Date(watch('date')).toISOString()
+
+    const formData = new FormData()
+    formData.append('title', watch('title'))
+    formData.append('content', watch('content'))
+    formData.append('image', watch('image'))
+    formData.append('date', date)
+    formData.append('time', watch('time'))
+
+    try {
+      await sendRequest(url, method, formData)
+      !error && navigate('/church-life/upcoming-events')
+    } catch {}
+  }
+
   return (
-    <form className='container'>
+    <form className='container' onSubmit={handleSubmit(eventFormSubmitHandler)}>
       <Input
         element='input'
         name='title'
