@@ -4,6 +4,7 @@ import { StaffAction, StaffState } from '../../../../types/MemberTypes'
 import Button from '../../../../components/UI/Form/Button/Button'
 import s from './Staff.module.scss'
 import StaffCategory from '../../../../components/About/StaffCategory/StaffCategory'
+import FallbackSection from '../../../../components/UI/FallbackSection/FallbackSection'
 
 const reducer = (state: StaffState, action: StaffAction): StaffState => {
   switch (action.type) {
@@ -19,7 +20,7 @@ const reducer = (state: StaffState, action: StaffAction): StaffState => {
 }
 
 const Staff = () => {
-  const { sendRequest } = useFetchData()
+  const { loading, error, sendRequest } = useFetchData()
   const [{ pastors, leadership, ministryLeaders }, dispatch] = useReducer(
     reducer,
     {
@@ -48,6 +49,23 @@ const Staff = () => {
     }
     getMembers()
   }, [sendRequest])
+
+  const noMembersCondition =
+    !pastors.length &&
+    !leadership.length &&
+    !ministryLeaders.length &&
+    !loading &&
+    !error
+
+  if (noMembersCondition) {
+    return (
+      <FallbackSection
+        heading='No members added'
+        link='/staff/edit-member'
+        linkText='Add member'
+      />
+    )
+  }
 
   return (
     <section className={s.staff}>

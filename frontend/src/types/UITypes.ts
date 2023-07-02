@@ -57,6 +57,12 @@ export type IconLinkProps = {
   icon: IconDefinition
 }
 
+export type TFallbackSection = {
+  heading: string
+  link: string
+  linkText: string
+}
+
 export type CircleLinkProps = { image: string; name: string; id: string }
 
 export type BurgerProps = { onToggle: (isActive: boolean) => void }
