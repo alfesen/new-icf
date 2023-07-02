@@ -7,6 +7,7 @@ export interface ResponseData {
 export interface UseHttpClientResponse<T = ResponseData> {
   loading: boolean
   error: string | null
+  clearError: () => void
   sendRequest: (
     url: string,
     method?: HttpMethod,

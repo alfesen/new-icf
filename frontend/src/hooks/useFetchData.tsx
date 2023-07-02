@@ -52,11 +52,15 @@ export const useFetchData = (): UseHttpClientResponse => {
     []
   )
 
+  const clearError = () => {
+    setError(null)
+  }
+
   useEffect(() => {
     return () => {
       activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort())
     }
   }, [])
 
-  return { loading, error, sendRequest }
+  return { loading, error, clearError, sendRequest }
 }

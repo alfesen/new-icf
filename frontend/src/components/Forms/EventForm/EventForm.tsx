@@ -7,7 +7,7 @@ import { useFetchData } from '../../../hooks/useFetchData'
 
 const EventForm = () => {
   const { eventId } = useParams()
-  const { sendRequest, error } = useFetchData()
+  const { sendRequest, error, clearError } = useFetchData()
   const {
     handleSubmit,
     watch,
@@ -48,7 +48,9 @@ const EventForm = () => {
     try {
       await sendRequest(url, method, formData)
       !error && navigate('/church-life/upcoming-events')
-    } catch {}
+    } catch {
+      clearError()
+    }
   }
 
   return (
