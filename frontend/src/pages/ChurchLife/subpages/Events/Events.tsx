@@ -4,6 +4,7 @@ import FallbackSection from '../../../../components/UI/FallbackSection/FallbackS
 import ImageLink from '../../../../components/UI/Links/ImageLink/ImageLink'
 import { TEvent } from '../../../../types/EventsTypes'
 import s from './Events.module.scss'
+import Button from '../../../../components/UI/Form/Button/Button'
 
 const Events = () => {
   const [events, setEvents] = useState<TEvent[]>([])
@@ -46,6 +47,11 @@ const Events = () => {
             />
           )
         })}
+      </div>
+      <div className='align-right'>
+        <Button link to='/events/edit-event'>
+          Add Event
+        </Button>
       </div>
     </section>
   )
