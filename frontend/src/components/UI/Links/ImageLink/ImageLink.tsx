@@ -13,7 +13,7 @@ const ImageLink = ({ className, image, link, to }: ImageLinkProps) => {
       <div className={s.link__img}>
         <img loading='lazy' src={image} alt={`Go to ${link}`} />
         <div className={s.link__overlay}>
-          <h3 className={s.link__text}>{link}</h3>
+          <span className={s.link__text}>{link}</span>
         </div>
       </div>
     </Link>

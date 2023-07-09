@@ -35,12 +35,11 @@ const Events = () => {
   return (
     <section>
       <h2>Upcoming events</h2>
-      <div className={s.events}>
+      <div className={`boxes ${s.events}`}>
         {events.map(e => {
           return (
             <ImageLink
               key={`${e.title}_${e.id}`}
-              className={s.events__link}
               to={`/events/${e.id}`}
               link={e.title || ''}
               image={`http://localhost:5000/${e.image}`}
