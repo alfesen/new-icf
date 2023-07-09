@@ -18,14 +18,13 @@ const Shortcuts = () => {
     return (
       <ImageLink
         key={`${link.name}_${nanoid()}`}
-        className={s.shortcuts__link}
         image={link.image}
         link={link.name}
       />
     )
   })
 
-  return <section className={s.shortcuts}>{renderLinks}</section>
+  return <section className={`boxes ${s.shortcuts}`}>{renderLinks}</section>
 }
 
 export default Shortcuts

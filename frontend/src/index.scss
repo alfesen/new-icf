@@ -69,6 +69,7 @@ h3 {
   display: flex;
   justify-content: center;
 }
+
 .align-right {
   display: flex;
   justify-content: flex-end;
@@ -76,6 +77,12 @@ h3 {
 
 .form-page {
   max-width: 60rem;
+}
+
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 @media (min-width: 700px) {

@@ -7,16 +7,10 @@
 @media (min-width: 700px) {
   .shortcuts {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
     margin: $margin-section-lg auto;
-    justify-content: center;
-    &__link {
-      margin: 1.5em;
-      width: 45%;
-    }
   }
 }
+
 @media (min-width: 900px) {
   .shortcuts {
     width: 90%;
