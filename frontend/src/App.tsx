@@ -47,6 +47,7 @@ function App() {
           children: [{ path: 'upcoming-events', element: <Events /> }],
         },
         { path: 'events/edit-event', element: <EditEvent /> },
+        { path: 'events/edit-event/:eventId', element: <EditEvent /> },
         { path: 'events/:eventId', element: <EventPage /> },
       ],
     },
