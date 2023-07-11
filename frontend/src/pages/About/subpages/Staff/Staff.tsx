@@ -78,7 +78,7 @@ const Staff = () => {
       {ministryLeaders && ministryLeaders.length > 0 && (
         <StaffCategory category='Ministry Leaders' items={ministryLeaders} />
       )}
-      <div className={s.staff__actions}>
+      <div className='align-right'>
         <Button link to='/staff/edit-member'>
           Add new member
         </Button>

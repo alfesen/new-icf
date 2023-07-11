@@ -1,11 +1,4 @@
 
-.list {
-  &__actions {
-    display: flex;
-    justify-content: center;
-  }
-}
-
 @media (min-width: 600px) {
   .list {
     padding: 0;

@@ -1,3 +1,5 @@
+@use '../../../sass/mixins.scss' as m;
+
 .form {
   &__controls {
     padding: 1em;
@@ -13,8 +15,6 @@
   }
   &__button {
     padding-top: 2em 0;
-    display: flex;
-    justify-content: flex-end;
     button {
       margin: 0;
       width: 100%;
@@ -55,9 +55,6 @@
         padding: 1em;
         height: 100%;
         aspect-ratio: 1/1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
       }
     }
     &__actions {

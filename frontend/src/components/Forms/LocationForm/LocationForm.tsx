@@ -91,7 +91,7 @@ const LocationForm = ({ onClose, onSubmit }: FormProps) => {
           },
         }}
       />
-      <div className={s.form__images}>
+      <div className='center'>
         <ImagePicker
           control={control}
           label='Pick the photo'
