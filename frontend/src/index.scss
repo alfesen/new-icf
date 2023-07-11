@@ -65,14 +65,19 @@ h3 {
   opacity: 0.85;
   font-weight: 700;
 }
-
-.center {
+.center, .align-right, .boxes, .jcc-aic {
   display: flex;
+}
+
+.center, .jcc-aic {
   justify-content: center;
 }
 
+.jcc-aic {
+  align-items: center;
+}
+
 .align-right {
-  display: flex;
   justify-content: flex-end;
 }
 
@@ -81,7 +86,6 @@ h3 {
 }
 
 .boxes {
-  display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }

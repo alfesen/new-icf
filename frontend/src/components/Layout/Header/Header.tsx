@@ -45,7 +45,7 @@ const Header = () => {
   if (memberId || eventId || pathname.includes('edit')) return <></>
 
   return (
-    <header className={s.header}>
+    <header className={`jcc-aic ${s.header}`}>
       {show && (
         <Modal show={show} heading='Edit header' onDetach={closeModal}>
           <Suspense fallback={<LoadingSpinner />}>

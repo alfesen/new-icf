@@ -19,7 +19,7 @@ const Modal = ({ show, children, heading, actions, onDetach }: ModalProps) => {
           <h2>{heading}</h2>
         </header>
         <section className={s.modal__content}>{children}</section>
-        {actions && <footer className={s.modal__actions}>{actions}</footer>}
+        {actions && <footer className='align-right'>{actions}</footer>}
       </Card>
     </Fragment>
   )

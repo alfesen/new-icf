@@ -130,7 +130,7 @@ const HeaderForm = ({ onClose, onSubmit }: FormProps) => {
           name='mobileImage'
         />
       </div>
-      <div className={s.form__actions}>
+      <div className='align-right'>
         <Button onClick={onClose} type='button' reverse>
           Cancel
         </Button>

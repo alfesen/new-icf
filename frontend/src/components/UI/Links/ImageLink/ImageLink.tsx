@@ -12,7 +12,7 @@ const ImageLink = ({ className, image, link, to }: ImageLinkProps) => {
       className={`${s.link} ${className}`}>
       <div className={s.link__img}>
         <img loading='lazy' src={image} alt={`Go to ${link}`} />
-        <div className={s.link__overlay}>
+        <div className={`jcc-aic ${s.link__overlay}`}>
           <span className={s.link__text}>{link}</span>
         </div>
       </div>

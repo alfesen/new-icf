@@ -76,7 +76,7 @@ const Announcements = () => {
       )}
       <Card>
         <ul className={s.list}>{renderAnnouncements}</ul>
-        <div className={s.list__actions}>
+        <div className={`center ${s.list__actions}`}>
           <Button reverse type='button' onClick={openModal}>
             Add
           </Button>
