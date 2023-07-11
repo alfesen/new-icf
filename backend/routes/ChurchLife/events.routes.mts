@@ -24,7 +24,7 @@ router.get('/', getAllEvents)
 
 router.get('/:eventId', getEvent)
 
-router.patch('/:eventId', updateEvent)
+router.patch('/:eventId', fileUpload.single('image'), updateEvent)
 
 router.delete('/:eventId', deleteEvent)
 

@@ -6,3 +6,5 @@ export type TEvent = {
   date: string
   time: string
 }
+
+export type TEventInfo = Pick<TEvent, 'title' | 'date' | 'time' | 'content'>

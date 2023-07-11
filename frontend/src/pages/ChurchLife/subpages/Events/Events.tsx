@@ -33,21 +33,21 @@ const Events = () => {
     )
   }
 
+  const renderEvents = events.map(e => {
+    return (
+      <ImageLink
+        key={`${e.title}_${e.id}`}
+        to={`/events/${e.id}`}
+        link={e.title || ''}
+        image={`http://localhost:5000/${e.image}`}
+      />
+    )
+  })
+
   return (
     <section>
       <h2>Upcoming events</h2>
-      <div className={`boxes ${s.events}`}>
-        {events.map(e => {
-          return (
-            <ImageLink
-              key={`${e.title}_${e.id}`}
-              to={`/events/${e.id}`}
-              link={e.title || ''}
-              image={`http://localhost:5000/${e.image}`}
-            />
-          )
-        })}
-      </div>
+      <div className={`boxes ${s.events}`}>{renderEvents}</div>
       <div className='align-right'>
         <Button link to='/events/edit-event'>
           Add Event

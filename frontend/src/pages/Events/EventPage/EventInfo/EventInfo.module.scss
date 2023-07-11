@@ -1,0 +1,18 @@
+@import '../../../../sass/vars.scss';
+
+.info {
+  margin-bottom: 0;
+  text-align: justify;
+  &__header {
+    h2 {
+      margin-bottom: 0;
+    }
+    p {
+      line-height: 2;
+      margin-top: 0;
+      color: $color-light-grey;
+      font-weight: bold;
+      font-size: $font-tertiary-header-sm;
+    }
+  }
+}
