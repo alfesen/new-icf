@@ -53,6 +53,12 @@ const EventForm = () => {
     }
   }
 
+  const removeEvent = async () => {
+    try {
+      await sendRequest(url, 'DELETE')
+    } catch (err) {}
+  }
+
   return (
     <form className='container' onSubmit={handleSubmit(eventFormSubmitHandler)}>
       <Input
@@ -123,6 +129,9 @@ const EventForm = () => {
         placeholder='Enter event time'
       />
       <div className='align-right'>
+        <Button reverse onClick={removeEvent}>
+          Remove event
+        </Button>
         <Button type='submit'>Submit event</Button>
       </div>
     </form>
