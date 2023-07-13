@@ -21,7 +21,6 @@ export const useFormatText = () => {
 
   const highlight = (
     initialContent: any,
-    restrict: boolean = false,
     className?: string
   ) => {
     let content: string | string[] = ''
@@ -49,7 +48,7 @@ export const useFormatText = () => {
         if (typeof text === 'string') {
           return (
             <div className={className ? className : undefined} key={index}>
-              {boldAndHighlightedString(text, restrict)}
+              {boldAndHighlightedString(text)}
             </div>
           )
         } else {
@@ -66,8 +65,7 @@ export const useFormatText = () => {
   }
 
   const boldAndHighlightedString = (
-    string: string,
-    restrict: boolean = false
+    string: string
   ) => {
     const boldSplitString = string.split('**')
     const boldAndHighlightedSplitString = boldSplitString.map(
@@ -78,15 +76,6 @@ export const useFormatText = () => {
               {text}
             </span>
           )
-        } else {
-          if (!restrict) {
-            const highlightedSplitString = text.split('^')
-            if (highlightedSplitString.length === 1) {
-              return text
-            }
-          } else {
-            return text
-          }
         }
       }
     )
