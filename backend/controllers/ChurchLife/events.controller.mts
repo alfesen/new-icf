@@ -58,8 +58,8 @@ export const getAllEvents = async (
     .sort((eventA, eventB) => (eventA.date < eventB.date ? 1 : -1))
     .map(e => e.toObject({ getters: true }))
 
-  const previews = sortedEvents.map(({ image, title, date }) => {
-    return { image, title, date }
+  const previews = sortedEvents.map(({ id, image, title, date }) => {
+    return { id, image, title, date }
   })
 
   res.status(200).json({ events: previews })
