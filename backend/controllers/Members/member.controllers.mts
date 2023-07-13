@@ -61,6 +61,9 @@ export const getAllMembers = async (
     return members
       .filter(m => m.category === criteria)
       .map(m => m.toObject({ getters: true }))
+      .map(({ id, image, name }) => {
+        return { id, image, name }
+      })
   }
 
   const pastors = filterAndObjectify('pastors')
