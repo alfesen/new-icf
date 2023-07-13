@@ -54,13 +54,15 @@ export const getAllEvents = async (
     return next(error)
   }
 
-  const sortedEvents = events.sort((eventA, eventB) =>
-    eventA.date < eventB.date ? 1 : -1
-  )
+  const sortedEvents = events
+    .sort((eventA, eventB) => (eventA.date < eventB.date ? 1 : -1))
+    .map(e => e.toObject({ getters: true }))
 
-  res
-    .status(200)
-    .json({ events: sortedEvents.map(e => e.toObject({ getters: true })) })
+  const previews = sortedEvents.map(({ image, title, date }) => {
+    return { image, title, date }
+  })
+
+  res.status(200).json({ events: previews })
 }
 
 export const getEvent = async (
