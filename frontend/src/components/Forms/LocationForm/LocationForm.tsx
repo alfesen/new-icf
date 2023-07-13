@@ -4,7 +4,6 @@ import { FormProps } from '../../../types/FormTypes'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
-import s from './LocationForm.module.scss'
 
 const LocationForm = ({ onClose, onSubmit }: FormProps) => {
   const { sendRequest, error } = useFetchData()
@@ -48,7 +47,7 @@ const LocationForm = ({ onClose, onSubmit }: FormProps) => {
   }
 
   return (
-    <form className={s.form} onSubmit={handleSubmit(locationFormSubmitHandler)}>
+    <form  onSubmit={handleSubmit(locationFormSubmitHandler)}>
       <Input
         control={control}
         element='input'
