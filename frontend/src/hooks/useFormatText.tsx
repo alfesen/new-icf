@@ -1,5 +1,4 @@
-import { CSSProperties, ReactNode } from 'react'
-import BibleVerse from '../components/UI/Links/BibleVerse/BibleVerse'
+import { CSSProperties } from 'react'
 import parse from 'html-react-parser'
 import DOMPurify from 'dompurify'
 import { nanoid } from 'nanoid'
@@ -13,49 +12,7 @@ export const useFormatText = () => {
       })
       parsedNode = parse(cleanNode)
     }
-    let result: ReactNode[] = []
-    if (Array.isArray(parsedNode.props.children)) {
-      for (let child of parsedNode.props.children) {
-        if (typeof child === 'string') {
-          const fragments = child.split('^') as string[]
-          const transformedFragments = fragments.map(
-            (fragment: string, i: number) => {
-              if (i % 2 === 1) {
-                return (
-                  <BibleVerse
-                    key={fragment.length + nanoid()}
-                    reference={fragment}
-                  />
-                )
-              }
-              return fragment
-            }
-          )
-          result = result.concat(transformedFragments)
-        } else {
-          result.push(child)
-        }
-      }
-    } else if (typeof parsedNode.props.children === 'string') {
-      const fragments = parsedNode.props.children.split('^') as string[]
-      const transformedFragments = fragments.map(
-        (fragment: string, i: number) => {
-          if (i % 2 === 1) {
-            return (
-              <BibleVerse
-                key={fragment.length + nanoid()}
-                reference={fragment}
-              />
-            )
-          }
-          return fragment
-        }
-      )
-      result = transformedFragments
-    } else {
-      result.push(parsedNode.props.children)
-    }
-    return result
+    return <div className='editor-text'>{parsedNode}</div>
   }
 
   const style = {
@@ -127,15 +84,6 @@ export const useFormatText = () => {
             if (highlightedSplitString.length === 1) {
               return text
             }
-            return highlightedSplitString.map((text: string, index: number) => {
-              if (index % 2 === 1) {
-                return (
-                  <BibleVerse key={text.length + nanoid()} reference={text} />
-                )
-              } else {
-                return text
-              }
-            })
           } else {
             return text
           }
