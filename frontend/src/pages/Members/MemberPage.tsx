@@ -42,7 +42,7 @@ const MemberPage = () => {
       {contact && (
         <div className={s.member__contact}>
           <h3>Contact me:</h3>
-          <address>{highlight(contact, true)}</address>
+          <address>{highlight(contact)}</address>
         </div>
       )}
       <div className={s.member__actions}>
