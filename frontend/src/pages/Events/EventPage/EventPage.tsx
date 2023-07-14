@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { TEvent } from '../../../types/EventsTypes'
+import { useFormatText } from '../../../hooks/useFormatText'
+
 import EventInfo from './EventInfo/EventInfo'
 import s from './EventPage.module.scss'
 import Button from '../../../components/UI/Form/Button/Button'
@@ -10,6 +12,7 @@ const EventPage = () => {
   const [event, setEvent] = useState<TEvent>()
   const { eventId } = useParams()
   const { sendRequest } = useFetchData()
+  const { formatDate } = useFormatText()
 
   useEffect(() => {
     const getEvent = async () => {
@@ -33,12 +36,6 @@ const EventPage = () => {
 
   const { title, content, image, date, time } = event
 
-  const renderedDate = new Date(date).toLocaleString('en-Us', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
-
   return (
     <section className={s.event}>
       <div className='center'>
@@ -49,7 +46,7 @@ const EventPage = () => {
         />
       </div>
       <EventInfo
-        date={renderedDate}
+        date={formatDate(date)}
         time={time}
         content={content}
         title={title}

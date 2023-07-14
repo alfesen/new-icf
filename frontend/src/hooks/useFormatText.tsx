@@ -19,10 +19,7 @@ export const useFormatText = () => {
     marginBottom: '1em',
   } as CSSProperties
 
-  const highlight = (
-    initialContent: any,
-    className?: string
-  ) => {
+  const highlight = (initialContent: any, className?: string) => {
     let content: string | string[] = ''
     if (initialContent.includes('\n')) {
       const splitContent = initialContent.split('\n')
@@ -64,9 +61,7 @@ export const useFormatText = () => {
     }
   }
 
-  const boldAndHighlightedString = (
-    string: string
-  ) => {
+  const boldAndHighlightedString = (string: string) => {
     const boldSplitString = string.split('**')
     const boldAndHighlightedSplitString = boldSplitString.map(
       (text: string, index: number) => {
@@ -76,8 +71,7 @@ export const useFormatText = () => {
               {text}
             </span>
           )
-        }
-        else return text
+        } else return text
       }
     )
     return boldAndHighlightedSplitString.flat()
@@ -93,5 +87,13 @@ export const useFormatText = () => {
       .toLowerCase()
   }
 
-  return { transform, highlight, formatLink }
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    })
+  }
+
+  return { transform, highlight, formatLink, formatDate }
 }
