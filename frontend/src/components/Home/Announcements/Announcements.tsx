@@ -1,6 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { TAnnouncement  } from '../../../types/HomeTypes'
+import { useFormatText } from '../../../hooks/useFormatText'
+import { TAnnouncement } from '../../../types/HomeTypes'
 import Card from '../../UI/Card/Card'
 import Announcement from './Announcement/Announcement'
 import Button from '../../UI/Form/Button/Button'
@@ -17,7 +18,7 @@ const Announcements = () => {
   const { openModal, closeModal, show } = useModal()
   const [announcements, setAnnouncements] = useState<TAnnouncement[]>([])
   const { loading, sendRequest } = useFetchData()
-
+  const { formatDate } = useFormatText()
   useEffect(() => {
     const getAnnouncements = async () => {
       try {
@@ -44,12 +45,6 @@ const Announcements = () => {
 
   const renderAnnouncements = announcements.map(
     ({ id, title, description, date, time }: TAnnouncement) => {
-      const renderDate = new Date(date).toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      })
-
       return (
         <Announcement
           onUpdate={submitAnnouncement}
@@ -57,7 +52,7 @@ const Announcements = () => {
           id={id}
           title={title}
           description={description}
-          date={renderDate}
+          date={formatDate(date)}
           time={time}
         />
       )
