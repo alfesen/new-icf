@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react'
 import { useController } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import { profanity } from '@2toad/profanity'
 import { InputProps } from '../../../../types/FormTypes'
 import s from './Input.module.scss'
 
@@ -17,17 +18,25 @@ const Input = ({
   rules,
 }: InputProps) => {
   const {
-    field,
+    field: { value, onChange },
     fieldState: { error },
-  } = useController({ name, control, rules })
+  } = useController({
+    name,
+    control,
+    rules: {
+      ...rules,
+      validate: (): string | undefined =>
+        profanity.exists(value) ? 'Profanity detected' : undefined,
+    },
+  })
   const maxLength = rules?.maxLength as { value: number; message: string }
 
   const changeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => field.onChange(e.target.value)
+  ) => onChange(e.target.value)
 
   const editorChangeHandler = (state: string) => {
-    field.onChange(state)
+    onChange(state)
   }
   let el
 
@@ -40,7 +49,7 @@ const Input = ({
         id={name}
         name={name}
         placeholder={placeholder}
-        defaultValue={field.value}
+        defaultValue={value}
       />
     )
   } else if (element === 'textarea') {
@@ -52,14 +61,14 @@ const Input = ({
         name={name}
         placeholder={placeholder}
         rows={rows}
-        defaultValue={field.value}
+        defaultValue={value}
       />
     )
   } else if (element === 'select' && options) {
     el = (
       <select
-        defaultValue={field.value}
-        value={field.value}
+        defaultValue={value}
+        value={value}
         id={name}
         onChange={changeHandler}>
         {options.map(o => {
@@ -85,13 +94,13 @@ const Input = ({
         id={name}
         theme='snow'
         modules={module}
-        value={field.value}
+        value={value}
         onChange={editorChangeHandler}
         placeholder={placeholder}
       />
     )
   }
-
+  
   return (
     <div
       className={`${s.input} ${error ? s.input__invalid : ''} ${
@@ -105,8 +114,7 @@ const Input = ({
         <sub className={s.input__subscript}>
           <p className={s.input__error}>{error?.message}</p>
           <p className={error ? s.input__error : ''}>
-            {maxLength &&
-              `${(field.value && field.value.length) | 0}/${maxLength.value}`}
+            {maxLength && `${(value && value.length) | 0}/${maxLength.value}`}
           </p>
         </sub>
       )}
