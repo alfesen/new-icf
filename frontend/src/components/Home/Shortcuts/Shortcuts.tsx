@@ -8,10 +8,14 @@ import contact from '../../../assets/images/links/contact-sm.webp'
 
 const Shortcuts = () => {
   const linksData = [
-    { image: events, name: 'Upcoming events' },
-    { image: group, name: 'Small groups' },
-    { image: sermon, name: 'Sermons' },
-    { image: contact, name: 'Contact' },
+    {
+      image: events,
+      name: 'Upcoming events',
+      to: '/church-life/upcoming-events',
+    },
+    { image: group, name: 'Small groups', to: '/' },
+    { image: sermon, name: 'Sermons', to: '/' },
+    { image: contact, name: 'Contact', to: '/' },
   ]
 
   const renderLinks = linksData.map(link => {
@@ -19,6 +23,7 @@ const Shortcuts = () => {
       <ImageLink
         key={`${link.name}_${nanoid()}`}
         image={link.image}
+        to={link.to}
         link={link.name}
       />
     )
