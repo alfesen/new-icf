@@ -137,6 +137,7 @@ const MemberForm = () => {
         label='Contact'
         control={control}
         placeholder="Enter new member's contact"
+        rules={{}}
       />
       <div>
         <label htmlFor='isAuthor'>Author</label>
@@ -148,7 +149,7 @@ const MemberForm = () => {
           onChange={handleAuthorCheckbox}
         />
       </div>
-      <div>
+      <div className='align-right'>
         <Button type='submit'>Submit</Button>
       </div>
     </form>

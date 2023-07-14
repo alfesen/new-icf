@@ -63,6 +63,7 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
         control={control}
         element='editor'
         placeholder='Provide the content for the section'
+        rules={{}}
       />
       <div>
         <Button type='button' onClick={onCancel} reverse>
