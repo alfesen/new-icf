@@ -77,6 +77,7 @@ export const useFormatText = () => {
             </span>
           )
         }
+        else return text
       }
     )
     return boldAndHighlightedSplitString.flat()
