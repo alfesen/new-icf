@@ -8,12 +8,13 @@ import {
 } from '../../controllers/Members/member.controllers.mjs'
 import { check } from 'express-validator'
 import fileUpload from '../../middleware/file-upload.mjs'
+import { profanityFilter } from '../../middleware/profanityFilter.mjs'
 
 const router = Router()
 
 const validate = () => [
-  check('name').notEmpty(),
-  check('role').isLength({ max: 50 }),
+  check('name').notEmpty().custom(profanityFilter),
+  check('role').isLength({ max: 50 }).custom(profanityFilter),
   check('category').custom(value => {
     const categories = ['pastors', 'leadership team', 'ministry leaders']
     if (!categories.includes(value)) {
@@ -22,7 +23,7 @@ const validate = () => [
 
     return true
   }),
-  check('bio').notEmpty(),
+  check('bio').notEmpty().custom(profanityFilter),
 ]
 
 router.post('/', fileUpload.single('image'), validate(), createMember)
