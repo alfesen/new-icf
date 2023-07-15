@@ -5,6 +5,7 @@ import { IAnnouncement } from '../../types.js'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { validate } from '../../hooks/validate.mjs'
 
 export const postAnnouncement = async (
   req: Request,
@@ -13,12 +14,7 @@ export const postAnnouncement = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { date, time, title, description } = req.body
@@ -105,12 +101,7 @@ export const updateAnnouncement = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { announcementId } = req.params

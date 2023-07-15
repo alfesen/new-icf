@@ -7,6 +7,7 @@ import fs from 'fs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { IEvent } from '../../types'
+import { validate } from '../../hooks/validate.mjs'
 
 export const postEvent = async (
   req: Request,
@@ -15,12 +16,7 @@ export const postEvent = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { title, content, date, time } = req.body
@@ -86,6 +82,11 @@ export const updateEvent = async (
   res: Response,
   next: NextFunction
 ) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return validate(errors, next)
+  }
+
   const { eventId } = req.params
 
   const { title, content, date, time } = req.body

@@ -7,6 +7,7 @@ import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
 import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
+import { validate } from '../../hooks/validate.mjs'
 
 export const postLocation = async (
   req: Request,
@@ -15,12 +16,7 @@ export const postLocation = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { title, address, directions, map } = req.body
@@ -75,12 +71,7 @@ export const updateLocation = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { title, address, directions, map } = req.body

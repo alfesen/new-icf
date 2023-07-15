@@ -5,6 +5,7 @@ import { IArticle } from '../../types.js'
 import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { validate } from '../../hooks/validate.mjs'
 
 export const postPageArticle = async (
   req: Request,
@@ -13,13 +14,9 @@ export const postPageArticle = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
+  
   const { articleTitle, sections, lead } = req.body
   const { page } = req.params
 
@@ -69,12 +66,7 @@ export const updatePageArticle = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { page } = req.params
