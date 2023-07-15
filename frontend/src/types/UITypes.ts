@@ -2,13 +2,15 @@ import { ReactNode } from 'react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 export type NavDropdownProps = {
-  links: string[]
+  links: TNavLink[]
   collectionTitle: string
 }
 
+export type TNavLink = { text: string; to?: string }
+
 export type NavItemProps = {
   title: string
-  links?: string[]
+  links?: TNavLink[]
 }
 
 export type ButtonProps = {

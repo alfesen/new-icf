@@ -1,3 +1,5 @@
+import { TNavLink } from "./UITypes"
+
 export type THeader = {
   pageTitle: string
   pageSubtitle: string
@@ -6,7 +8,7 @@ export type THeader = {
 } | null
 
 export type SideNav = {
-  links: string[]
+  links: TNavLink[]
   collectionTitle?: string
   title: string
 }

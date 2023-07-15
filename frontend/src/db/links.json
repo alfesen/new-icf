@@ -2,30 +2,41 @@
   "about": {
     "title": "About",
     "links": [
-      "Welcome & location",
-      "Our pastors and staff",
-      "What to expect",
-      "What we believe",
-      "EU Regulation 2016/79",
-      "Privacy Policy & RODO"
+      { "text": "Welcome & location" },
+      { "text": "Our pastors and staff" },
+      { "text": "What to expect" },
+      { "text": "What we believe" },
+      { "text": "EU Regulation 2016/79" },
+      { "text": "Privacy Policy & RODO" }
     ]
   },
   "churchLife": {
     "title": "Church Life",
     "links": [
-      "Upcoming events",
-      "Small groups",
-      "ICF Kids",
-      "Young adults",
-      "Women",
-      "Men",
-      "Sermon Archives",
-      "ICF Library",
-      "Daily Hope"
+      { "text": "Upcoming events" },
+      { "text": "Small groups" },
+      { "text": "ICF Kids" },
+      { "text": "Young adults" },
+      { "text": "Women" },
+      { "text": "Men" },
+      { "text": "Sermon Archives" }
     ]
   },
   "give": {
     "title": "Give",
-    "links": ["Giving to ICF", "1%", "Missionaries"]
+    "links": [
+      { "text": "Giving to ICF" },
+      { "text": "1%" },
+      { "text": "Missionaries" }
+    ]
+  },
+  "contact": {
+    "title": "Connect",
+    "links": [
+      { "text": "Connect" },
+      { "text": "Contact us" },
+      { "text": "Facebook", "to": "https://www.facebook.com/ICFWarsaw/" },
+      { "text": "Instagram", "to": "https://www.instagram.com/icf_warsaw_/" }
+    ]
   }
 }
