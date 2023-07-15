@@ -5,6 +5,7 @@ import { HttpError } from '../../models/shared/HttpError.model.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
+import { validate } from '../../hooks/validate.mjs'
 
 export const postWelcome = async (
   model: typeof Welcome,
@@ -14,12 +15,7 @@ export const postWelcome = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const existingWelcomeData = await findExistingData(model, next)
@@ -54,12 +50,7 @@ export const updateWelcome = async (
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorField = errors.array()[0].param
-    const error = new HttpError(
-      400,
-      `Invalid input in "${errorField}"-field passed, please check your data and try again"`
-    )
-    return next(error)
+    return validate(errors, next)
   }
 
   const { title, content } = req.body
