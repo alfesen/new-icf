@@ -65,11 +65,15 @@ h3 {
   opacity: 0.85;
   font-weight: 700;
 }
-.center, .align-right, .boxes, .jcc-aic {
+.center,
+.align-right,
+.boxes,
+.jcc-aic {
   display: flex;
 }
 
-.center, .jcc-aic {
+.center,
+.jcc-aic {
   justify-content: center;
 }
 
@@ -88,6 +92,19 @@ h3 {
 .boxes {
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.editor-text {
+  a {
+    color: #4169e1;
+    transition: 0.2s text-decoration;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:visited {
+      color: $color-violet-dark;
+    }
+  }
 }
 
 @media (min-width: 700px) {
