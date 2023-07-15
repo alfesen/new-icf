@@ -5,6 +5,7 @@ import NavItem from './NavItem/NavItem'
 import s from './Navigation.module.scss'
 import { about, churchLife, give, contact } from '../../../db/links.json'
 import Logo from '../../UI/Assets/Logo/Logo'
+import { nanoid } from 'nanoid'
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
@@ -22,7 +23,7 @@ const Navigation = () => {
   }
 
   const renderNavLinks = [about, churchLife, give, contact].map(
-    ({ links, title }) => <NavItem links={links} title={title} />
+    ({ links, title }) => <NavItem key={`${title}_${nanoid()}`} links={links} title={title} />
   )
 
   return (
