@@ -11,8 +11,8 @@ const SideNavigation = ({ links, title }: SideNav) => {
 
   const { formatLink } = useFormatText()
 
-  const renderLinks = links.map(link => {
-    const formattedLink = formatLink(link)
+  const renderLinks = links.map(({ text, to }) => {
+    const formattedLink = formatLink(text)
     const formattedTitle = formatLink(title)
     const active = ({ isActive }: { isActive: boolean }) =>
       isActive
@@ -22,8 +22,9 @@ const SideNavigation = ({ links, title }: SideNav) => {
       <NavLink
         key={`${formattedLink}_key_${nanoid()}`}
         className={active}
-        to={`/${formattedTitle}/${formattedLink}`}>
-        {link}
+        target={to && '_blank'}
+        to={to ? to : `/${formattedTitle}/${formattedLink}`}>
+        {text}
       </NavLink>
     )
   })
