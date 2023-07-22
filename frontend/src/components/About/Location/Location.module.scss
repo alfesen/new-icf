@@ -7,12 +7,13 @@
   }
 
   &__address {
-    font-size: $font-sm;
-    margin: 0 0 1em;
+    font-size: $font-md;
+    margin: 1em 0;
   }
   
   &__directions {
-    font-size: $font-sm;
+    font-size: $font-md;
+    margin: 1em 0;
   }
 
   &__image {

@@ -1,4 +1,3 @@
-
 .item {
   padding: 0.3em 0;
   cursor: pointer;
@@ -12,7 +11,7 @@
       width: 1rem;
     }
     &:hover {
-      color: #e3e3e3;
+      color: $color-medium-grey;
     }
   }
 }

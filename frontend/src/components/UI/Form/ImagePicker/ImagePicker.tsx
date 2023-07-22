@@ -64,7 +64,7 @@ const ImagePicker = ({
       <Button type='button' onClick={pickImageHandler}>
         Pick the image
       </Button>
-      <sub className={s.picker__error}>{error?.message}</sub>
+      <sub className='invalid'>{error?.message}</sub>
     </div>
   )
 }

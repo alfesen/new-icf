@@ -91,6 +91,7 @@ const Input = ({
     }
     el = (
       <ReactQuill
+        className={s.input__quill}
         id={name}
         theme='snow'
         modules={module}
@@ -100,10 +101,10 @@ const Input = ({
       />
     )
   }
-  
+
   return (
     <div
-      className={`${s.input} ${error ? s.input__invalid : ''} ${
+      className={`${s.input} ${error ? 'invalid' : ''} ${
         rules ? s.input__rules : ''
       }`}>
       <label className={s.input__label} htmlFor={name}>
@@ -112,8 +113,8 @@ const Input = ({
       {el}
       {rules && (
         <sub className={s.input__subscript}>
-          <p className={s.input__error}>{error?.message}</p>
-          <p className={error ? s.input__error : ''}>
+          <p>{error?.message}</p>
+          <p>
             {maxLength && `${(value && value.length) | 0}/${maxLength.value}`}
           </p>
         </sub>

@@ -7,14 +7,15 @@
     text-align: center;
   }
   &__content {
-    color: $color-light-grey;
-    font-weight: 500;
+    color: $color-grey;
+    font-weight: $font-weight-bolder;
     text-align: justify;
     line-height: 1.5em;
   }
 
   &.subpage {
     margin: 6em auto 0;
+    width: 100%;
     .welcome__title {
       text-align: left;
     }
