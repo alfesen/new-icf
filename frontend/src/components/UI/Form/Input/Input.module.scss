@@ -6,30 +6,25 @@
   input,
   textarea,
   select {
-    background-color: $color-basic;
     margin: 1em 0;
-    padding: 1em;
     border-radius: 0.25rem;
     border-color: rgba($color-violet-dark, 0.4);
+    padding: 1em;
+  }
+  &__quill {
+    margin: 1em 0;
+    & > * {
+      background-color: $color-basic;
+    }
   }
   label {
-    font-size: $font-sm;
-  }
-  &__error {
-    color: salmon;
+    font-size: $font-md;
   }
   &__subscript {
     display: flex;
     justify-content: space-between;
   }
 
-  &__invalid {
-    input,
-    textarea,
-    select {
-      border-color: salmon;
-    }
-  }
   &__rules {
     input,
     textarea,
@@ -37,7 +32,7 @@
       margin-bottom: 0;
     }
     .input__subscript p {
-      margin-top: .2em;
+      margin-top: 0.2em;
     }
   }
 }

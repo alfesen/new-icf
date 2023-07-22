@@ -14,7 +14,7 @@
   }
   &__overlay {
     opacity: 0.3;
-    @include m.absolute-background(rgba(#000, 0.7));
+    @include m.absolute-background(rgba($color-black, 0.7));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,7 @@
     color: $color-basic;
     text-transform: uppercase;
     font-size: $font-tertiary-header-sm;
-    font-weight: 500;
+    font-weight: $font-weight-bolder;
   }
 }
 

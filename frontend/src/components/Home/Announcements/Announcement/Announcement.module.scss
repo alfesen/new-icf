@@ -5,7 +5,7 @@
   width: 90%;
   margin: 0 auto 0.5em;
   &:not(:last-child) {
-    border-bottom: 1px solid #000000dd;
+    border-bottom: 1px solid rgba($color-black, 0.867);
   }
   &__schedule {
     font-size: $font-sm;
