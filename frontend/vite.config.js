@@ -15,9 +15,15 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @use './src/sass/_mixins.scss' as m;
-          @import './src/sass/_vars.scss';
-          @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,400&family=Satisfy&display=swap');
+          @use './src/sass/abstracts/mixins' as m;
+          @import './src/sass/abstracts/vars';
+          
+          @import './src/sass/layout/layout';
+          
+          @import './src/sass/base/base';
+          @import './src/sass/typography/typography';
+          
+          @import './src/sass/components/general';
         `,
       },
     },

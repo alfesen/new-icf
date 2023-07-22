@@ -1,4 +1,3 @@
-import './App.scss'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import MainLayout from './components/Layout/MainLayout'
 import HomePage from './pages/HomePage'
