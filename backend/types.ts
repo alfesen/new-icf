@@ -69,3 +69,11 @@ export interface IEvent extends Document {
   date: string
   time: string
 }
+
+export interface IGroup extends Document {
+  image?: string
+  name: string,
+  description: string,
+  category: 'small group' | 'ministry',
+  leaders?: IMember[]
+}
