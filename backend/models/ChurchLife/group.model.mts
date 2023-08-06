@@ -16,14 +16,18 @@ const groupSchema = new Schema<IGroup>({
   description: {
     type: String,
     required: true,
+    default: 'Description coming soon',
   },
   leaders: {
     type: [
       {
         type: Types.ObjectId,
-        ref: 'member',
+        ref: 'Member',
       },
     ],
+    default: function () {
+      return []
+    },
   },
 })
 
