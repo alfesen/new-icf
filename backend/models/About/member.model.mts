@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 import { IMember } from '../../types'
 
 const memberSchema = new Schema<IMember>({
@@ -9,6 +9,7 @@ const memberSchema = new Schema<IMember>({
   bio: { type: String, required: true, default: 'Bio to be uploaded' },
   contact: { type: String, required: false },
   isAuthor: { type: Boolean, required: true, default: false },
+  groups: { type: [{ type: Types.ObjectId, ref: 'Group' }], default: [] },
 })
 
 export default model<IMember>('Member', memberSchema)

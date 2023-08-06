@@ -18,10 +18,9 @@ export const postEvent = async (
   if (!errors.isEmpty()) {
     return validate(errors, next)
   }
-
   const { title, content, date, time } = req.body
 
-  const imageWebpPath = await convertAndSaveImage(req.file!.path, 400)
+  const imageWebpPath = await convertAndSaveImage(req.file!.path, 600)
 
   const event = new Event({
     title,
@@ -53,11 +52,9 @@ export const getAllEvents = async (
   const sortedEvents = events
     .sort((eventA, eventB) => (eventA.date < eventB.date ? 1 : -1))
     .map(e => e.toObject({ getters: true }))
-
   const previews = sortedEvents.map(({ id, image, title, date }) => {
     return { id, image, title, date }
   })
-
   res.status(200).json({ events: previews })
 }
 
@@ -99,7 +96,7 @@ export const updateEvent = async (
 
   if (req.file) {
     fs.unlink(event.image, err => console.log(err))
-    const imageWebpPath = await convertAndSaveImage(req.file.path, 400)
+    const imageWebpPath = await convertAndSaveImage(req.file.path, 600)
     event.image = imageWebpPath
   }
 
