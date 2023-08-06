@@ -8,6 +8,7 @@ import { saveData } from '../../hooks/saveData.mjs'
 import { validationResult } from 'express-validator'
 import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 import { validate } from '../../hooks/validate.mjs'
+import { categorizePreviews } from '../../hooks/categorizePreviews.mjs'
 
 export const createMember = async (
   req: Request,
@@ -51,20 +52,9 @@ export const getAllMembers = async (
     return next(error)
   }
 
-  const filterAndObjectify = (
-    criteria: 'pastors' | 'leadership team' | 'ministry leaders'
-  ) => {
-    return members
-      .filter(m => m.category === criteria)
-      .map(m => m.toObject({ getters: true }))
-      .map(({ id, image, name }) => {
-        return { id, image, name }
-      })
-  }
-
-  const pastors = filterAndObjectify('pastors')
-  const leadership = filterAndObjectify('leadership team')
-  const ministryLeaders = filterAndObjectify('ministry leaders')
+  const pastors = categorizePreviews(members, 'pastors')
+  const leadership = categorizePreviews(members, 'leadership team')
+  const ministryLeaders = categorizePreviews(members, 'ministry leaders')
 
   res.status(200).json({ pastors, leadership, ministryLeaders })
 }
