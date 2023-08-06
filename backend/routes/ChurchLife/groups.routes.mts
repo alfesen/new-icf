@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   getAllGroups,
+  getSingleGroup,
   postGroup,
 } from '../../controllers/ChurchLife/groups.controller.mjs'
 import fileUpload from '../../middleware/file-upload.mjs'
@@ -20,5 +21,7 @@ const router = Router()
 router.post('/', fileUpload.single('image'), postGroup)
 
 router.get('/', getAllGroups)
+
+router.get('/:groupId', getSingleGroup)
 
 export default router

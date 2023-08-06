@@ -105,3 +105,59 @@ export const getAllGroups = async (
 
   res.status(200).json({ smallGroups, ministries })
 }
+
+export const getSingleGroup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { groupId } = req.params
+
+  let group: IGroup
+
+  try {
+    group = (await findExistingData(Group, next, { id: groupId })) as IGroup
+  } catch {
+    const error = new HttpError(500, 'Something went wrong, please try again')
+    return next(error)
+  }
+
+  if (!group) {
+    const error = new HttpError(
+      404,
+      'No group or ministry found with a given ID'
+    )
+    return next(error)
+  }
+
+  let leaders: IMember[] = []
+
+  try {
+    for (const leader of group.leaders) {
+      leaders = [
+        ...leaders,
+        (await findExistingData(Member, next, { id: leader })) as IMember,
+      ]
+    }
+  } catch {
+    const error = new HttpError(500, 'Something went wrong, please try')
+    return next(error)
+  }
+
+  if (!leaders.length) {
+    const error = new HttpError(404, 'No leaders found')
+    return next(error)
+  }
+
+  const groupObject = group.toObject({ getters: true })
+  const renderedGroup = {
+    ...groupObject,
+    leaders: leaders.map(({ id, name, image }) => {
+      return { id, name, image }
+    }),
+  }
+
+  res.status(200).json({
+    group: renderedGroup,
+  })
+}
