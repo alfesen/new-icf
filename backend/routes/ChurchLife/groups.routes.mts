@@ -1,5 +1,8 @@
 import { Router } from 'express'
-import { postGroup } from '../../controllers/ChurchLife/groups.controller.mjs'
+import {
+  getAllGroups,
+  postGroup,
+} from '../../controllers/ChurchLife/groups.controller.mjs'
 import fileUpload from '../../middleware/file-upload.mjs'
 // import { check } from 'express-validator'
 // import { profanityFilter } from '../../middleware/profanityFilter.mjs'
@@ -15,5 +18,7 @@ const router = Router()
 // ]
 
 router.post('/', fileUpload.single('image'), postGroup)
+
+router.get('/', getAllGroups)
 
 export default router

@@ -8,6 +8,7 @@ import { convertAndSaveImage } from '../../hooks/convertAndSaveImage.mjs'
 import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { IGroup, IMember } from '../../types'
 import { validate } from '../../hooks/validate.mjs'
+import { categorizePreviews } from '../../hooks/categorizePreviews.mjs'
 
 export const postGroup = async (
   req: Request,
@@ -77,4 +78,30 @@ export const postGroup = async (
   }
 
   res.status(200).json({ group: group.toObject({ getters: true }) })
+}
+
+export const getAllGroups = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let groups: IGroup[]
+  try {
+    groups = (await findExistingData(Group, next, {
+      array: true,
+    })) as IGroup[]
+  } catch {
+    const error = new HttpError(500, 'Something went wrong, please try again.')
+    return next(error)
+  }
+
+  if (!groups.length) {
+    const error = new HttpError(404, 'No groups found on the server')
+    return next(error)
+  }
+
+  const smallGroups = categorizePreviews(groups, 'small group')
+  const ministries = categorizePreviews(groups, 'ministry')
+
+  res.status(200).json({ smallGroups, ministries })
 }
