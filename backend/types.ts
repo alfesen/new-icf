@@ -34,15 +34,18 @@ export interface ILocation extends Document {
 }
 
 export interface IMember extends Document {
-  name: String
-  role: String
+  name: string
+  role: string
   category: 'pastors' | 'leadership team' | 'ministry leaders'
   image: string
   bio: string
   isAdmin: boolean
   isAuthor: boolean
   contact?: string
+  groups: IGroup[]
 }
+
+export type TMemberBasic = Pick<IMember, 'name' | 'image'> & { id: string }
 
 export type FindOptions<T> = {
   id?: string
@@ -72,8 +75,8 @@ export interface IEvent extends Document {
 
 export interface IGroup extends Document {
   image?: string
-  name: string,
-  description: string,
-  category: 'small group' | 'ministry',
-  leaders?: IMember[]
+  name: string
+  description: string
+  category: 'small group' | 'ministry'
+  leaders: string[] & IMember[]
 }
