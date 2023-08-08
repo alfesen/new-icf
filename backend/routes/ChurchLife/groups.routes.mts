@@ -3,6 +3,7 @@ import {
   getAllGroups,
   getSingleGroup,
   postGroup,
+  updateGroup,
 } from '../../controllers/ChurchLife/groups.controller.mjs'
 import fileUpload from '../../middleware/file-upload.mjs'
 // import { check } from 'express-validator'
@@ -23,5 +24,7 @@ router.post('/', fileUpload.single('image'), postGroup)
 router.get('/', getAllGroups)
 
 router.get('/:groupId', getSingleGroup)
+
+router.patch('/:groupId', updateGroup)
 
 export default router

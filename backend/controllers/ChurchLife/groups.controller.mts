@@ -9,6 +9,7 @@ import { findExistingData } from '../../hooks/findExistingData.mjs'
 import { IGroup, IMember } from '../../types'
 import { validate } from '../../hooks/validate.mjs'
 import { categorizePreviews } from '../../hooks/categorizePreviews.mjs'
+import fs from 'fs'
 
 export const postGroup = async (
   req: Request,
@@ -118,8 +119,7 @@ export const getSingleGroup = async (
   try {
     group = (await findExistingData(Group, next, { id: groupId })) as IGroup
   } catch {
-    const error = new HttpError(500, 'Something went wrong, please try again')
-    return next(error)
+    return next(new HttpError())
   }
 
   if (!group) {
@@ -140,8 +140,7 @@ export const getSingleGroup = async (
       ]
     }
   } catch {
-    const error = new HttpError(500, 'Something went wrong, please try')
-    return next(error)
+    return next(new HttpError())
   }
 
   if (!leaders.length) {
@@ -160,4 +159,91 @@ export const getSingleGroup = async (
   res.status(200).json({
     group: renderedGroup,
   })
+}
+
+// ! Handle the rest of updated data
+
+export const updateGroup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) return validate(errors, next)
+
+  const { groupId } = req.params
+  const { name, category, description, leaders } = req.body
+
+  let group: IGroup
+
+  try {
+    group = (await findExistingData(Group, next, {
+      id: groupId,
+    })) as IGroup
+  } catch {
+    return next(new HttpError())
+  }
+
+  if (!group)
+    return next(
+      new HttpError(404, 'No group or ministry found with a given ID')
+    )
+
+  let members: IMember[]
+
+  try {
+    members = (await findExistingData(Member, next, {
+      array: true,
+    })) as IMember[]
+  } catch {
+    return next(new HttpError())
+  }
+
+  if (!members) {
+    const error = new HttpError(404, 'No members found with a given id')
+    return next(error)
+  }
+
+  if (req.file && group.image) {
+    fs.unlink(group.image, err => console.log(err))
+    const imageWebpPath = await convertAndSaveImage(req.file.path, 600)
+    group.image = imageWebpPath
+  }
+  if (!req.file) {
+    group.image = undefined
+  }
+
+  group.name = name
+  group.category = category
+  group.description = description
+
+  try {
+    const session = await startSession()
+    session.startTransaction()
+    for (const member of members) {
+      if (leaders.includes(member.id) && !member.groups.includes(group.id)) {
+        member.groups.push(group.id)
+        group.leaders.push(member.id)
+      } else if (
+        member.groups.includes(group.id) &&
+        !leaders.includes(member.id)
+      ) {
+        group.leaders = group.leaders.filter(
+          leader => leader.toString() !== member.id.toString()
+        ) as any
+        member.groups = member.groups.filter(
+          gr => gr.toString() !== group.id.toString()
+        )
+      }
+      await member.save({ session })
+    }
+    await group.save()
+    session.commitTransaction()
+  } catch (error) {
+    if (error instanceof Error) {
+      return next(new HttpError(500, error.message))
+    }
+  }
+
+  res.status(200).json({ group: group.toObject({ getters: true }) })
 }
