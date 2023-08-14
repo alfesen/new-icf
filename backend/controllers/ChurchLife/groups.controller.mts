@@ -161,8 +161,6 @@ export const getSingleGroup = async (
   })
 }
 
-// ! Handle the rest of updated data
-
 export const updateGroup = async (
   req: Request,
   res: Response,
@@ -246,4 +244,58 @@ export const updateGroup = async (
   }
 
   res.status(200).json({ group: group.toObject({ getters: true }) })
+}
+
+export const deleteGroup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { groupId } = req.params
+
+  let group: IGroup
+
+  try {
+    group = (await findExistingData(Group, next, { id: groupId })) as IGroup
+  } catch {
+    return next(new HttpError())
+  }
+
+  if (!group) {
+    const error = new HttpError(404, 'Group was not found')
+    return next(error)
+  }
+
+  const members: IMember[] = []
+
+  try {
+    for (const leaderId of group.leaders) {
+      const member = (await findExistingData(Member, next, {
+        id: leaderId,
+      })) as IMember
+      members.push(member)
+    }
+  } catch {
+    return next(new HttpError())
+  }
+
+  try {
+    const session = await startSession()
+    session.startTransaction()
+    for (const member of members) {
+      member.groups = member.groups.filter(
+        gr => gr.toString() !== group.id.toString()
+      )
+      await member.save()
+    }
+    await group.deleteOne({ session })
+    await session.commitTransaction()
+    if (group.image) {
+      fs.unlink(group.image, err => console.log(err))
+    }
+  } catch (error: any) {
+    return next(new HttpError(500, error.message))
+  }
+
+  res.status(200).json({ message: 'Group deleted successfully' })
 }

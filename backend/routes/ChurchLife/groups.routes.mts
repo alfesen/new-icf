@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  deleteGroup,
   getAllGroups,
   getSingleGroup,
   postGroup,
@@ -26,5 +27,7 @@ router.get('/', getAllGroups)
 router.get('/:groupId', getSingleGroup)
 
 router.patch('/:groupId', updateGroup)
+
+router.delete('/:groupId', deleteGroup)
 
 export default router
