@@ -6,17 +6,8 @@ import { profanity } from '@2toad/profanity'
 import { InputProps } from '../../../../types/FormTypes'
 import s from './Input.module.scss'
 
-const Input = ({
-  element,
-  name,
-  placeholder,
-  rows,
-  label,
-  type,
-  options,
-  control,
-  rules,
-}: InputProps) => {
+const Input = (props: InputProps) => {
+  const { name, control, rules, element, type, label } = props
   const {
     field: { value, onChange },
     fieldState: { error },
@@ -48,7 +39,7 @@ const Input = ({
         onChange={changeHandler}
         id={name}
         name={name}
-        placeholder={placeholder}
+        placeholder={props.placeholder}
         defaultValue={value}
       />
     )
@@ -59,19 +50,18 @@ const Input = ({
         onChange={changeHandler}
         id={name}
         name={name}
-        placeholder={placeholder}
-        rows={rows}
+        placeholder={props.placeholder}
+        rows={props.rows}
         defaultValue={value}
       />
     )
-  } else if (element === 'select' && options) {
+  } else if (element === 'select' && props.options) {
     el = (
       <select
-        defaultValue={value}
-        value={value}
+        defaultValue={props.options[0] || value}
         id={name}
         onChange={changeHandler}>
-        {options.map(o => {
+        {props.options.map(o => {
           return (
             <option key={`${o}__input_key`} value={o}>
               {o}
@@ -97,7 +87,7 @@ const Input = ({
         modules={module}
         value={value}
         onChange={editorChangeHandler}
-        placeholder={placeholder}
+        placeholder={props.placeholder}
       />
     )
   }
