@@ -5,6 +5,7 @@ import Button from '../../../../components/UI/Form/Button/Button'
 import s from './Staff.module.scss'
 import StaffCategory from '../../../../components/About/StaffCategory/StaffCategory'
 import FallbackSection from '../../../../components/UI/FallbackSection/FallbackSection'
+import { Helmet } from 'react-helmet'
 
 const reducer = (state: StaffState, action: StaffAction): StaffState => {
   switch (action.type) {
@@ -68,22 +69,31 @@ const Staff = () => {
   }
 
   return (
-    <section className={s.staff}>
-      {pastors && pastors.length > 0 && (
-        <StaffCategory category='Pastors' items={pastors} />
-      )}
-      {leadership && leadership.length > 0 && (
-        <StaffCategory category='Leadership Team' items={leadership} />
-      )}
-      {ministryLeaders && ministryLeaders.length > 0 && (
-        <StaffCategory category='Ministry Leaders' items={ministryLeaders} />
-      )}
-      <div className='align-right'>
-        <Button link to='/staff/edit-member'>
-          Add new member
-        </Button>
-      </div>
-    </section>
+    <>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>
+          Our Pastors and Staff - International Christian Fellowship of Warsaw
+        </title>
+        <link rel='canonical' href='#' />
+      </Helmet>
+      <section className={s.staff}>
+        {pastors && pastors.length > 0 && (
+          <StaffCategory category='Pastors' items={pastors} />
+        )}
+        {leadership && leadership.length > 0 && (
+          <StaffCategory category='Leadership Team' items={leadership} />
+        )}
+        {ministryLeaders && ministryLeaders.length > 0 && (
+          <StaffCategory category='Ministry Leaders' items={ministryLeaders} />
+        )}
+        <div className='align-right'>
+          <Button link to='/staff/edit-member'>
+            Add new member
+          </Button>
+        </div>
+      </section>
+    </>
   )
 }
 

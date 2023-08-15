@@ -7,6 +7,7 @@ import { useFormatText } from '../../../hooks/useFormatText'
 import EventInfo from './EventInfo/EventInfo'
 import s from './EventPage.module.scss'
 import Button from '../../../components/UI/Form/Button/Button'
+import { Helmet } from 'react-helmet'
 
 const EventPage = () => {
   const [event, setEvent] = useState<TEvent>()
@@ -37,26 +38,33 @@ const EventPage = () => {
   const { title, content, image, date, time } = event
 
   return (
-    <section className={s.event}>
-      <div className='center'>
-        <img
-          className={s.event__hero}
-          src={`http://localhost:5000/${image}`}
-          alt={title + 'announcement image'}
+    <>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>{title} - International Christian Fellowship of Warsaw</title>
+        <link rel='canonical' href='#' />
+      </Helmet>
+      <section className={s.event}>
+        <div className='center'>
+          <img
+            className={s.event__hero}
+            src={`http://localhost:5000/${image}`}
+            alt={title + 'announcement image'}
+          />
+        </div>
+        <EventInfo
+          date={formatDate(date)}
+          time={time}
+          content={content}
+          title={title}
         />
-      </div>
-      <EventInfo
-        date={formatDate(date)}
-        time={time}
-        content={content}
-        title={title}
-      />
-      <div className={`align-right ${s.event__actions}`}>
-        <Button link to={`/events/edit-event/${eventId}`}>
-          Edit Event
-        </Button>
-      </div>
-    </section>
+        <div className={`align-right ${s.event__actions}`}>
+          <Button link to={`/events/edit-event/${eventId}`}>
+            Edit Event
+          </Button>
+        </div>
+      </section>
+    </>
   )
 }
 

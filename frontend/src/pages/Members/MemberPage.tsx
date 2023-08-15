@@ -6,6 +6,7 @@ import { useFormatText } from '../../hooks/useFormatText'
 import s from './MemberPage.module.scss'
 import Button from '../../components/UI/Form/Button/Button'
 import MemberHeader from '../../components/Layout/MemberHeader/MemberHeader'
+import { Helmet } from 'react-helmet'
 
 const MemberPage = () => {
   const [member, setMember] = useState<TMember>()
@@ -33,24 +34,31 @@ const MemberPage = () => {
   const { id, image, name, role, bio, contact } = member
 
   return (
-    <section className={s.member}>
-      <MemberHeader image={image} name={name} role={role} />
-      <div className={s.member__bio}>
-        <h3>Bio:</h3>
-        {highlight(bio)}
-      </div>
-      {contact && (
-        <div className={s.member__contact}>
-          <h3>Contact me:</h3>
-          <address>{highlight(contact)}</address>
+    <>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>{name} - International Christian Fellowship of Warsaw</title>
+        <link rel='canonical' href='#' />
+      </Helmet>
+      <section className={s.member}>
+        <MemberHeader image={image} name={name} role={role} />
+        <div className={s.member__bio}>
+          <h3>Bio:</h3>
+          {highlight(bio)}
         </div>
-      )}
-      <div className={s.member__actions}>
-        <Button link to={`/staff/edit-member/${id}`}>
-          Edit
-        </Button>
-      </div>
-    </section>
+        {contact && (
+          <div className={s.member__contact}>
+            <h3>Contact me:</h3>
+            <address>{highlight(contact)}</address>
+          </div>
+        )}
+        <div className={s.member__actions}>
+          <Button link to={`/staff/edit-member/${id}`}>
+            Edit
+          </Button>
+        </div>
+      </section>
+    </>
   )
 }
 
