@@ -13,6 +13,7 @@ import ChurchLife from './pages/ChurchLife/ChurchLife'
 import Events from './pages/ChurchLife/subpages/Events/Events'
 import EditEvent from './pages/Events/EditEvent/EditEvent'
 import EventPage from './pages/Events/EventPage/EventPage'
+import EditGroup from './pages/Groups/EditGroup/EditGroup'
 
 function App() {
   const router = createBrowserRouter([
@@ -48,6 +49,8 @@ function App() {
         { path: 'events/edit-event', element: <EditEvent /> },
         { path: 'events/edit-event/:eventId', element: <EditEvent /> },
         { path: 'events/:eventId', element: <EventPage /> },
+        { path: 'groups/edit-group', element: <EditGroup /> },
+        { path: 'groups/edit-group/:groupId', element: <EditGroup /> },
       ],
     },
   ])
