@@ -91,7 +91,6 @@ const MemberForm = () => {
         name='category'
         label='Category'
         options={['pastors', 'leadership team', 'ministry leaders']}
-        placeholder="Enter new member's category"
         rules={{
           required: "Member's category is required",
         }}
