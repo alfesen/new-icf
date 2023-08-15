@@ -16,20 +16,37 @@ export type AnnouncementsFormProps = {
   onSubmit: () => void
 }
 
-export type InputProps = {
+export type InputBase = {
   control: Control<FieldValues>
-  element: string
-  rows?: number
   label: string
-  placeholder: string
-  type?: string
-  options?: string[]
   name: string
   rules?: Pick<
     RegisterOptions<FieldValues>,
     'maxLength' | 'minLength' | 'validate' | 'required'
   >
+  type?: string
 }
+
+export type InputProps = InputBase &
+  (
+    | {
+        element: 'input'
+        placeholder: string
+      }
+    | {
+        element: 'textarea'
+        rows?: number
+        placeholder: string
+      }
+    | {
+        element: 'select'
+        options: string[]
+      }
+    | {
+        element: 'editor'
+        placeholder: string
+      }
+  )
 
 export type ImagePickerProps = {
   name: string
