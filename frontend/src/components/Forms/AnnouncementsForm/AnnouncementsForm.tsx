@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import { AnnouncementsFormProps } from '../../../types/FormTypes'
+import Form from '../../UI/Form/Form'
 
 const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
   const { sendRequest, error } = useFetchData()
@@ -48,56 +48,59 @@ const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(announcementSubmitHandler)}>
-      <Input
-        element='input'
-        label='Title'
-        name='title'
-        placeholder='Provide announcement title'
-        control={control}
-        rules={{
-          required: 'Announcement title field is required',
-          minLength: { value: 3, message: 'Minimum length is 3' },
-          maxLength: { value: 40, message: 'Maximum length is 40' },
-        }}
-      />
-      <Input
-        element='textarea'
-        name='description'
-        label='Description'
-        placeholder='Provide announcement description'
-        control={control}
-        rules={{
-          required: {
-            value: false,
-            message: '"No description provided" will be displayed',
+    <Form
+      submitHandler={handleSubmit(announcementSubmitHandler)}
+      inputs={[
+        {
+          element: 'input',
+          name: 'title',
+          label: 'Title',
+          control: control,
+          placeholder: 'Provide announcement title',
+          rules: {
+            required: 'Announcement title field is required',
+            minLength: { value: 3, message: 'Minimum length is 3' },
+            maxLength: { value: 40, message: 'Maximum length is 40' },
           },
-          minLength: { value: 3, message: 'Minimum length is 3' },
-          maxLength: { value: 250, message: 'Maximum length is 250' },
-        }}
-      />
-      <Input
-        name='date'
-        type='date'
-        element='input'
-        label='Date'
-        placeholder='Event date'
-        control={control}
-        rules={{
-          required: 'Date is required',
-        }}
-      />
-      <Input
-        name='time'
-        type='time'
-        element='input'
-        label='Time'
-        placeholder='Event time'
-        control={control}
-        rules={{
-          required: 'Time is required',
-        }}
-      />
+        },
+        {
+          element: 'textarea',
+          name: 'description',
+          label: 'Description',
+          control: control,
+          placeholder: 'Provide announcement description',
+          rules: {
+            required: {
+              value: false,
+              message: '"No description provided" will be displayed',
+            },
+            minLength: { value: 3, message: 'Minimum length is 3' },
+            maxLength: { value: 250, message: 'Maximum length is 250' },
+          },
+        },
+        {
+          element: 'input',
+          name: 'date',
+          label: 'Date',
+          type: 'date',
+          control: control,
+          placeholder: 'Event date',
+          rules: {
+            required: 'Date is required',
+          },
+        },
+        {
+          element: 'input',
+          name: 'time',
+          label: 'Time',
+          type: 'time',
+          control: control,
+          placeholder: 'Event time',
+          rules: {
+            required: 'Time is required',
+          },
+        },
+      ]}>
       <div className='align-right'>
         {id && (
           <Button reverse onClick={deleteAnnouncement} type='button'>
@@ -106,7 +109,7 @@ const AnnouncementsForm = ({ id, onSubmit }: AnnouncementsFormProps) => {
         )}
         <Button type='submit'>Submit</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 
