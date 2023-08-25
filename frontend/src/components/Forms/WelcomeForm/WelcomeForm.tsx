@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { WelcomeFormProps } from '../../../types/FormTypes'
 import Button from '../../UI/Form/Button/Button'
-import Input from '../../UI/Form/Input/Input'
+import Form from '../../UI/Form/Form'
 
 const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
   const { sendRequest, error } = useFetchData()
@@ -38,40 +38,43 @@ const WelcomeForm = ({ onCancel, route, onSubmit }: WelcomeFormProps) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(welcomeSubmitHandler)}>
-      <Input
-        rules={{
-          required: 'This field is required',
-          maxLength: {
-            value: 40,
-            message: 'Maximum value is 40 characters',
+    <Form
+      submitHandler={handleSubmit(welcomeSubmitHandler)}
+      inputs={[
+        {
+          element: 'input',
+          name: 'title',
+          control,
+          label: 'Title',
+          placeholder: 'Provide title for the section',
+          rules: {
+            required: 'This field is required',
+            maxLength: {
+              value: 40,
+              message: 'Maximum value is 40 characters',
+            },
+            minLength: {
+              value: 5,
+              message: 'Minimum value is 5 characters',
+            },
           },
-          minLength: {
-            value: 5,
-            message: 'Minimum value is 5 characters',
-          },
-        }}
-        label='Title'
-        name='title'
-        control={control}
-        element='input'
-        placeholder='Provide title for the section'
-      />
-      <Input
-        label='Content'
-        name='content'
-        control={control}
-        element='editor'
-        placeholder='Provide the content for the section'
-        rules={{}}
-      />
+        },
+        {
+          label: 'Content',
+          name: 'content',
+          control,
+          element: 'editor',
+          placeholder: 'Provide the content for the section',
+          rules: {},
+        },
+      ]}>
       <div>
         <Button type='button' onClick={onCancel} reverse>
           Cancel
         </Button>
         <Button type='submit'>Submit</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 

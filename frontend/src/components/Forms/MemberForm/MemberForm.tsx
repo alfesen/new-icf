@@ -65,6 +65,7 @@ const MemberForm = () => {
     <>
       {!isLoading && (
         <Form
+          container
           submitHandler={handleSubmit(memberFormSubmitHandler)}
           asHeader={
             <div className='center'>
