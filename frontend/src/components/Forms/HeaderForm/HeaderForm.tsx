@@ -1,14 +1,14 @@
 import { useLocation } from 'react-router-dom'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { FormProps } from '../../../types/FormTypes'
+import { FormModalProps } from '../../../types/FormTypes'
 import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
-import Input from '../../UI/Form/Input/Input'
 import { useForm } from 'react-hook-form'
 
 import s from './HeaderForm.module.scss'
+import Form from '../../UI/Form/Form'
 
-const HeaderForm = ({ onClose, onSubmit }: FormProps) => {
+const HeaderForm = ({ onClose, onSubmit }: FormModalProps) => {
   const { pathname } = useLocation()
   const { sendRequest, error } = useFetchData()
 
@@ -59,31 +59,34 @@ const HeaderForm = ({ onClose, onSubmit }: FormProps) => {
   }
 
   return (
-    <form className={s.form} onSubmit={handleSubmit(headerFormSubmitHandler)}>
-      <Input
-        rules={{
-          required: 'Page title field is required',
-          minLength: { value: 3, message: 'Minimum length is 3' },
-          maxLength: { value: 50, message: 'Maximum length is 50' },
-        }}
-        element='input'
-        label='Page Title'
-        placeholder='Please enter page title'
-        name='pageTitle'
-        control={control}
-      />
-      <Input
-        rules={{
-          required: 'Page subtitle field is required',
-          minLength: { value: 3, message: 'Minimum length is 3' },
-          maxLength: { value: 50, message: 'Maximum length is 50' },
-        }}
-        element='input'
-        label='Page Subtitle'
-        placeholder='Please enter page title'
-        name='pageSubtitle'
-        control={control}
-      />
+    <Form
+      submitHandler={handleSubmit(headerFormSubmitHandler)}
+      inputs={[
+        {
+          element: 'input',
+          control,
+          label: 'Page Title',
+          name: 'pageTitle',
+          placeholder: 'Please enter page title',
+          rules: {
+            required: 'Page title field is required',
+            minLength: { value: 3, message: 'Minimum length is 3' },
+            maxLength: { value: 50, message: 'Maximum length is 50' },
+          },
+        },
+        {
+          element: 'input',
+          control,
+          label: 'Page Subtitle',
+          name: 'pageSubtitle',
+          placeholder: 'Please enter page subtitle',
+          rules: {
+            required: 'Page subtitle field is required',
+            minLength: { value: 3, message: 'Minimum length is 3' },
+            maxLength: { value: 50, message: 'Maximum length is 50' },
+          },
+        },
+      ]}>
       <div className={s.form__images}>
         <ImagePicker
           rules={{
@@ -137,7 +140,7 @@ const HeaderForm = ({ onClose, onSubmit }: FormProps) => {
 
         <Button type='submit'>Submit</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 

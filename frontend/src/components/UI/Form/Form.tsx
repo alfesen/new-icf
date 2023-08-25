@@ -1,18 +1,7 @@
-import { ReactNode } from 'react'
 import Input from './Input/Input'
-import { InputProps } from '../../../types/FormTypes'
+import { FormProps } from '../../../types/FormTypes'
 
-const Form = ({
-  container,
-  inputs,
-  submitHandler,
-  children,
-}: {
-  container?: boolean
-  inputs: InputProps[]
-  submitHandler: () => Promise<void>
-  children: ReactNode
-}) => {
+const Form = ({ container, inputs, submitHandler, children }: FormProps) => {
   const renderInputs = () => {
     return inputs.map(input => {
       if (input.element === 'input') {
