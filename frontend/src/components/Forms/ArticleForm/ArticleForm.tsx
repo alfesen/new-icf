@@ -4,6 +4,7 @@ import { useFetchData } from '../../../hooks/useFetchData'
 import Input from '../../UI/Form/Input/Input'
 import Button from '../../UI/Form/Button/Button'
 import s from './ArticleForm.module.scss'
+import Form from '../../UI/Form/Form'
 
 const ArticleForm = () => {
   const { page, articleId } = useParams()
@@ -55,35 +56,39 @@ const ArticleForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitArticle)}>
-      <Input
-        element='input'
-        label='Article Title'
-        name='articleTitle'
-        control={control}
-        placeholder='Enter article title '
-        rules={{
-          required: 'Article title is required',
-          maxLength: {
-            value: 50,
-            message: 'Maximum length is 50 characters',
+    <Form
+      submitHandler={handleSubmit(submitArticle)}
+      inputs={[
+        {
+          element: 'input',
+          name: 'articleTitle',
+          control,
+          label: 'Article Title',
+          placeholder: 'Enter article title',
+          rules: {
+            required: 'Article title is required',
+            maxLength: {
+              value: 50,
+              message: 'Maximum length is 50 characters',
+            },
           },
-        }}
-      />
-      <Input
-        element='textarea'
-        label='Article Lead'
-        name='lead'
-        control={control}
-        placeholder='Provide the lead for your article'
-        rules={{
-          required: 'Article lead is required',
-          maxLength: {
-            value: 250,
-            message: 'Maximum length is 250 characters',
+        },
+        {
+          element: 'textarea',
+          name: 'lead',
+          label: 'Article Lead',
+          placeholder: 'Provide the lead for your article',
+          control,
+          rules: {
+            required: 'Article lead is required',
+            maxLength: {
+              value: 250,
+              message: 'Maximum length is 250 characters',
+            },
           },
-        }}
-      />
+        },
+      ]}
+      container>
       {fields &&
         fields.map((field, index) => {
           return (
@@ -139,7 +144,7 @@ const ArticleForm = () => {
         <hr />
         <Button type='submit'>Submit</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 

@@ -1,6 +1,7 @@
+import { ReactNode } from 'react'
 import { Control, FieldValues, RegisterOptions } from 'react-hook-form'
 
-export type FormProps = {
+export type FormModalProps = {
   onClose?: () => void
   onSubmit: () => void
 }
@@ -48,6 +49,13 @@ export type InputProps = InputBase &
       }
   )
 
+export type FormProps = {
+  container?: boolean
+  inputs: InputProps[]
+  submitHandler: () => Promise<void>
+  children: ReactNode
+  asHeader?: ReactNode
+}
 export type ImagePickerProps = {
   name: string
   control: Control<FieldValues>

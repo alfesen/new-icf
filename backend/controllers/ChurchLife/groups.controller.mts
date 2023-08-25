@@ -207,9 +207,6 @@ export const updateGroup = async (
     const imageWebpPath = await convertAndSaveImage(req.file.path, 600)
     group.image = imageWebpPath
   }
-  if (!req.file) {
-    group.image = undefined
-  }
 
   group.name = name
   group.category = category

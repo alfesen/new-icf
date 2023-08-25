@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import Input from '../../UI/Form/Input/Input'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import Button from '../../UI/Form/Button/Button'
 import { useFetchData } from '../../../hooks/useFetchData'
 import { TMember } from '../../../types/MemberTypes'
 import Select from 'react-select'
+import Form from '../../UI/Form/Form'
 
 const GroupForm = () => {
   const [members, setMembers] = useState<TMember[]>([])
@@ -28,11 +28,12 @@ const GroupForm = () => {
       : {
           name: '',
           description: '',
-          category: '',
+          category: 'small group',
           image: '',
           leaders: [],
         },
   })
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
@@ -44,6 +45,17 @@ const GroupForm = () => {
     }
     fetchMembers()
   }, [])
+
+  useEffect(() => {
+    if (defaultValues && defaultValues.leaders.length > 0) {
+      setValue(
+        'leaders',
+        defaultValues.leaders.map((leader: any) => leader.id)
+      )
+    }
+  }, [defaultValues])
+
+  console.log(defaultValues)
 
   const navigate = useNavigate()
 
@@ -76,41 +88,85 @@ const GroupForm = () => {
   }
 
   return (
-    <form className='container' onSubmit={handleSubmit(groupFormSubmitHandler)}>
-      <Input
-        element='input'
-        name='name'
-        label='Group name'
-        placeholder='Enter the group name'
-        control={control}
-        rules={{
-          required: 'Group name is required',
-          maxLength: {
-            value: 50,
-            message: 'Maximum length is 50 characters',
+    <Form
+      submitHandler={handleSubmit(groupFormSubmitHandler)}
+      container
+      inputs={[
+        {
+          element: 'input',
+          name: 'name',
+          control,
+          label: 'Group name',
+          placeholder: 'Enter the group name',
+          rules: {
+            required: 'Group name is required',
+            maxLength: {
+              value: 50,
+              message: 'Maximum length is 50 characters',
+            },
           },
-        }}
-      />
-      <Input
-        element='select'
-        name='category'
-        label='Category'
-        options={['small group', 'ministry']}
-        control={control}
-        rules={{
-          required: 'Group description is required',
-        }}
-      />
-      <Input
-        element='editor'
-        name='description'
-        label='Group description'
-        placeholder='Enter the group description'
-        control={control}
-        rules={{
-          required: 'Group description is required',
-        }}
-      />
+        },
+        {
+          element: 'select',
+          name: 'category',
+          label: 'Category',
+          control,
+          options: ['small group', 'ministry'],
+          rules: {
+            required: 'Category is required',
+          },
+        },
+        {
+          element: 'editor',
+          control,
+          label: 'Group description',
+          name: 'description',
+          placeholder: 'Enter the group description',
+          rules: {
+            required: 'Group description is required',
+          },
+        },
+      ]}>
+      {!loading &&
+        members.length > 0 &&
+        defaultValues?.leaders.length === 0 && (
+          <Select
+            options={members.map(member => {
+              return { value: member.id, label: member.name }
+            })}
+            isMulti
+            onChange={selectedOptions => {
+              const selectedValues = selectedOptions.map(option => {
+                return option.value
+              })
+              setValue('leaders', selectedValues)
+            }}
+            name='selectedLeaders'
+            {...register}
+          />
+        )}
+      {!loading &&
+        defaultValues &&
+        defaultValues.leaders.length > 0 &&
+        members.length > 0 && (
+          <Select
+            options={members.map((member: TMember) => {
+              return { value: member.id, label: member.name }
+            })}
+            isMulti
+            onChange={selectedOptions => {
+              const selectedValues = selectedOptions.map((option: any) => {
+                return option.value
+              })
+              setValue('leaders', selectedValues)
+            }}
+            name='selectedLeaders'
+            {...register}
+            defaultValue={defaultValues.leaders.map((leader: TMember) => {
+              return { value: leader.id, label: leader.name }
+            })}
+          />
+        )}
       <div className='center'>
         <ImagePicker
           id='image'
@@ -136,29 +192,13 @@ const GroupForm = () => {
           }}
         />
       </div>
-      {!loading && members.length > 0 && (
-        <Select
-          options={members.map(member => {
-            return { value: member, label: member.name }
-          })}
-          isMulti
-          onChange={selectedOptions => {
-            const selectedValues = selectedOptions.map(
-              option => option.value.id
-            )
-            setValue('leaders', selectedValues)
-          }}
-          name='selectedLeaders'
-          {...register}
-        />
-      )}
       <div className='align-right'>
         <Button reverse onClick={removeGroup}>
           Remove group
         </Button>
         <Button type='submit'>Submit group</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 

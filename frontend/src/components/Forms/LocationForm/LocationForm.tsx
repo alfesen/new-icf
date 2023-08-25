@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { FormProps } from '../../../types/FormTypes'
-import Input from '../../UI/Form/Input/Input'
+import { FormModalProps } from '../../../types/FormTypes'
 import Button from '../../UI/Form/Button/Button'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
+import Form from '../../UI/Form/Form'
 
-const LocationForm = ({ onClose, onSubmit }: FormProps) => {
+const LocationForm = ({ onClose, onSubmit }: FormModalProps) => {
   const { sendRequest, error } = useFetchData()
 
   const {
@@ -47,49 +47,62 @@ const LocationForm = ({ onClose, onSubmit }: FormProps) => {
   }
 
   return (
-    <form  onSubmit={handleSubmit(locationFormSubmitHandler)}>
-      <Input
-        control={control}
-        element='input'
-        label='Page Title'
-        placeholder='Please enter section title'
-        name='title'
-        rules={{
-          required: 'Page title is required',
-          maxLength: {
-            value: 50,
-            message: 'Maximum length is 50 characters',
+    <Form
+      submitHandler={handleSubmit(locationFormSubmitHandler)}
+      inputs={[
+        {
+          element: 'input',
+          label: 'Page Title',
+          control,
+          name: 'title',
+          placeholder: 'Please enter section title',
+          rules: {
+            required: 'Page title is required',
+            maxLength: {
+              value: 50,
+              message: 'Maximum length is 50 characters',
+            },
           },
-        }}
-      />
-      <Input
-        control={control}
-        element='input'
-        label='Address'
-        placeholder='Please enter the church address'
-        name='address'
-        rules={{
-          required: 'Address is required',
-          maxLength: {
-            value: 100,
-            message: 'Maximum length is 100 characters',
+        },
+        {
+          element: 'input',
+          label: 'Address',
+          control,
+          name: 'address',
+          placeholder: 'Please enter the church address',
+          rules: {
+            required: 'Address is required',
+            maxLength: {
+              value: 100,
+              message: 'Maximum length is 100 characters',
+            },
           },
-        }}
-      />
-      <Input
-        control={control}
-        element='textarea'
-        label='Directions'
-        placeholder='Please enter directions'
-        name='directions'
-        rules={{
-          required: 'Directions is required',
-          maxLength: {
-            value: 200,
-            message: 'Maximum length is 200 characters',
+        },
+        {
+          element: 'textarea',
+          label: 'Directions',
+          control,
+          name: 'directions',
+          placeholder: 'Please enter directions',
+          rules: {
+            required: 'Directions is required',
+            maxLength: {
+              value: 200,
+              message: 'Maximum length is 200 characters',
+            },
           },
-        }}
-      />
+        },
+        {
+          element: 'input',
+          label: 'Map link',
+          control,
+          name: 'map',
+          placeholder: 'Please enter Google iframes source',
+          rules: {
+            required: 'Map link is required',
+          },
+        },
+      ]}>
       <div className='center'>
         <ImagePicker
           control={control}
@@ -113,23 +126,13 @@ const LocationForm = ({ onClose, onSubmit }: FormProps) => {
           }}
         />
       </div>
-      <Input
-        control={control}
-        element='input'
-        label='Map link'
-        placeholder='Please enter Google iframes source'
-        name='map'
-        rules={{
-          required: 'Map link is required',
-        }}
-      />
       <div className='align-right'>
         <Button onClick={onClose} type='button' reverse>
           Cancel
         </Button>
         <Button type='submit'>Submit</Button>
       </div>
-    </form>
+    </Form>
   )
 }
 
