@@ -59,7 +59,7 @@ const Input = (props: InputProps) => {
     console.log(props.options[0])
     el = (
       <select
-        defaultValue={props.options[0] || value}
+        defaultValue={value}
         id={name}
         onChange={changeHandler}>
         {props.options.map((o: string) => {

@@ -2,9 +2,9 @@ import { ChangeEvent } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useFetchData } from '../../../hooks/useFetchData'
-import Input from '../../UI/Form/Input/Input'
 import ImagePicker from '../../UI/Form/ImagePicker/ImagePicker'
 import Button from '../../UI/Form/Button/Button'
+import Form from '../../UI/Form/Form'
 
 const MemberForm = () => {
   const navigate = useNavigate()
@@ -16,7 +16,7 @@ const MemberForm = () => {
     control,
     register,
     setValue,
-    formState: { defaultValues },
+    formState: { defaultValues, isLoading },
   } = useForm({
     defaultValues: memberId
       ? async () =>
@@ -59,99 +59,122 @@ const MemberForm = () => {
     } catch (err) {}
   }
 
+  console.log(isLoading)
+
   return (
-    <form onSubmit={handleSubmit(memberFormSubmitHandler)}>
-      <Input
-        element='input'
-        name='name'
-        label='Name'
-        placeholder="Enter new member's name"
-        control={control}
-        rules={{
-          required: "Member's name is required",
-        }}
-      />
-      <Input
-        element='input'
-        name='role'
-        label='Role'
-        placeholder="Enter new member's role"
-        control={control}
-        rules={{
-          required: "Member's role is required",
-          maxLength: {
-            value: 50,
-            message: "Maximum length is 50 characters'",
-          },
-        }}
-      />
-      <Input
-        control={control}
-        element='select'
-        name='category'
-        label='Category'
-        options={['pastors', 'leadership team', 'ministry leaders']}
-        rules={{
-          required: "Member's category is required",
-        }}
-      />
-      <div className='center'>
-        <ImagePicker
-          control={control}
-          circle
-          id='image'
-          name='image'
-          label='Pick the image'
-          image={defaultValues?.image}
-          rules={{
-            required: "Member's avatar is required",
-            validate:
-              defaultValues?.image.length === 0 &&
-              defaultValues?.image === watch('image')
-                ? {
-                    lessThan6MB: (file: File) =>
-                      file.size < 600000 || 'Maximum 6 MB',
-                    acceptedFormats: (file: File) =>
-                      ['image/jpeg', 'image/png', 'image/jpg'].includes(
-                        file.type
-                      ) || 'Only PNG, JPEG, JPG',
-                  }
-                : undefined,
-          }}
-        />
-      </div>
-      <Input
-        control={control}
-        element='textarea'
-        name='bio'
-        label='Bio'
-        placeholder="Enter new member's bio"
-        rules={{
-          required: "Member's bio is required",
-        }}
-      />
-      <Input
-        element='textarea'
-        name='contact'
-        label='Contact'
-        control={control}
-        placeholder="Enter new member's contact"
-        rules={{}}
-      />
-      <div>
-        <label htmlFor='isAuthor'>Author</label>
-        <input
-          {...register('isAuthor')}
-          id='isAuthor'
-          name='isAuthor'
-          type='checkbox'
-          onChange={handleAuthorCheckbox}
-        />
-      </div>
-      <div className='align-right'>
-        <Button type='submit'>Submit</Button>
-      </div>
-    </form>
+    <>
+      {!isLoading && (
+        <Form
+          submitHandler={handleSubmit(memberFormSubmitHandler)}
+          asHeader={
+            <div className='center'>
+              <ImagePicker
+                control={control}
+                circle
+                id='image'
+                name='image'
+                label='Pick the image'
+                image={defaultValues?.image}
+                rules={{
+                  required: "Member's avatar is required",
+                  validate:
+                    defaultValues?.image.length === 0 &&
+                    defaultValues?.image === watch('image')
+                      ? {
+                          lessThan6MB: (file: File) =>
+                            file.size < 600000 || 'Maximum 6 MB',
+                          acceptedFormats: (file: File) =>
+                            ['image/jpeg', 'image/png', 'image/jpg'].includes(
+                              file.type
+                            ) || 'Only PNG, JPEG, JPG',
+                        }
+                      : undefined,
+                }}
+              />
+            </div>
+          }
+          inputs={[
+            {
+              element: 'input',
+              control,
+              name: 'name',
+              label: 'Name',
+              placeholder: "Enter new member's name",
+              rules: {
+                required: "Member's name is required",
+              },
+            },
+            {
+              element: 'input',
+              control,
+              name: 'role',
+              label: 'Role',
+              placeholder: "Enter new member's role",
+              rules: {
+                required: "Member's role is required",
+                maxLength: {
+                  value: 50,
+                  message: "Maximum length is 50 characters'",
+                },
+              },
+            },
+            {
+              element: 'select',
+              control,
+              label: 'Category',
+              options: ['pastors', 'leadership team', 'ministry leaders'],
+              name: 'category',
+              rules: {
+                required: "Member's category is required",
+              },
+            },
+            {
+              element: 'textarea',
+              control,
+              name: 'bio',
+              label: 'Bio',
+              placeholder: "Enter new member's bio",
+              rules: {
+                required: "Member's bio is required",
+              },
+            },
+          ]}>
+          <div>
+            <label htmlFor='isAuthor'>Author</label>
+            <input
+              {...register('isAuthor')}
+              id='isAuthor'
+              name='isAuthor'
+              type='checkbox'
+              onChange={handleAuthorCheckbox}
+            />
+          </div>
+          <div className='align-right'>
+            <Button type='submit'>Submit</Button>
+          </div>
+        </Form>
+      )}
+    </>
+    // <form onSubmit={handleSubmit(memberFormSubmitHandler)}>
+    //
+    //   <Input
+    //     control={control}
+    //     element='textarea'
+    //     name='bio'
+    //     label='Bio'
+    //     placeholder="Enter new member's bio"
+    //     rules={}
+    //   />
+    //   <Input
+    //     element='textarea'
+    //     name='contact'
+    //     label='Contact'
+    //     control={control}
+    //     placeholder="Enter new member's contact"
+    //     rules={{}}
+    //   />
+    //
+    // </form>
   )
 }
 
