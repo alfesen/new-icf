@@ -56,12 +56,13 @@ const Input = (props: InputProps) => {
       />
     )
   } else if (element === 'select' && props.options) {
+    console.log(props.options[0])
     el = (
       <select
         defaultValue={props.options[0] || value}
         id={name}
         onChange={changeHandler}>
-        {props.options.map(o => {
+        {props.options.map((o: string) => {
           return (
             <option key={`${o}__input_key`} value={o}>
               {o}
