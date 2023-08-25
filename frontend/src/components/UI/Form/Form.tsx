@@ -1,7 +1,7 @@
 import Input from './Input/Input'
 import { FormProps } from '../../../types/FormTypes'
 
-const Form = ({ container, inputs, submitHandler, children }: FormProps) => {
+const Form = ({ container, inputs, submitHandler, children, asHeader }: FormProps) => {
   const renderInputs = () => {
     return inputs.map(input => {
       if (input.element === 'input') {
@@ -65,6 +65,7 @@ const Form = ({ container, inputs, submitHandler, children }: FormProps) => {
     <form
       className={container ? 'container' : undefined}
       onSubmit={submitHandler}>
+      {asHeader && asHeader}
       {renderInputs()}
       {children}
     </form>

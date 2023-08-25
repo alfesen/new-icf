@@ -54,6 +54,7 @@ export type FormProps = {
   inputs: InputProps[]
   submitHandler: () => Promise<void>
   children: ReactNode
+  asHeader?: ReactNode
 }
 export type ImagePickerProps = {
   name: string
