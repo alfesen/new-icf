@@ -19,13 +19,13 @@ const validate = () => [
   check('leaders').notEmpty(),
 ]
 
-router.post('/', validate(), fileUpload.single('image'), postGroup)
+router.post('/', fileUpload.single('image'), validate(), postGroup)
 
 router.get('/', getAllGroups)
 
 router.get('/:groupId', getSingleGroup)
 
-router.patch('/:groupId', validate(), fileUpload.single('image'), updateGroup)
+router.patch('/:groupId', fileUpload.single('image'), validate(), updateGroup)
 
 router.delete('/:groupId', deleteGroup)
 
