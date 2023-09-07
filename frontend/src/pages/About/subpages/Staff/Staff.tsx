@@ -7,13 +7,17 @@ import StaffCategory from '../../../../components/About/StaffCategory/StaffCateg
 import FallbackSection from '../../../../components/UI/FallbackSection/FallbackSection'
 import { Helmet } from 'react-helmet'
 
+const SET_PASTORS = Symbol('pastors')
+const SET_LEADERSHIP = Symbol('leadership')
+const SET_MINISTERS = Symbol('ministers')
+
 const reducer = (state: StaffState, action: StaffAction): StaffState => {
   switch (action.type) {
-    case 'SET_PASTORS':
+    case SET_PASTORS:
       return { ...state, pastors: action.value }
-    case 'SET_LEADERSHIP':
+    case SET_LEADERSHIP:
       return { ...state, leadership: action.value }
-    case 'SET_MINISTERS':
+    case SET_MINISTERS:
       return { ...state, ministryLeaders: action.value }
     default:
       return state
@@ -38,13 +42,13 @@ const Staff = () => {
           'http://localhost:5000/api/members/'
         )
         if (pastors) {
-          dispatch({ type: 'SET_PASTORS', value: pastors })
+          dispatch({ type: SET_PASTORS, value: pastors })
         }
         if (leadership) {
-          dispatch({ type: 'SET_LEADERSHIP', value: leadership })
+          dispatch({ type: SET_LEADERSHIP, value: leadership })
         }
         if (ministryLeaders) {
-          dispatch({ type: 'SET_MINISTERS', value: ministryLeaders })
+          dispatch({ type: SET_MINISTERS, value: ministryLeaders })
         }
       } catch (err) {}
     }
