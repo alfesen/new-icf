@@ -1,5 +1,5 @@
 import { useFormatText } from '../../../../hooks/useFormatText'
-import { TEventInfo } from '../../../../types/EventsTypes'
+import { TEventInfo } from '../../../../types/ChurchLifeTypes'
 import s from './EventInfo.module.scss'
 
 const EventInfo = ({ title, date, time, content }: TEventInfo) => {

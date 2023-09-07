@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useFetchData } from '../../../hooks/useFetchData'
-import { TEvent } from '../../../types/EventsTypes'
+import { TEvent } from '../../../types/ChurchLifeTypes'
 import { useFormatText } from '../../../hooks/useFormatText'
 
 import EventInfo from './EventInfo/EventInfo'
